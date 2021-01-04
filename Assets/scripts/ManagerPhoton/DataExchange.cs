@@ -9,7 +9,7 @@ using UnityEngine;
 public class DataExchange : MonoBehaviour , IOnEventCallback
 {
     [SerializeField]
-    private List<BaseUnits> PlayersList, EnemyList = new List<BaseUnits>();
+    private List<UnitManager> PlayersList, EnemyList = new List<UnitManager>();
     private Vector3[] CopyPlayerAndEnemy;
     Transform Players;
     Transform Enemys;
@@ -22,6 +22,11 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
         else
             Destroy(this.gameObject);
     }
+
+    /// <summary>
+    /// Receives signals
+    /// </summary>
+    /// <param name="photonEvent"></param>
     public void OnEvent(EventData photonEvent)
     {
         if (photonEvent.Code == 1)
@@ -42,37 +47,46 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
             GameObject.Find("GameManager").GetComponent<PlayerTurn>().time = data;
         }
     }
+
+    /// <summary>
+    /// Other figures
+    /// </summary>
+    /// <param name="player"></param>
+    /// <param name="enemy"></param>
     void receiving(Vector3 player, Vector3 enemy)
     {
-        var players = EnemyList.FirstOrDefault(name => name.transform.position == player);
-        Players = players.transform;
-        var enemys = PlayersList.FirstOrDefault(name => name.transform.position == enemy);
-        Enemys = enemys.transform;
+        var _player = EnemyList.SingleOrDefault(name => name.transform.position == player);
+        Players = _player.transform;
+        var _enemy = PlayersList.SingleOrDefault(name => name.transform.position == enemy);
+        Enemys = _enemy.transform;
 
-        Players.GetComponent<BaseUnits>().attack(Enemys.gameObject, false);
+        Players.GetComponent<IAttack>().Attack(Enemys.gameObject, false);
     }
+
+    /// <summary>
+    /// Magic 
+    /// </summary>
+    /// <param name="data"></param>
+    /// <param name="Method"></param>
     void magic(object data, string Method)
     { // находить мага по месту         
         Vector3 player = (Vector3)data;
-        foreach (GameObject i in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            if (player == i.transform.position)
-            {
-                Players = i.transform;
-            }
-        }
+        var players = EnemyList.SingleOrDefault(name => name.transform.position == player);
+        Players = players.transform;
         Players.SendMessage(Method);
     }
 
 
-    public void AddUnits(BaseUnits unit)
+
+
+    public void AddUnits(UnitManager unit)
     {
         if (unit.tag == "Player")
             PlayersList.Add(unit);
         else
             EnemyList.Add(unit);
     }
-    public void RemoveUnits(BaseUnits unit)
+    public void RemoveUnits(UnitManager unit)
     {
         if (unit.tag == "Player")
             PlayersList.Remove(unit);

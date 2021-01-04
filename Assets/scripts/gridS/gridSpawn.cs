@@ -8,6 +8,7 @@ public class gridSpawn : MonoBehaviour
     public int width; //ширина
     public int length;//длина
     public Transform InstanseGrid;
+    [SerializeField] private ListGrid listGrid;
     private int[] CellId;
     void Start()
     {
@@ -21,6 +22,7 @@ public class gridSpawn : MonoBehaviour
                 var MeshSize = Mesh.bounds.size + new Vector3(0.1f, 0, 0.1f); // это нужно для границы сетки
                 var position = new Vector3(InstanseGrid.position.x + i * MeshSize.x, 0f, InstanseGrid.position.z + j * MeshSize.z);
                 var GridClone = Instantiate(grid, position, Quaternion.identity);
+                listGrid.AddGrid(GridClone.GetComponent<gridsPrefab>());
                 GridClone.name = $"x:{i} z:{j}";
                 CellId = new int[2] { i, j };
                 GridClone.SendMessage("id", CellId);

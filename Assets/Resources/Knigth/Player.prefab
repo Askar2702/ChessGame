@@ -1048,7 +1048,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3739725999149342050}
+      - m_Target: {fileID: 2188052398292012040}
         m_MethodName: DetectEnemy
         m_Mode: 1
         m_Arguments:
@@ -1776,12 +1776,16 @@ GameObject:
   - component: {fileID: 1735746180491643261}
   - component: {fileID: 3739725999149342049}
   - component: {fileID: 3739725999149342050}
+  - component: {fileID: 2188052398292012040}
   - component: {fileID: 3739725998758547895}
   - component: {fileID: 3765381417756315799}
   - component: {fileID: 3083271520227292887}
   - component: {fileID: 8209980742416515757}
   - component: {fileID: 1530104734686788492}
   - component: {fileID: 4993740267648985050}
+  - component: {fileID: 8145197269427047943}
+  - component: {fileID: 6991253712564184882}
+  - component: {fileID: 5075369315388601258}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1854,25 +1858,37 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4667912763214943764}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8e93dfbc87a2f054f990a61e8ef1c268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  agent: {fileID: 3739725998758547895}
   Radius: 1
   MoveCell: 3
-  startRay: {fileID: 768397133034124090}
-  menuBar: {fileID: 1842130441565064440}
-  idForBrush: 
-  figthBTN: {fileID: 7703934199679211281}
-  pos: {x: 0, y: 5, z: 0}
-  Alive: 0
-  can: 0
-  effectcZnaks: {fileID: 1115140529759532742}
   hod: 0
   Aura: {fileID: 4793552734811306863}
+--- !u!114 &2188052398292012040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667912763214943764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50255e5a5384be4f8a88375457e6c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerState: 0
+  menuBar: {fileID: 1842130441565064440}
+  idForBrush: 
+  effectcZnaks: {fileID: 1115140529759532742}
+  EndTurn: {fileID: 3384827066040239296}
+  figthBTN: {fileID: 7703934199679211281}
+  MoveButton: {fileID: 7742031328154736656}
+  pos: {x: 0, y: 5, z: 0}
+  startRay: {fileID: 768397133034124090}
+  Alive: 0
 --- !u!195 &3739725998758547895
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1913,7 +1929,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 3739725999149342050}
+  - {fileID: 8145197269427047943}
   - {fileID: 3083271520227292887}
   - {fileID: 1530104734686788492}
   viewIdField: 0
@@ -1967,7 +1983,7 @@ MonoBehaviour:
   ellectroEffect: {fileID: 7789057582068926545}
   HealthEffect: {fileID: 8348905631638684647}
   animator: {fileID: 1735746180491643261}
-  baseUnits: {fileID: 3739725999149342050}
+  Aura: {fileID: 4793552734811306863}
   text: {fileID: 585093082476153970}
   misses: {fileID: 9192665154966699762, guid: bdfadbd386873c44ea8549518b524f01, type: 3}
 --- !u!114 &4993740267648985050
@@ -1982,6 +1998,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8faf77f8de8223d409e85d45b0f0704c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8145197269427047943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667912763214943764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb50f942f18f9e149a8b2b198c789142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6991253712564184882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667912763214943764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cac763553d9ef534ca49dfe295eee0a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Radius: 1
+  MoveCell: 3
+  idGrisAttack: 
+  hod: 0
+--- !u!114 &5075369315388601258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667912763214943764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3ad973a77a2a7e4eba3407a729b6088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 50
+  unitManager: {fileID: 2188052398292012040}
+  pawnGrids: {fileID: 6991253712564184882}
 --- !u!1 &4673635491366867729
 GameObject:
   m_ObjectHideFlags: 0
@@ -3365,7 +3424,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3739725999149342050}
+      - m_Target: {fileID: 2188052398292012040}
         m_MethodName: grids
         m_Mode: 1
         m_Arguments:
@@ -3791,15 +3850,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15eac32613125ae4a8986d55b156effb, type: 3}
---- !u!198 &4793552734811306863 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6702386842447447412, guid: 15eac32613125ae4a8986d55b156effb,
-    type: 3}
-  m_PrefabInstance: {fileID: 2271423356753591835}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4793552734811306862 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6702386842447447413, guid: 15eac32613125ae4a8986d55b156effb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2271423356753591835}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4793552734811306863 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6702386842447447412, guid: 15eac32613125ae4a8986d55b156effb,
     type: 3}
   m_PrefabInstance: {fileID: 2271423356753591835}
   m_PrefabAsset: {fileID: 0}

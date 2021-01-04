@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class King : BaseUnits , IPunObservable
+public class King : BaseUnits 
 {
     public ParticleSystem WhiteKing;
     public ParticleSystem DarkKing;
     bool isSignalDeath;
-    protected override void Start()
+    protected  void Start()
     {
-        base.Start();
+        
         if (!photon.IsMine)
         {           
             DarkKing.Play();
@@ -24,7 +24,7 @@ public class King : BaseUnits , IPunObservable
         
     }
     new void Update()
-    {
+    {/*
        
         if (!Alive)      
         {            
@@ -32,7 +32,7 @@ public class King : BaseUnits , IPunObservable
             {
                 DeathSignal();               
             }
-        }
+        }*/
     }
     
     private void DeathSignal()
@@ -47,7 +47,7 @@ public class King : BaseUnits , IPunObservable
     }
 
 
-    override public void hideGrids()
+     public void hideGrids()
     {
         if (photon.IsMine)
         {
@@ -69,9 +69,9 @@ public class King : BaseUnits , IPunObservable
 
 
 
-    public override void attack(GameObject enemyTarget , bool contrAttack)
+    public  void attack(GameObject enemyTarget , bool contrAttack)
     {
-        enemy = enemyTarget.transform; // для ближнего боя нужен это
+      /*  enemy = enemyTarget.transform; // для ближнего боя нужен это
         if (!enemyTarget.GetComponent<healthBar>()) return;
         enemyTarget.GetComponent<healthBar>().TakeDamage(damage, this.GetType(),transform);
         animator.SetTrigger("Attack");
@@ -83,25 +83,11 @@ public class King : BaseUnits , IPunObservable
             PhotonNetwork.RaiseEvent((byte)1, content, options, sendOptions);
             gridsHaveEnemy(idForBrush);
             EnemyMove();
-        }
+        }*/
     }
 
 
    
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(target);
-            stream.SendNext(state);
-
-        }
-        else
-        {
-            target = (Vector3)stream.ReceiveNext();
-            state = (int)stream.ReceiveNext();
-
-        }
-    }
+    
 }

@@ -2977,6 +2977,12 @@ GameObject:
   - component: {fileID: 4793838737323211102}
   - component: {fileID: 7792783561335858386}
   - component: {fileID: 8513425361766767657}
+  - component: {fileID: 8995817578060485510}
+  - component: {fileID: 3571563489589283097}
+  - component: {fileID: 4881715475256274251}
+  - component: {fileID: 3016638886291295628}
+  - component: {fileID: 334301015191613475}
+  - component: {fileID: 1724750442790061823}
   m_Layer: 9
   m_Name: Warrior
   m_TagString: Player
@@ -3048,23 +3054,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8335977089606921703}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f114579dc7a7844da53b34796dd8174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
-  agent: {fileID: 40176056319814212}
   Radius: 1
   MoveCell: 3
-  startRay: {fileID: 4161732932921034953}
-  menuBar: {fileID: 3096252171667879691}
-  idForBrush: 
-  figthBTN: {fileID: 6449515598484090082}
-  pos: {x: 0, y: 5, z: 0}
-  Alive: 0
-  can: 0
-  effectcZnaks: {fileID: 4328330280417217845}
   radiusMove: 10
 --- !u!195 &40176056319814212
 NavMeshAgent:
@@ -3106,7 +3102,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 3506547628014063592}
+  - {fileID: 3571563489589283097}
   - {fileID: 1846876133628906788}
   viewIdField: 0
   InstantiationId: 0
@@ -3169,6 +3165,93 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8faf77f8de8223d409e85d45b0f0704c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8995817578060485510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335977089606921703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50255e5a5384be4f8a88375457e6c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerState: 0
+  menuBar: {fileID: 3096252171667879691}
+  idForBrush: 
+  effectcZnaks: {fileID: 4328330280417217845}
+  EndTurn: {fileID: 2130701089552744243}
+  figthBTN: {fileID: 6449515598484090082}
+  MoveButton: {fileID: 6348298024904238051}
+  pos: {x: 0, y: 5, z: 0}
+  startRay: {fileID: 4161732932921034953}
+  Alive: 0
+--- !u!114 &3571563489589283097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335977089606921703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb50f942f18f9e149a8b2b198c789142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4881715475256274251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335977089606921703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f317515bf355d944d8291ecca94e614e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Radius: 1
+  MoveCell: 3
+  radiusMove: 10
+--- !u!114 &3016638886291295628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335977089606921703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695112a52abcde4428b1a00ecda3c55e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  unitManager: {fileID: 8995817578060485510}
+--- !u!114 &334301015191613475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335977089606921703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b741f996c0bc3c44b0986620da7c2c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1724750442790061823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8335977089606921703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d33668d0113c7c645a3673983d50380e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8337431359139375330

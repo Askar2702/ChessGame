@@ -36,14 +36,11 @@ public class SelectManager : MonoBehaviour
                         {
                             if (SelectPlayer.GetComponent<BaseUnits>())
                             {
-                                SelectPlayer.GetComponent<BaseUnits>().moveBool();
-                                SelectPlayer.GetComponent<BaseUnits>().menuBar.SetActive(false);
-                                SelectPlayer.GetComponent<BaseUnits>().OffPlayer();
-
-
+                                SelectPlayer.GetComponent<UnitManager>().moveBool(false);
+                                SelectPlayer.GetComponent<UnitManager>().OffPlayer();
                             }
                         }
-                        hit.transform.GetComponent<BaseUnits>().moveBool();
+                        hit.transform.GetComponent<UnitManager>().moveBool(true);
                         SelectPlayer = hit.transform;
 
 
@@ -52,8 +49,8 @@ public class SelectManager : MonoBehaviour
                     {
                         if (hit.transform.GetComponent<Renderer>().material.GetColor("_EmissionColor") == Color.green * 1)
                         {
-                            SelectPlayer.GetComponent<BaseUnits>().MovePoint(hit.transform);
-                            SelectPlayer.GetComponent<BaseUnits>().hideGrids();
+                            SelectPlayer.GetComponent<MovementManager>().MovePoint(hit.transform);
+                            SelectPlayer.GetComponent<UnitManager>().hideGrids();
                         }
 
                     }
@@ -63,8 +60,5 @@ public class SelectManager : MonoBehaviour
         }
     }
     
-   
-
-
   
 }

@@ -1,38 +1,30 @@
-﻿using ExitGames.Client.Photon;
-using Photon.Pun;
-using Photon.Realtime;
-using System;
+﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
-using UnityEngine.UI;
 
-public class playerMov : BaseUnits , IPunObservable
+public class PawnGrids : BaseUnits, IPLayerGrid
 {
+
+    public int[] idGrisAttack;
     [SerializeField]
     private bool hod; //первый ход после которого он будет по одной клетке ходить
-    int[] idGrisAttack;
-    public ParticleSystem Aura;
-    healthBar healthBar;
-    private int CountMove; //кол во ходов при режиме берсерк
-    protected override void Start()
+    
+    private AttackeMelle attackeMelle;
+
+    protected override void Awake()
     {
+        base.Awake();
+        attackeMelle = GetComponent<AttackeMelle>();
         idGrisAttack = new int[2];
-        healthBar = GetComponent<healthBar>();
-        base.Start();
         hod = false;
-        CountMove = 5;
     }
 
-    protected override void gridsHaveEnemy(int[] idGrids)
+
+    public void GetPoint(int[] idCell)
     {
-        base.gridsHaveEnemy(idGrisAttack);
-    }
-
-    protected override void getPoint(int[] idCell)
-    {        
-        if (PhotonNetwork.IsMasterClient) {
+        if (PhotonNetwork.IsMasterClient)
+        {
             if (idCell[1] == 1)
             {
                 hod = false;
@@ -40,7 +32,8 @@ public class playerMov : BaseUnits , IPunObservable
             else
                 hod = true;
         }
-        else { 
+        else
+        {
             if (idCell[1] == 6)
             {
                 hod = false;
@@ -48,22 +41,23 @@ public class playerMov : BaseUnits , IPunObservable
             else
                 hod = true;
         }
-       
-        idGrisAttack[0] = idCell[0] - Radius;
-        idGrisAttack[1] = idCell[1] - Radius;
+
+        idGrisAttack[0] = idCell[0] - 1;
+        idGrisAttack[1] = idCell[1] - 1;
         idForBrush[0] = idCell[0];
         idForBrush[1] = idCell[1];
         idForBrush[0] -= Radius;
-        if (!hod) return;                
+        if (!hod) return;
         idForBrush[1] -= Radius;
     }
 
-    public override void grids()
+    public void Grids()
     {
+        if (attackeMelle.CountMove <= 0) return;
         if (!hod)
-        {          
+        {
             if (PhotonNetwork.IsMasterClient) // все это нужно для начально старта 
-                base.grids();
+                grids();
             else
             {
                 if (!PlayerTurn.CanPlay) return;
@@ -81,30 +75,47 @@ public class playerMov : BaseUnits , IPunObservable
 
                     }
                 }
-                
+
             }
         }
         else
-            base.grids(); 
+            grids();
     }
 
-    public override void MovePoint(Transform point)
+    public void GridsHaveEnemy(int[] idGrids)
     {
-        if (Aura.isPlaying)
+        if (!detect)
         {
-            CountMove -= 1;
-            if (CountMove <= 0)
-                healthBar.health -= 150;
+            for (int i = 0; i < 3; i++) //ищет у клеток есть ли рядом враги
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (GameObject.Find($"x:{idGrisAttack[0] + i} z:{idGrisAttack[1] + j}") == null)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        GameObject.Find($"x:{idGrisAttack[0] + i} z:{idGrisAttack[1] + j}").SendMessage("haveEnemy");
+                    }
+
+                }
+            }
+            detect = true;
         }
-        base.MovePoint(point);
+        else
+        {
+            HideGrids();
+            detect = false;
+        }
     }
 
-    override public void hideGrids()
+    public void HideGrids()
     {
         if (photon.IsMine)
         {
             if (!hod)
-            {                               
+            {
                 if (PhotonNetwork.IsMasterClient)
                 {
                     for (int i = 0; i < MoveCell; i++)
@@ -119,7 +130,7 @@ public class playerMov : BaseUnits , IPunObservable
                     }
                 }
                 else
-                {                    
+                {
                     for (int i = 0; i < MoveCell; i++)
                     {
                         for (int j = 0; j < MoveCell; j++)
@@ -129,9 +140,9 @@ public class playerMov : BaseUnits , IPunObservable
                                 GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] - j}").SendMessage("hideGrids");
                             }
                         }
-                    }                    
+                    }
                 }
-                
+
             }
             else
             {
@@ -146,58 +157,33 @@ public class playerMov : BaseUnits , IPunObservable
                     }
                 }
             }
-          
+
             detect = false;
-          
         }
     }
 
-    public void UpKnigth()
+    private void grids()
     {
-        Radius = 2;
-        MoveCell = 5;
-        damage = 100;
-        Aura.Play();
-    }
-   
-    
-    public override void attack(GameObject enemyTarget , bool contrAttack)
-    {
-        enemy = enemyTarget.transform; // для ближнего боя нужен это
-        if (!enemyTarget.GetComponent<healthBar>()) return;
-        enemyTarget.GetComponent<healthBar>().TakeDamage(damage,this.GetType(),transform);        
-        animator.SetTrigger("Attack");               
-        if (photon.IsMine)
+        if (!PlayerTurn.CanPlay) return;
+        for (int i = 0; i < MoveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
         {
-            RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
-            SendOptions sendOptions = new SendOptions { Reliability = true };
-            Vector3[] content = new Vector3[] { transform.position, enemyTarget.transform.position };
-            PhotonNetwork.RaiseEvent((byte)1, content, options, sendOptions);            
-            if (contrAttack) return;
-            gridsHaveEnemy(idGrisAttack);
-            EnemyMove();
-        }        
-        // print("trueAtack");
-    }
-   
+            for (int j = 0; j < MoveCell; j++)
+            {
+                if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                {
+                    continue;
+                    // print($"{transform.name}x:{i} z:{j}");
+                }
+                else
+                    GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("GridGreen");
 
-   
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(target);
-            stream.SendNext(state);
-
-        }
-        else
-        {
-            target = (Vector3)stream.ReceiveNext();
-            state = (int)stream.ReceiveNext();
-
+            }
         }
     }
 
-   
+    public void SetRadius(int _radius , int _moveCell)
+    {
+        Radius = _radius;
+        MoveCell = _moveCell;
+    }
 }

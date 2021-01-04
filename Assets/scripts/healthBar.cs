@@ -36,16 +36,16 @@ public class healthBar : MonoBehaviour
         if (health <= 0)
         {
             animator.SetInteger("State", 3);
-            transform.GetComponent<BaseUnits>().Alive = false;
+            transform.GetComponent<UnitManager>().Alive = false;
         }
         
     }
 
     public virtual void TakeDamage(int amount , Type DamageType , Transform enemy)
     {
-        if (DamageType == typeof(playerMov))
+        if (DamageType == typeof(IAttack))
             print("good");
-        else if (DamageType == typeof(MagicMove))
+        else if (DamageType == typeof(MagicAbility))
         {
             ellectroEffect.Play();
         }

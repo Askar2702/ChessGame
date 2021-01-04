@@ -7,16 +7,27 @@ using UnityEngine.UI;
 
 public class Passive : healthBar , IPunObservable
 {
-    public BaseUnits baseUnits;   
+
+    [SerializeField] private ParticleSystem Aura;
+    private AttackeMelle baseUnits;   
     private int chance = 20; // шанс контр атаки
     public Text text;
     private int miss = 10;
+    private PawnGrids _pawnGrids;
+    private MovementManager movementManager;
     public GameObject misses;
 
-    
+    protected override void Start()
+    {
+        base.Start();
+        baseUnits = GetComponent<AttackeMelle>();
+        _pawnGrids = GetComponent<PawnGrids>();
+        movementManager = GetComponent<MovementManager>();
+    }
+
     public override void TakeDamage(int amount, Type DamageType, Transform enemy)
     {
-        if (DamageType == typeof(MagicMove))
+        if (DamageType == typeof(MagicAbility))
         {
             ellectroEffect.Play();
         }
@@ -73,10 +84,10 @@ public class Passive : healthBar , IPunObservable
     IEnumerator delay(Transform enem) //заддержка контр атаки
     {
         yield return new WaitForSeconds(3f);
-        if (baseUnits.Alive) { 
+        if (transform.GetComponent<UnitManager>().Alive) { 
             int contAtack = UnityEngine.Random.Range(10, 100);
             if (contAtack < chance)
-                transform.GetComponent<BaseUnits>().attack(enem.gameObject, true); 
+                transform.GetComponent<IAttack>().Attack(enem.gameObject, true); 
         }
     }
 
@@ -92,6 +103,18 @@ public class Passive : healthBar , IPunObservable
         baseUnits.damage = 50;
     }
 
+    /// <summary>
+    /// UpPower
+    /// </summary>
+    public void UpKnigth()
+    {
+        _pawnGrids.SetRadius(_radius: 2, _moveCell: 5);
+        baseUnits.damage = 150;
+        
+        Aura.Play();
+
+        Debug.Log("11122");
+    }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)

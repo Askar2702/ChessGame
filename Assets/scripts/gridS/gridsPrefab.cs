@@ -40,6 +40,7 @@ public class gridsPrefab : MonoBehaviour
    public void enemySignal(bool haveEnemys) // получет от врага сигнал что он стоит на нем 
    {
         HaveEnemy = haveEnemys;
+        if (!haveEnemys) hideGrids();
    }
 
    

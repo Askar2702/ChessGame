@@ -181,7 +181,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6147346556250572366}
+      - m_Target: {fileID: 4665834378081606281}
         m_MethodName: DetectEnemy
         m_Mode: 1
         m_Arguments:
@@ -21891,6 +21891,10 @@ GameObject:
   - component: {fileID: 4670195982943133910}
   - component: {fileID: 6543618788863875117}
   - component: {fileID: 8801292497731848698}
+  - component: {fileID: 4665834378081606281}
+  - component: {fileID: 5541713239708560618}
+  - component: {fileID: 2931435228192146059}
+  - component: {fileID: 5651845090515153912}
   m_Layer: 9
   m_Name: Minister
   m_TagString: Player
@@ -21968,23 +21972,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6864909852208392675}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22583561444d3c549aee74bd481228d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
-  agent: {fileID: 3198930356079062592}
-  Radius: 0
-  MoveCell: 10
-  startRay: {fileID: 1525361078646131917}
-  menuBar: {fileID: 437483783012152079}
-  idForBrush: 
-  figthBTN: {fileID: 8460875672948664550}
-  pos: {x: 0, y: 5, z: 0}
-  Alive: 0
-  can: 0
-  effectcZnaks: {fileID: 2550759300910746916}
+  Radius: 1
+  MoveCell: 3
   WhiteKing: {fileID: 3135082709773702636}
   DarkKing: {fileID: 3408291981847688180}
 --- !u!195 &3198930356079062592
@@ -22027,7 +22021,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 6147346556250572366}
+  - {fileID: 5541713239708560618}
   - {fileID: 3840222284182472992}
   viewIdField: 0
   InstantiationId: 0
@@ -22099,7 +22093,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6864909852208392675}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd8eeabbeeff24d40a4d6f721c5b70e3, type: 3}
   m_Name: 
@@ -22112,9 +22106,71 @@ MonoBehaviour:
   scale: {x: 0.7, y: 0.7, z: 0.7}
   pointGrid: {fileID: 0}
   player: {fileID: 0}
-  parent: {fileID: 6147346556250572366}
+  parent: {fileID: 0}
   telepotsStart: {fileID: 61613999452203012}
   telepotsfinish: {fileID: 3607835395202512425}
+--- !u!114 &4665834378081606281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6864909852208392675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50255e5a5384be4f8a88375457e6c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerState: 0
+  menuBar: {fileID: 437483783012152079}
+  idForBrush: 
+  effectcZnaks: {fileID: 0}
+  EndTurn: {fileID: 3565615633082186551}
+  figthBTN: {fileID: 8460875672948664550}
+  MoveButton: {fileID: 8427350597818017767}
+  pos: {x: 0, y: 5, z: 0}
+  startRay: {fileID: 1525361078646131917}
+  Alive: 0
+--- !u!114 &5541713239708560618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6864909852208392675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb50f942f18f9e149a8b2b198c789142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2931435228192146059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6864909852208392675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870168200a4d75c44ab36a5b86d9aa3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Radius: 0
+  MoveCell: 10
+--- !u!114 &5651845090515153912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6864909852208392675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 695112a52abcde4428b1a00ecda3c55e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  unitManager: {fileID: 4665834378081606281}
 --- !u!1 &6872168095726775526
 GameObject:
   m_ObjectHideFlags: 0

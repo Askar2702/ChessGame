@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MagicMove : BaseUnits , IPunObservable
+public class MagicMove : BaseUnits 
 {
 
     public Transform posCollider;
@@ -14,12 +14,14 @@ public class MagicMove : BaseUnits , IPunObservable
     private GameObject Targets;
     bool MagicCast;
     public Vector3 scale;
-    public healthBar health;
 
-
-    private new void Update()
+    private void Start()
+    {
+        MagicCast = true;
+    }
+    private  void Update()
     {      
-        Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation, layerMask);
+       /* Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation, layerMask);
 
         foreach (var Currentenemy in hitColliders)
         {
@@ -36,7 +38,7 @@ public class MagicMove : BaseUnits , IPunObservable
                 Targets = Currentenemy.gameObject;
         }
         if (animator.GetInteger("State") == 2)
-            MagicCast = false;
+            MagicCast = false;*/
     }
     public void ClickAttack()
     {
@@ -47,12 +49,12 @@ public class MagicMove : BaseUnits , IPunObservable
     }
     public void attackEnemy()
     {
-        Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation,layerMask);
+       /* Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation,layerMask);
         foreach (var Currentenemy in hitColliders)
         {
             Currentenemy.GetComponent<healthBar>().TakeDamage(damage, this.GetType(),transform);
             animator.SetTrigger("fire");
-        }
+        }*/
     }
 
   
@@ -70,7 +72,7 @@ public class MagicMove : BaseUnits , IPunObservable
         foreach (var Currentenemy in hitColliders)
         {
             Currentenemy.GetComponent<healthBar>().healthPlayer();
-            animator.SetTrigger("Health");
+            //animator.SetTrigger("Health");
         }
     }
 
@@ -81,7 +83,7 @@ public class MagicMove : BaseUnits , IPunObservable
     }
     public void UpPower()
     {
-        print("gazaru");
+       /* print("gazaru");
         Collider[] hitColliders = Physics.OverlapBox(posCollider.position, new Vector3(0.5f,0.5f,0.5f), posCollider.rotation, layerMask);
         foreach (var Currentenemy in hitColliders)
         {
@@ -91,10 +93,10 @@ public class MagicMove : BaseUnits , IPunObservable
             if (photon.IsMine) EnemyMove();            
             health.health -= 150;
             break;
-        }
+        }*/
        
     }
-    public override void grids()
+    public  void grids()
     {
         if (!PlayerTurn.CanPlay) return;
         HorizAndVertical();
@@ -219,7 +221,7 @@ public class MagicMove : BaseUnits , IPunObservable
 
         }
     }
-    override public void hideGrids()
+    public void hideGrids()
     {
         if (photon.IsMine)
         {// использую цифры вместо moveCall потому что тот 3 а тут 6 чтоб быстро закрыть и меньше кода
@@ -245,9 +247,9 @@ public class MagicMove : BaseUnits , IPunObservable
         Gizmos.DrawWireCube(posCollider.position, scale);
     }
 
-    public override void moveBool()
+    public  void moveBool()
     {
-        if (!Alive) return;
+      /*  if (!Alive) return;
         if (photon.IsMine)
         {
             if (Move)
@@ -265,9 +267,9 @@ public class MagicMove : BaseUnits , IPunObservable
                 MagicCast = false;
             }
 
-        }
+        }*/
     }
-    public override void OffPlayer()
+    public  void OffPlayer()
     {
         MagicCast = false;
         gameObject.layer = 9;
@@ -281,24 +283,9 @@ public class MagicMove : BaseUnits , IPunObservable
         PhotonNetwork.RaiseEvent((byte)2, content, options, sendOptions);
         MagicCast = false;
     }
-    public override void EnemyMove()
+    public  void EnemyMove()
     {
         MagicCast = false;
-        base.EnemyMove();
     }
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(target);
-            stream.SendNext(state);
-
-        }
-        else
-        {
-            target = (Vector3)stream.ReceiveNext();
-            state = (int)stream.ReceiveNext();
-
-        }
-    }
+    
 }

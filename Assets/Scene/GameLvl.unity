@@ -4967,6 +4967,7 @@ MonoBehaviour:
   width: 10
   length: 8
   InstanseGrid: {fileID: 243753208}
+  listGrid: {fileID: 1528219252}
 --- !u!4 &243753208
 Transform:
   m_ObjectHideFlags: 0
@@ -10810,6 +10811,7 @@ GameObject:
   - component: {fileID: 1528219249}
   - component: {fileID: 1528219250}
   - component: {fileID: 1528219251}
+  - component: {fileID: 1528219252}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -10896,6 +10898,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayersList: []
   EnemyList: []
+--- !u!114 &1528219252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528219246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5feb4bfb87c9f9f43b3eae90b6da5581, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1558980189
 PrefabInstance:
   m_ObjectHideFlags: 0

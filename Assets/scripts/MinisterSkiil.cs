@@ -11,7 +11,7 @@ public class MinisterSkiil : MonoBehaviour
     bool teleports;
     public Transform pointGrid;
     public Transform player;
-    public BaseUnits parent;
+    public UnitManager parent;
     public ParticleSystem telepotsStart;
     public ParticleSystem telepotsfinish;
     private GameObject[] grids;
@@ -65,7 +65,7 @@ public class MinisterSkiil : MonoBehaviour
         yield return new WaitForSeconds(2f);
         var pos = target.position;
         target.position = EndPos;
-        target.GetComponent<BaseUnits>().target = EndPos;
+        target.GetComponent<MovementManager>().target = EndPos;
         foreach(var gr in grids)
         {
             if(gr.name == $"x:{parent.idForBrush[0] + 2} z:{parent.idForBrush[1]}") { }

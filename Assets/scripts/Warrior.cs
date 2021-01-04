@@ -6,15 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Warrior : BaseUnits , IPunObservable
+public class Warrior : BaseUnits 
 {
     public int radiusMove;    // это радиус ходьбы вместо родительского который был и для драки и для ходьбы
     private int[] move; // для его ходьбы  сохраняет его позицию для ходьбы вместо родительского который для боя нужен    
     
    
-    protected override void Start()
+    protected  void Start()
     {
-        base.Start();
         
         var child = transform.GetChild(0).gameObject.AddComponent<BoxCollider>();
         child.center = new Vector3(0, 1, 0);
@@ -42,123 +41,20 @@ public class Warrior : BaseUnits , IPunObservable
     }
 
 
-    public override void grids()
+    public  void grids()
     {
-        if (!PlayerTurn.CanPlay) return;
-        for (int i = 0; i < radiusMove; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
-        { // вправо дорогу ищет 
-            if (GameObject.Find($"x:{move[0] + i} z:{move[1] + i}") == null)
-            {
-                continue;
-            }
-            if (GameObject.Find($"x:{move[0] + i} z:{move[1] + i}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{move[0] + i} z:{move[1] + i}").GetComponent<gridsPrefab>().HaveEnemy)
-                break;
-            else
-                GameObject.Find($"x:{move[0] + i} z:{move[1] + i}").SendMessage("GridGreen");
-
-        }
-
-        for (int j = 0; j < radiusMove; j++)
-        { // вверх влево ищет дорогу
-            if (GameObject.Find($"x:{move[0] - j} z:{move[1] + j}") == null)
-            {
-                continue;
-
-            }
-            if (GameObject.Find($"x:{move[0] - j} z:{move[1] + j}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{move[0] - j} z:{move[1] + j}").GetComponent<gridsPrefab>().HaveEnemy)
-                break;
-            else
-                GameObject.Find($"x:{move[0] - j} z:{move[1] + j}").SendMessage("GridGreen");
-        }
-
-        for (int i = 0; i < radiusMove; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
-        { //право вниз ищет дорогу
-            if (GameObject.Find($"x:{move[0] - i} z:{move[1] - i}") == null)
-            {
-                continue;
-
-            }
-            if (GameObject.Find($"x:{move[0] - i} z:{move[1] - i}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{move[0] - i} z:{move[1]- i}").GetComponent<gridsPrefab>().HaveEnemy)
-                break;
-            else
-                GameObject.Find($"x:{move[0] - i} z:{move[1] - i}").SendMessage("GridGreen");
-        }
-
-        for (int j = 0; j < radiusMove; j++)
-        { // влево низ ищет дорогу
-            if (GameObject.Find($"x:{move[0] + j} z:{move[1] - j}") == null)
-            {
-                continue;
-
-            }
-            if (GameObject.Find($"x:{move[0] + j} z:{move[1] - j}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{move[0] + j} z:{move[1] - j}").GetComponent<gridsPrefab>().HaveEnemy)
-                break;
-            else
-                GameObject.Find($"x:{move[0] + j} z:{move[1] - j}").SendMessage("GridGreen");
-
-        }
+        
 
     }
 
-    public override void hideGrids()
+    public  void hideGrids()
     {
-        if (photon.IsMine)
-        {
-            for (int i = 0; i < radiusMove; i++)
-            {
-                if (GameObject.Find($"x:{move[0] + i} z:{move[1] + i}") != null)
-                { // чтоб закрыть зеление клеки
-                    GameObject.Find($"x:{move[0] + i} z:{move[1] + i}").SendMessage("hideGrids");
-                }
-            }
-            for (int j = 0; j < radiusMove; j++)
-            {
-                if (GameObject.Find($"x:{move[0] + j} z:{move[1] - j}") != null)
-                { // чтоб закрыть зеление клеки
-                    GameObject.Find($"x:{move[0] + j} z:{move[1] - j}").SendMessage("hideGrids");
-                }
-            }
-            for (int i = 0; i < radiusMove; i++)
-            {
-                if (GameObject.Find($"x:{move[0] - i} z:{move[1] - i}") != null)
-                { // чтоб закрыть зеление клеки
-                    GameObject.Find($"x:{move[0] - i} z:{move[1] - i}").SendMessage("hideGrids");
-                }
-            }
-            for (int j = 0; j < radiusMove; j++)
-            {
-                if (GameObject.Find($"x:{move[0] - j} z:{move[1] + j}") != null)
-                { // чтоб закрыть зеление клеки
-                    GameObject.Find($"x:{move[0] - j} z:{move[1] + j}").SendMessage("hideGrids");
-                }
-            }
-            if (detect)
-            {
-                detect = false;
-                for (int i = 0; i < MoveCell; i++) //закрывает клетки с врагами
-                {
-                    for (int j = 0; j < MoveCell; j++)
-                    {
-                        if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
-                        {
-                            continue;
-                        }
-                        else
-                            GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("hideGrids");
-                    }
-                }
-            }
-
-        }
+        
     }
 
 
-    public override void attack(GameObject enemyTarget, bool contrAttack)
-    {
+    public  void attack(GameObject enemyTarget, bool contrAttack)
+    {/*
         enemy = enemyTarget.transform; // для ближнего боя нужен это
         if (!enemyTarget.GetComponent<healthBar>()) return;
         enemyTarget.GetComponent<healthBar>().TakeDamage(damage, this.GetType(), transform);
@@ -171,12 +67,12 @@ public class Warrior : BaseUnits , IPunObservable
             PhotonNetwork.RaiseEvent((byte)1, content, options, sendOptions);
             gridsHaveEnemy(idForBrush);
             EnemyMove();
-        }
+        }*/
     }
 
-    protected override void uiBtnFigt()
+    protected  void _UpadateProcess()
     {
-        Ray ray = new Ray(startRay.position, -transform.up);
+      /*  Ray ray = new Ray(startRay.position, -transform.up);
         RaycastHit hit;
         figthBTN.transform.position = transform.position + pos;//для кнопки иначе она не пашет нормально
 
@@ -207,22 +103,8 @@ public class Warrior : BaseUnits , IPunObservable
         if (PhotonNetwork.IsMasterClient)
             figthBTN.transform.rotation = Quaternion.Euler(0, 0, 0);
         else
-            figthBTN.transform.rotation = Quaternion.Euler(0, 180f, 0);
+            figthBTN.transform.rotation = Quaternion.Euler(0, 180f, 0);*/
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(target);
-            stream.SendNext(state);
-
-        }
-        else
-        {
-            target = (Vector3)stream.ReceiveNext();
-            state = (int)stream.ReceiveNext();
-
-        }
-    }
+    
 }

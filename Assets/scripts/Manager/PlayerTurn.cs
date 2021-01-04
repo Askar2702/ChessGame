@@ -39,8 +39,8 @@ public class PlayerTurn : MonoBehaviour
                     onlineManager.CanMove = true;
                 foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
                 {
-                    player.GetComponent<BaseUnits>().hideGrids();
-                    player.GetComponent<BaseUnits>().menuBar.SetActive(false);
+                    player.GetComponent<UnitManager>().hideGrids();
+                    player.GetComponent<UnitManager>().menuBar.SetActive(false);
                 }
                 PlayTurn();
             }
