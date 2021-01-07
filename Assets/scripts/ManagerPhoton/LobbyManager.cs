@@ -31,6 +31,11 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom();
     }
 
+    public void Exit()
+    {
+        Application.Quit();
+    }
+
     public override void OnJoinedRoom()
     {
         Logs("Join Room");

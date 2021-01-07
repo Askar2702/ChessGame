@@ -23,7 +23,7 @@ public class King : BaseUnits
         isSignalDeath = false;
         
     }
-    new void Update()
+     void Update()
     {/*
        
         if (!Alive)      
