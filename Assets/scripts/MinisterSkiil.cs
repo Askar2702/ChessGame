@@ -20,8 +20,21 @@ public class MinisterSkiil : MonoBehaviour
         grids = GameObject.FindGameObjectsWithTag("grid");
     }
 
-    
-    
+    private void Update()
+    {
+        Collider[] hitColliders1 = Physics.OverlapBox(posCollider2.position, scale, posCollider2.rotation, layerMask);
+        foreach (var Currentenemy in hitColliders1)
+        {
+            Debug.Log(Currentenemy.transform.name);
+            if (Currentenemy.GetComponent<gridsPrefab>())
+                pointGrid = Currentenemy.transform;
+            if (Currentenemy.GetComponent<BaseUnits>())
+                player = Currentenemy.transform;
+            else
+                player = null;
+        }
+    }
+
 
     public void teleport()
     {

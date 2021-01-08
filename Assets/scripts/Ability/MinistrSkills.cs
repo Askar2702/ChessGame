@@ -14,8 +14,8 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     [SerializeField] private ParticleSystem telepotsfinish;
 
     private Transform pointGrid;
-    private Transform player;
-    private GameObject[] grids;
+    public Transform player;
+    public GameObject[] grids;
     private bool teleports;
 
     void Start()
@@ -23,6 +23,7 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
         grids = GameObject.FindGameObjectsWithTag("grid");
     }
 
+    
 
 
 
@@ -32,9 +33,10 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
         Collider[] hitColliders1 = Physics.OverlapBox(posCollider2.position, scale, posCollider2.rotation, layerMask);
         foreach (var Currentenemy in hitColliders1)
         {
+            Debug.Log("123");
             if (Currentenemy.GetComponent<gridsPrefab>())
                 pointGrid = Currentenemy.transform;
-            if (Currentenemy.GetComponent<BaseUnits>())
+            if (Currentenemy.GetComponent<UnitManager>())
                 player = Currentenemy.transform;
             else
                 player = null;
@@ -53,9 +55,11 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
         {
             if (Currentenemy.transform.tag == "Player" && teleports)
             {
-                // Currentenemy.transform.GetComponent<BaseUnits>().MovePoint(pointGrid);
+                if (!telepotsfinish.isPlaying) 
+                { 
                 telepotsStart.Play();
                 telepotsfinish.Play();
+                }
                 StartCoroutine(teleportTarget(Currentenemy.transform, pointGrid.position));
                 pointGrid = null;
                 Debug.Log(Currentenemy.transform.name);

@@ -22201,11 +22201,13 @@ MonoBehaviour:
   posCollider2: {fileID: 1770917512564376560}
   layerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   scale: {x: 0.7, y: 0.7, z: 0.7}
   parent: {fileID: 4665834378081606281}
   telepotsStart: {fileID: 7511136038855450391}
   telepotsfinish: {fileID: 3607835395202512425}
+  player: {fileID: 0}
+  grids: []
 --- !u!1 &6872168095726775526
 GameObject:
   m_ObjectHideFlags: 0

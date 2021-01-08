@@ -217,11 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c994b543861b3434a85a1c96ab822307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRay: {fileID: 3918907787654444484}
   mat: {fileID: 6397617346789708027}
   Id: 
   HaveEnemy: 0
   HavePlayer: 0
-  mask:
-    serializedVersion: 2
-    m_Bits: 512
