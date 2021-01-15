@@ -1,4 +1,6 @@
-﻿using Photon.Pun;
+﻿using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,17 +14,17 @@ public class Passive : healthBar , IPunObservable
     private AttackeMelle baseUnits;   
     private int chance = 20; // шанс контр атаки
     public Text text;
-    private int miss = 10;
+    public int miss = 10;
     private PawnGrids _pawnGrids;
-    private MovementManager movementManager;
-    public GameObject misses;
+  //  private MovementManager movementManager;
+    [SerializeField] private GameObject misses;
 
     protected override void Start()
     {
         base.Start();
         baseUnits = GetComponent<AttackeMelle>();
         _pawnGrids = GetComponent<PawnGrids>();
-        movementManager = GetComponent<MovementManager>();
+    //    movementManager = GetComponent<MovementManager>();
     }
 
     public override void TakeDamage(int amount, Type DamageType, Transform enemy)
@@ -31,22 +33,22 @@ public class Passive : healthBar , IPunObservable
         {
             ellectroEffect.Play();
         }
-        if (photon.IsMine) 
+        else
         {
-            int random = UnityEngine.Random.Range(10, 100);
-            if (random <= miss) return;
-            StartCoroutine(print(amount));
-            if (DamageType == typeof(MagicMove)) return; 
-            else
-            {
-                StartCoroutine(delay(enemy));
-            }            
-        }        
+            StartCoroutine(delay(enemy));
+        }
+        int random = UnityEngine.Random.Range(10, 100);
+        if (photon.IsMine && random <= miss) 
+        {
+            MissPlayer();
+            return;
+        }
+        StartCoroutine(DelayChangeHealth(amount));
+        
     }
 
-    protected override void Update()
+    void Update()
     {
-        base.Update();
         text.text = $" XP : 100 \r\n Damage : {baseUnits.damage} \r\n Counterattack: {chance}% \n Miss: {miss}% ";
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -56,8 +58,26 @@ public class Passive : healthBar , IPunObservable
                 Instantiate(misses, transform.position, Quaternion.Euler(20f,180f,0f));
 
 
-            // Misses.transform.position = new Vector3(transform.position.x, transform.position.y * Time.deltaTime, transform.position.z);
+            // 
         }
+    }
+
+    public void MissPlayer()
+    {
+        if (PhotonNetwork.IsMasterClient)
+            Instantiate(misses, transform.position, Quaternion.identity);
+        else
+            Instantiate(misses, transform.position, Quaternion.Euler(20f, 180f, 0f));
+        if (photon.IsMine)
+        {
+            object[] content = new object[2] { (object)transform.position, (object)"MissPlayer" }; //  приходиться массивом отправлять иначе просто vector3 он не принимает отправлять
+            RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
+            SendOptions sendOptions = new SendOptions { Reliability = true };
+            PhotonNetwork.RaiseEvent((byte)2, content, options, sendOptions);
+        } //сипользовал канал магов
+
+
+        misses.transform.position = new Vector3(transform.position.x, transform.position.y * Time.deltaTime, transform.position.z);
     }
 
     public void Miss()
@@ -84,10 +104,13 @@ public class Passive : healthBar , IPunObservable
     IEnumerator delay(Transform enem) //заддержка контр атаки
     {
         yield return new WaitForSeconds(3f);
-        if (transform.GetComponent<UnitManager>().Alive) { 
-            int contAtack = UnityEngine.Random.Range(10, 100);
-            if (contAtack < chance)
-                transform.GetComponent<IAttack>().Attack(enem.gameObject, true); 
+        if (photon.IsMine) {
+            if (transform.GetComponent<UnitManager>().Alive)
+            {
+                int contAtack = UnityEngine.Random.Range(10, 100);
+                if (contAtack < chance)
+                    transform.GetComponent<IAttack>().Attack(enem.gameObject, true);
+            }
         }
     }
 

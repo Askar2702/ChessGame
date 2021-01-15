@@ -8,39 +8,37 @@ using UnityEngine.UI;
 public class healthBar : MonoBehaviour
 {
    
-    public Slider slider;
-    public Vector3 pos;   
-    public Image fill;
-    public int health;
-    protected PhotonView photon;
-    public ParticleSystem ellectroEffect;
-    public ParticleSystem HealthEffect;
-    public Animator animator;
+    [SerializeField] protected Slider slider;
+    [SerializeField] protected Vector3 pos;
+    [SerializeField] protected Image fill;
+    [SerializeField] protected int health;
+    [SerializeField] protected PhotonView photon;
+    [SerializeField] protected ParticleSystem ellectroEffect;
+    [SerializeField] protected ParticleSystem HealthEffect;
+    [SerializeField] protected Animator animator;
+    private Camera cam;
+
+    public int _health { get { return health; } set { health = value; } }
     protected virtual void Start()
     {
         photon = GetComponent<PhotonView>();
+        slider.maxValue = health;
+        slider.value = health;
         if (photon.IsMine)
             fill.color = Color.green;
         else
             fill.color = Color.red;
+        cam = Camera.main;
     }
 
-    // Update is called once per frame
-    protected virtual void Update()
+   
+    
+
+    protected void LateUpdate()
     {
         slider.transform.position = transform.position + pos;
-        slider.transform.rotation = Quaternion.Euler(0, 0, 0);
-        slider.value = health;
-        if (health > 100)
-            health = 100;
-        if (health <= 0)
-        {
-            animator.SetInteger("State", 3);
-            transform.GetComponent<UnitManager>().Alive = false;
-        }
-        
+        slider.transform.LookAt(slider.transform.position + cam.transform.forward);
     }
-
     public virtual void TakeDamage(int amount , Type DamageType , Transform enemy)
     {
         if (DamageType == typeof(IAttack))
@@ -49,18 +47,26 @@ public class healthBar : MonoBehaviour
         {
             ellectroEffect.Play();
         }
-        StartCoroutine(print(amount));
+        StartCoroutine(DelayChangeHealth(amount));
     }
     
-    protected IEnumerator print(int amounts)
+    protected IEnumerator DelayChangeHealth(int amounts)
     {
         yield return new WaitForSeconds(1f);
-        health -= amounts;
+        health -= amounts; 
+        slider.value = health;
+        if (health <= 0)
+        {
+            animator.SetInteger("State", 3);
+            transform.GetComponent<UnitManager>().Alive = false;
+        }
     }
 
     public void healthPlayer()
     {
         health += 100;
+        if (health > 100)
+            health = 100;
         HealthEffect.Play();
     }
     

@@ -87,7 +87,7 @@ public class MagicAbility : MonoBehaviour, IMagicAbility
             Currentenemy.GetComponent<Passive>().UpKnigth();
             animator.SetTrigger("Health"); // та ж анимация что и при лечении             
             if (photon.IsMine) IsMagicCast = false;
-            health.health -= 150;
+            health._health -= 150;
             break;
         }
     }

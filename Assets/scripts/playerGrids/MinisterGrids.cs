@@ -61,7 +61,6 @@ public class MinisterGrids : BaseUnits, IPLayerGrid
                 }
             }
         }
-        throw new System.NotImplementedException();
     }
 
     public void HideGrids()

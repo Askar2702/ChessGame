@@ -824,7 +824,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3506547628014063592}
+      - m_Target: {fileID: 0}
         m_MethodName: EnemyMove
         m_Mode: 1
         m_Arguments:
@@ -1375,7 +1375,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3506547628014063592}
+      - m_Target: {fileID: 0}
         m_MethodName: DetectEnemy
         m_Mode: 1
         m_Arguments:
@@ -2164,7 +2164,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3506547628014063592}
+      - m_Target: {fileID: 0}
         m_MethodName: grids
         m_Mode: 1
         m_Arguments:
@@ -2970,7 +2970,6 @@ GameObject:
   - component: {fileID: 5040670546036416500}
   - component: {fileID: 3133956572683891342}
   - component: {fileID: 40176056442168978}
-  - component: {fileID: 3506547628014063592}
   - component: {fileID: 40176056319814212}
   - component: {fileID: 516160654677650276}
   - component: {fileID: 1846876133628906788}
@@ -3047,21 +3046,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &3506547628014063592
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8335977089606921703}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f114579dc7a7844da53b34796dd8174, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Radius: 1
-  MoveCell: 3
-  radiusMove: 10
 --- !u!195 &40176056319814212
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3152,6 +3136,7 @@ MonoBehaviour:
   pos: {x: 0, y: 3, z: 0}
   fill: {fileID: 2547047938470779196}
   health: 100
+  photon: {fileID: 0}
   ellectroEffect: {fileID: 6877240207824450466}
   HealthEffect: {fileID: 4662864309325789204}
   animator: {fileID: 3133956572683891342}

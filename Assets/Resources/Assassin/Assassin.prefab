@@ -1912,6 +1912,7 @@ MonoBehaviour:
   pos: {x: 0, y: 3, z: 0}
   fill: {fileID: 1166565930697876175}
   health: 100
+  photon: {fileID: 0}
   ellectroEffect: {fileID: 7789057582068926545}
   HealthEffect: {fileID: 8348905631638684647}
   animator: {fileID: 1735746180491643261}

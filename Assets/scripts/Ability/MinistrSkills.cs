@@ -13,9 +13,9 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     [SerializeField] private ParticleSystem telepotsStart;
     [SerializeField] private ParticleSystem telepotsfinish;
 
-    private Transform pointGrid;
     public Transform player;
     public GameObject[] grids;
+    private Transform pointGrid;
     private bool teleports;
 
     void Start()
@@ -24,9 +24,6 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     }
 
     
-
-
-
 
     public void Ability_1()
     {
@@ -90,7 +87,14 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
 
     public void Ability_2()
     {
-        // didn't come up with a skill
+        foreach(var enemy in DataExchange._DataExchange.EnemyList)
+        {
+            if(Vector3.Distance(transform.position , enemy.transform.position) <= 2f)
+            {
+                if(enemy.transform.position.z > transform.position.z)
+                    Debug.Log(enemy.name);
+            }
+        }
     }
 
     public void Ability_3()

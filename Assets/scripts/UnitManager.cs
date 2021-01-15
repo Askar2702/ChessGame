@@ -19,6 +19,7 @@ public class UnitManager : MonoBehaviour
     [SerializeField] Button MoveButton;
     [SerializeField] Vector3 pos;
     [SerializeField] Transform startRay;
+    
     private Animator animator;
     private PhotonView photon;//
     private string EntredCell = null; // нужны чтоб когда уходил за собой выключал красный свет в клетках
@@ -33,7 +34,6 @@ public class UnitManager : MonoBehaviour
         photon = GetComponent<PhotonView>();
         menuBar.SetActive(false);
         figthBTN.gameObject.SetActive(false);
-        InvokeRepeating("_UpadateProcess", 0f, 0.05f);
         animator = GetComponent<Animator>();
         MoveButton.onClick.AddListener(() => grids());
         EndTurn.onClick.AddListener(() => EnemyMove());
@@ -44,6 +44,7 @@ public class UnitManager : MonoBehaviour
             transform.tag = "Enemy";
         }
         DataExchange._DataExchange.AddUnits(this);
+        StartCoroutine("UpdateProccess");
     }
 
     protected void Awake()
@@ -54,15 +55,10 @@ public class UnitManager : MonoBehaviour
     }
 
 
-
-
     public virtual void gridsHaveEnemy(int[] idGrids)
     {
         pLayerGrid.GridsHaveEnemy(idGrids);
     }
-
-    
-
 
     private  void getPoint(int[] idCell) //для высчитавание левого нижнего края откуда пойдет счет границ
     {
@@ -93,42 +89,7 @@ public class UnitManager : MonoBehaviour
             hideGrids();
         }
     }
-    protected virtual void _UpadateProcess() //нужен чтоб оптимизировать и не нагружать апдеит
-    {
-        Ray ray = new Ray(startRay.position, -transform.up);
-        RaycastHit hit;
-        figthBTN.transform.position = transform.position + pos;//для кнопки иначе она не пашет нормально
-
-        if (Physics.Raycast(ray, out hit, 1f))
-        {
-            if (hit.transform.tag == "grid")
-            {
-                getPoint(hit.transform.GetComponent<gridsPrefab>().Id); //луч который оперделяет место нахождение 
-                if (photon.IsMine)
-                    PlayerSignal(hit.transform.GetComponent<gridsPrefab>().Id);
-                if (!photon.IsMine)
-                {
-                    enemySignal(hit.transform.GetComponent<gridsPrefab>().Id);//луч который делает красным там где он есть если она сам враг
-                    if (hit.transform.GetComponent<gridsPrefab>().mat.material.GetColor("_EmissionColor") == Color.red * 1.3f)
-                    {
-                        figthBTN.gameObject.SetActive(true);
-                    }
-                    else
-                        figthBTN.gameObject.SetActive(false);
-                }
-
-
-            }
-
-
-            Debug.DrawRay(startRay.position, -transform.up, Color.red, 20);
-            // Debug.Log("1");
-        }
-        if (PhotonNetwork.IsMasterClient)
-            figthBTN.transform.rotation = Quaternion.Euler(0, 0, 0);
-        else
-            figthBTN.transform.rotation = Quaternion.Euler(0, 180f, 0);
-    }
+    
 
     public void DetectEnemy() //проверяет где рядом враг во время анимации покоя
     {
@@ -220,7 +181,48 @@ public class UnitManager : MonoBehaviour
         effectcZnaks.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
-   
+    private IEnumerator UpdateProccess()
+    {
+        while (true)
+        {
+            Ray ray = new Ray(startRay.position, -transform.up);
+            RaycastHit hit;
+            figthBTN.transform.position = transform.position + pos;//для кнопки иначе она не пашет нормально
+
+            if (Physics.Raycast(ray, out hit, 1f))
+            {
+                if (hit.transform.tag == "grid")
+                {
+                    getPoint(hit.transform.GetComponent<gridsPrefab>().Id); //луч который оперделяет место нахождение 
+                    if (photon.IsMine)
+                        PlayerSignal(hit.transform.GetComponent<gridsPrefab>().Id);
+                    if (!photon.IsMine)
+                    {
+                        enemySignal(hit.transform.GetComponent<gridsPrefab>().Id);//луч который делает красным там где он есть если она сам враг
+                        if (hit.transform.GetComponent<gridsPrefab>().mat.material.GetColor("_EmissionColor") == Color.red * 1.3f)
+                        {
+                            figthBTN.gameObject.SetActive(true);
+                        }
+                        else
+                            figthBTN.gameObject.SetActive(false);
+                    }
+
+
+                }
+
+
+                Debug.DrawRay(startRay.position, -transform.up, Color.red, 20);
+                // Debug.Log("1");
+            }
+            if (PhotonNetwork.IsMasterClient)
+                figthBTN.transform.rotation = Quaternion.Euler(0, 0, 0);
+            else
+                figthBTN.transform.rotation = Quaternion.Euler(0, 180f, 0);
+            yield return new WaitForSeconds(1);
+        }
+    }
 }
+   
+
 
 public enum PlayerState { Idle , Movement , Attack}

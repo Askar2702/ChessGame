@@ -8,8 +8,7 @@ using UnityEngine;
 
 public class DataExchange : MonoBehaviour , IOnEventCallback
 {
-    [SerializeField]
-    private List<UnitManager> PlayersList, EnemyList = new List<UnitManager>();
+    public List<UnitManager> PlayersList, EnemyList = new List<UnitManager>();
     private Vector3[] CopyPlayerAndEnemy;
     Transform Players;
     Transform Enemys;

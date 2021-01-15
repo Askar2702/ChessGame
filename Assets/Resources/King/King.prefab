@@ -6530,13 +6530,13 @@ GameObject:
   - component: {fileID: 1735746180491643261}
   - component: {fileID: 3739725999149342049}
   - component: {fileID: 3739725998758547895}
+  - component: {fileID: -4331028928564854368}
   - component: {fileID: 3765381417756315799}
   - component: {fileID: -5126419403870152057}
   - component: {fileID: -7990022214107554070}
   - component: {fileID: 3083271520227292887}
   - component: {fileID: 8209980742416515757}
   - component: {fileID: 6191892258366120236}
-  - component: {fileID: -4331028928564854368}
   - component: {fileID: 7091900667689197274}
   - component: {fileID: 4458857102681655821}
   - component: {fileID: 7123456392979728509}
@@ -6628,6 +6628,28 @@ NavMeshAgent:
   m_BaseOffset: -0.1
   m_WalkableMask: 3
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-4331028928564854368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667912763214943764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50255e5a5384be4f8a88375457e6c51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerState: 0
+  menuBar: {fileID: 1842130441565064440}
+  idForBrush: 
+  effectcZnaks: {fileID: 1115140529759532742}
+  EndTurn: {fileID: 3384827066040239296}
+  figthBTN: {fileID: 7703934199679211281}
+  MoveButton: {fileID: 7742031328154736656}
+  pos: {x: 0, y: 5, z: 0}
+  startRay: {fileID: 768397133034124090}
+  Alive: 0
 --- !u!114 &3765381417756315799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6667,6 +6689,7 @@ MonoBehaviour:
   pos: {x: 0, y: 3, z: 0}
   fill: {fileID: 1166565930697876175}
   health: 100
+  photon: {fileID: 0}
   ellectroEffect: {fileID: 7789057582068926545}
   HealthEffect: {fileID: 8348905631638684647}
   animator: {fileID: 1735746180491643261}
@@ -6718,37 +6741,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4667912763214943764}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 592f2d2afe214d947802b9b01a1ed35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Radius: 1
-  MoveCell: 3
   WhiteKing: {fileID: 3237464015270140671}
   DarkKing: {fileID: 4908251780198631783}
---- !u!114 &-4331028928564854368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4667912763214943764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a50255e5a5384be4f8a88375457e6c51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerState: 0
-  menuBar: {fileID: 1842130441565064440}
-  idForBrush: 
-  effectcZnaks: {fileID: 1115140529759532742}
-  EndTurn: {fileID: 3384827066040239296}
-  figthBTN: {fileID: 7703934199679211281}
-  MoveButton: {fileID: 7742031328154736656}
-  pos: {x: 0, y: 5, z: 0}
-  startRay: {fileID: 768397133034124090}
-  Alive: 0
 --- !u!114 &7091900667689197274
 MonoBehaviour:
   m_ObjectHideFlags: 0
