@@ -39,7 +39,7 @@ public class AttackeMelle : MonoBehaviour, IAttack
             Vector3[] content = new Vector3[] { transform.position, enemyTarget.transform.position };
             PhotonNetwork.RaiseEvent((byte)1, content, options, sendOptions);
             if (contrAttack) return;
-            unitManager.gridsHaveEnemy(pawnGrids.idGrisAttack);
+            unitManager.DetectEnemy();
             unitManager.EnemyMove();
         }
     }

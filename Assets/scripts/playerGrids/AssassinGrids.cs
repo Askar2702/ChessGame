@@ -94,7 +94,7 @@ public class AssassinGrids : BaseUnits, IPLayerGrid
         }
     }
 
-    public void GridsHaveEnemy(int[] idGrids)
+    public void GridsHaveEnemy()
     {
         if (!detect)
         {
@@ -102,13 +102,13 @@ public class AssassinGrids : BaseUnits, IPLayerGrid
             {
                 for (int j = 0; j < MoveCell; j++)
                 {
-                    if (GameObject.Find($"x:{idGrids[0] + i} z:{idGrids[1] + j}") == null)
+                    if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
                     {
                         continue;
                     }
                     else
                     {
-                        GameObject.Find($"x:{idGrids[0] + i} z:{idGrids[1] + j}").SendMessage("haveEnemy");
+                        GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("haveEnemy");
                     }
 
                 }

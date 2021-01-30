@@ -1375,7 +1375,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 8995817578060485510}
         m_MethodName: DetectEnemy
         m_Mode: 1
         m_Arguments:

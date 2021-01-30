@@ -105,12 +105,10 @@
     <Compile Include="Assets\scripts\ManagerPhoton\LobbyManager.cs" />
     <Compile Include="Assets\scripts\ManagerPhoton\onlineManager.cs" />
     <Compile Include="Assets\scripts\Minister.cs" />
-    <Compile Include="Assets\scripts\MinisterSkiil.cs" />
     <Compile Include="Assets\scripts\MovementManager.cs" />
     <Compile Include="Assets\scripts\Passive.cs" />
     <Compile Include="Assets\scripts\Smook.cs" />
     <Compile Include="Assets\scripts\UnitManager.cs" />
-    <Compile Include="Assets\scripts\Warrior.cs" />
     <Compile Include="Assets\scripts\gridS\ListGrid.cs" />
     <Compile Include="Assets\scripts\gridS\gridSpawn.cs" />
     <Compile Include="Assets\scripts\gridS\gridsPrefab.cs" />

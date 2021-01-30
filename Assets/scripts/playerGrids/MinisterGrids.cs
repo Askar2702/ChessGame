@@ -19,7 +19,7 @@ public class MinisterGrids : BaseUnits, IPLayerGrid
         Diagonal();
     }
 
-    public void GridsHaveEnemy(int[] idGrids)
+    public void GridsHaveEnemy()
     {
         idForBrush[0] -= 1;
         idForBrush[1] -= 1;

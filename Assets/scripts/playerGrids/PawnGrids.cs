@@ -82,7 +82,7 @@ public class PawnGrids : BaseUnits, IPLayerGrid
             grids();
     }
 
-    public void GridsHaveEnemy(int[] idGrids)
+    public void GridsHaveEnemy()
     {
         if (!detect)
         {

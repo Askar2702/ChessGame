@@ -55,10 +55,7 @@ public class UnitManager : MonoBehaviour
     }
 
 
-    public virtual void gridsHaveEnemy(int[] idGrids)
-    {
-        pLayerGrid.GridsHaveEnemy(idGrids);
-    }
+   
 
     private  void getPoint(int[] idCell) //для высчитавание левого нижнего края откуда пойдет счет границ
     {
@@ -97,7 +94,7 @@ public class UnitManager : MonoBehaviour
         {
             if (animator.GetInteger("State") == 1)
             {
-                gridsHaveEnemy(idForBrush);
+                pLayerGrid.GridsHaveEnemy();
             }
         }
     }
@@ -193,7 +190,8 @@ public class UnitManager : MonoBehaviour
             {
                 if (hit.transform.tag == "grid")
                 {
-                    getPoint(hit.transform.GetComponent<gridsPrefab>().Id); //луч который оперделяет место нахождение 
+                    idForBrush = hit.transform.GetComponent<gridsPrefab>().Id;
+                    getPoint(idForBrush); //луч который оперделяет место нахождение 
                     if (photon.IsMine)
                         PlayerSignal(hit.transform.GetComponent<gridsPrefab>().Id);
                     if (!photon.IsMine)

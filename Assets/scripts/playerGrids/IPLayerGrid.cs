@@ -9,5 +9,5 @@ public interface IPLayerGrid
     void Grids();
 
     void HideGrids();
-    void GridsHaveEnemy(int[] idGrids);
+    void GridsHaveEnemy();
 }

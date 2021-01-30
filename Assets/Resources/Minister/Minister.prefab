@@ -993,7 +993,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6147346556250572366}
+      - m_Target: {fileID: 0}
         m_MethodName: EnemyMove
         m_Mode: 1
         m_Arguments:
@@ -22093,7 +22093,6 @@ GameObject:
   - component: {fileID: 546155165677762186}
   - component: {fileID: 3198930356201022102}
   - component: {fileID: 4665834378081606281}
-  - component: {fileID: 6147346556250572366}
   - component: {fileID: 3198930356079062592}
   - component: {fileID: 3153536502726487904}
   - component: {fileID: 3840222284182472992}
@@ -22135,6 +22134,7 @@ Transform:
   - {fileID: 2088621540496085458}
   - {fileID: 4247328891294760349}
   - {fileID: 1770917512564376560}
+  - {fileID: 6752510977291686978}
   - {fileID: 7252548441598612283}
   - {fileID: 6227709552824290582}
   m_Father: {fileID: 0}
@@ -22190,29 +22190,13 @@ MonoBehaviour:
   playerState: 0
   menuBar: {fileID: 437483783012152079}
   idForBrush: 
-  effectcZnaks: {fileID: 0}
+  effectcZnaks: {fileID: 2550759300910746916}
   EndTurn: {fileID: 3565615633082186551}
   figthBTN: {fileID: 8460875672948664550}
   MoveButton: {fileID: 8427350597818017767}
   pos: {x: 0, y: 5, z: 0}
   startRay: {fileID: 1525361078646131917}
   Alive: 0
---- !u!114 &6147346556250572366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6864909852208392675}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22583561444d3c549aee74bd481228d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Radius: 1
-  MoveCell: 3
-  WhiteKing: {fileID: 3135082709773702636}
-  DarkKing: {fileID: 3408291981847688180}
 --- !u!195 &3198930356079062592
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -22385,9 +22369,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   posCollider: {fileID: 4247328891294760349}
   posCollider2: {fileID: 1770917512564376560}
+  posCollider3: {fileID: 6752510977291686978}
   layerMask:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 4864
   scale: {x: 0.7, y: 0.7, z: 0.7}
   parent: {fileID: 4665834378081606281}
   telepotsStart: {fileID: 7511136038855450391}
@@ -22689,7 +22674,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6147346556250572366}
+      - m_Target: {fileID: 0}
         m_MethodName: grids
         m_Mode: 1
         m_Arguments:
@@ -27797,6 +27782,36 @@ Transform:
   m_Father: {fileID: 1838466652293830389}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8343491449369101440
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6752510977291686978}
+  m_Layer: 9
+  m_Name: Pos (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6752510977291686978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8343491449369101440}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.3, z: 1.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7574587261138967536}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8348096476799708431
 GameObject:
   m_ObjectHideFlags: 0
@@ -28120,7 +28135,7 @@ PrefabInstance:
     - target: {fileID: 8268261493588407206, guid: aa23a994658460144a15072bcef8cf98,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8268261493588407206, guid: aa23a994658460144a15072bcef8cf98,
         type: 3}
@@ -28216,7 +28231,7 @@ PrefabInstance:
     - target: {fileID: 5993468255415069663, guid: e2deddd3d9be71243813372eace01d63,
         type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5993468255415069663, guid: e2deddd3d9be71243813372eace01d63,
         type: 3}

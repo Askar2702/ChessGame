@@ -5,7 +5,7 @@ using System.Linq;
 
 public class ListGrid : MonoBehaviour
 {
-    private List<gridsPrefab> grids;
+    public List<gridsPrefab> grids;
 
     private void Awake()
     {

@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class MinistrSkills : MonoBehaviour,IMagicAbility
 {
     [SerializeField] private Transform posCollider;
     [SerializeField] private Transform posCollider2;
+    [SerializeField] private Transform posCollider3;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Vector3 scale;
     [SerializeField] private UnitManager parent;
@@ -17,36 +19,19 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     public GameObject[] grids;
     private Transform pointGrid;
     private bool teleports;
+    private PhotonView photonView;
 
     void Start()
     {
         grids = GameObject.FindGameObjectsWithTag("grid");
+        photonView = GetComponent<PhotonView>();
     }
 
     
 
     public void Ability_1()
     {
-        Collider[] hitColliders1 = Physics.OverlapBox(posCollider2.position, scale, posCollider2.rotation, layerMask);
-        foreach (var Currentenemy in hitColliders1)
-        {
-            Debug.Log("123");
-            if (Currentenemy.GetComponent<gridsPrefab>())
-                pointGrid = Currentenemy.transform;
-            if (Currentenemy.GetComponent<UnitManager>())
-                player = Currentenemy.transform;
-            else
-                player = null;
-        }
-        if (!pointGrid) return;
-        if (!player)
-        {
-            teleports = true;
-        }
-        else if (player)
-        {
-            teleports = false;
-        }
+        Computation();
         Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation, layerMask);
         foreach (var Currentenemy in hitColliders)
         {
@@ -74,8 +59,9 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
         target.GetComponent<MovementManager>().target = EndPos;
         foreach (var gr in grids)
         {
-            if (gr.name == $"x:{parent.idForBrush[0] + 2} z:{parent.idForBrush[1]}") { }
-            gr.GetComponent<gridsPrefab>().HavePlayer = false;
+            if (gr.name == $"x:{parent.idForBrush[0] + 2} z:{parent.idForBrush[1]}") 
+                gr.GetComponent<gridsPrefab>().HavePlayer = false;
+            Debug.Log($"x:{parent.idForBrush[0] + 2} z:{parent.idForBrush[1]}");
         }
     }
 
@@ -83,20 +69,52 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     {
         Gizmos.DrawWireCube(posCollider.position, scale);
         Gizmos.DrawWireCube(posCollider2.position, scale);
+        Gizmos.DrawWireCube(posCollider3.position, new Vector3(4, 1, 1));
     }
 
     public void Ability_2()
     {
-        foreach(var enemy in DataExchange._DataExchange.EnemyList)
+        Computation();
+        Collider[] hitCollider = Physics.OverlapBox(posCollider3.position, new Vector3(4, 1, 1), posCollider3.rotation, layerMask);
+        foreach (var Currentenemy in hitCollider)
         {
-            if(Vector3.Distance(transform.position , enemy.transform.position) <= 2f)
+            if (Currentenemy.transform.tag != transform.tag && teleports)
             {
-                if(enemy.transform.position.z > transform.position.z)
-                    Debug.Log(enemy.name);
+                if (!Currentenemy.GetComponent<MovementManager>()) return;
+                Debug.Log(Currentenemy.transform.name);
+                Currentenemy.GetComponent<MovementManager>().BackMove();
+                Currentenemy.GetComponent<MovementManager>().target = pointGrid.GetChild(0).transform.position;
+                Debug.Log(pointGrid.name);
             }
         }
     }
 
+
+    private void Computation()
+    {
+        // эта часть нужна чтоб оперделить можно ли толкать врага и не выйдет ли он за придел карты 
+        Collider[] hitColliders1 = Physics.OverlapBox(posCollider2.position, scale, posCollider2.rotation, layerMask);
+        foreach (var Currentenemy in hitColliders1)
+        {
+            if (Currentenemy.GetComponent<gridsPrefab>())
+                pointGrid = Currentenemy.transform;
+            if (Currentenemy.GetComponent<UnitManager>())
+                player = Currentenemy.transform;
+            else
+                player = null;
+        }
+        if (!pointGrid) return;
+        if (!player)
+        {
+            teleports = true;
+        }
+        else if (player)
+        {
+            teleports = false;
+        }
+        
+
+    }
     public void Ability_3()
     {
         //didn't come up with a skill

@@ -2959,7 +2959,6 @@ GameObject:
   - component: {fileID: 6936805112891149155}
   - component: {fileID: 7855590034996116117}
   - component: {fileID: 7259413487042225338}
-  - component: {fileID: -7378194998856199328}
   - component: {fileID: 1970662151249756330}
   - component: {fileID: 4862575331318079779}
   - component: {fileID: 1792946773703794277}
@@ -2967,6 +2966,7 @@ GameObject:
   - component: {fileID: 3904314678735766071}
   - component: {fileID: 1590998965375996932}
   - component: {fileID: 4389882742727067863}
+  - component: {fileID: 8550199237461829813}
   m_Layer: 9
   m_Name: knigthprefab
   m_TagString: Player
@@ -3078,26 +3078,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 3904314678735766071}
-  - {fileID: -7378194998856199328}
+  - {fileID: 8550199237461829813}
   - {fileID: 4862575331318079779}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &-7378194998856199328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1969145986120274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 0
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
 --- !u!136 &1970662151249756330
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3213,6 +3198,21 @@ MonoBehaviour:
   damage: 50
   unitManager: {fileID: 7844788038701139789}
   pawnGrids: {fileID: 1590998965375996932}
+--- !u!114 &8550199237461829813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969145986120274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!1 &917766576428030739
 GameObject:
   m_ObjectHideFlags: 0

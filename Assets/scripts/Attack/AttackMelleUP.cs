@@ -31,7 +31,7 @@ public class AttackMelleUP : MonoBehaviour, IAttack
             SendOptions sendOptions = new SendOptions { Reliability = true };
             Vector3[] content = new Vector3[] { transform.position, enemyTarget.transform.position };
             PhotonNetwork.RaiseEvent((byte)1, content, options, sendOptions);
-            unitManager.gridsHaveEnemy(unitManager.idForBrush);
+            unitManager.DetectEnemy();
             unitManager.EnemyMove();
         }
     }

@@ -107,6 +107,11 @@ public class MovementManager : MonoBehaviour , IPunObservable
 
     }
 
+    public void BackMove()
+    {
+        animator.SetTrigger("Back");
+        Debug.Log("signal");
+    }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)

@@ -19,7 +19,7 @@ public class MagGrids : BaseUnits, IPLayerGrid
         Diagonal();
     }
 
-    public void GridsHaveEnemy(int[] idGrids)
+    public void GridsHaveEnemy()
     {
         Debug.Log("//");
     }
