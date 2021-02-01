@@ -5,11 +5,11 @@ using UnityEngine;
 public class gridsPrefab : MonoBehaviour
 {
     
-    public Renderer mat;
-    public int[] Id;
+    public Renderer mat { get; private set; }
+    [SerializeField] private int[] Id; 
     public int[] newID { get; private set; }
-    public bool HaveEnemy;
-    public bool HavePlayer; // чтоб на союзные терретории не заходить 
+    public bool HaveEnemy { get; private set; }
+    public bool HavePlayer { get; private set; } // чтоб на союзные терретории не заходить 
     private void Awake()
     {
         Id = new int[2];

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System.Linq;
 
 public class MinistrSkills : MonoBehaviour,IMagicAbility
 {
@@ -16,14 +17,15 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     [SerializeField] private ParticleSystem telepotsfinish;
 
     public Transform player;
-    public GameObject[] grids;
+    [SerializeField] private List<gridsPrefab> grids;
     private Transform pointGrid;
     private bool teleports;
     private PhotonView photonView;
+    private Transform closestGrids; // для ближайшей клетки
 
     void Start()
     {
-        grids = GameObject.FindGameObjectsWithTag("grid");
+        grids = GameObject.Find("GameManager").GetComponent<ListGrid>().grids;
         photonView = GetComponent<PhotonView>();
     }
 
@@ -59,8 +61,8 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
         target.GetComponent<MovementManager>().target = EndPos;
         foreach (var gr in grids)
         {
-            if (gr.name == $"x:{parent.idForBrush[0] + 2} z:{parent.idForBrush[1]}") 
-                gr.GetComponent<gridsPrefab>().HavePlayer = false;
+            if (gr.name == $"x:{parent.idForBrush[0] + 2} z:{parent.idForBrush[1]}")
+                gr.GetComponent<gridsPrefab>().PlayerSignal(false);
             Debug.Log($"x:{parent.idForBrush[0] + 2} z:{parent.idForBrush[1]}");
         }
     }
@@ -81,15 +83,55 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
             if (Currentenemy.transform.tag != transform.tag && teleports)
             {
                 if (!Currentenemy.GetComponent<MovementManager>()) return;
-                Debug.Log(Currentenemy.transform.name);
                 Currentenemy.GetComponent<MovementManager>().BackMove();
-                Currentenemy.GetComponent<MovementManager>().target = pointGrid.GetChild(0).transform.position;
-                Debug.Log(pointGrid.name);
+                CellsToIndent(pointGrid.GetComponent<gridsPrefab>() , Currentenemy.transform);
+                Debug.Log("gggga");
             }
         }
     }
 
+    private void CellsToIndent(gridsPrefab _gridsPrefab , Transform enemy)
+    {
+        if (enemy.position.x == _gridsPrefab.transform.GetChild(0).transform.position.x)
+        {
+            enemy.GetComponent<MovementManager>().target = _gridsPrefab.transform.GetChild(0).transform.position;
+        }
+        else
+        {
+            int[] _id = new int[2];
+            _id[0] = _gridsPrefab.newID[0];
+            _id[1] = _gridsPrefab.newID[1];
+            _id[0] -= 1;
+            foreach (var _grid in grids)
+            {
+                if (_id.SequenceEqual(_grid.newID))
+                {
+                    if (enemy.position.x == _grid.transform.GetChild(0).transform.position.x)
+                    {
+                        enemy.GetComponent<MovementManager>().target = _grid.transform.GetChild(0).transform.position;
+                        return;
+                    }
+                    else
+                    {
+                        _id[0] += 2;
+                        foreach (var _grid1 in grids)
+                        {
+                            if (_id.SequenceEqual(_grid1.newID))
+                            {
+                                if (enemy.position.x == _grid1.transform.GetChild(0).transform.position.x)
+                                {
+                                    enemy.GetComponent<MovementManager>().target = _grid1.transform.GetChild(0).transform.position;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
+            
+        }
+    }
     private void Computation()
     {
         // эта часть нужна чтоб оперделить можно ли толкать врага и не выйдет ли он за придел карты 
@@ -115,6 +157,8 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
         
 
     }
+
+    
     public void Ability_3()
     {
         //didn't come up with a skill

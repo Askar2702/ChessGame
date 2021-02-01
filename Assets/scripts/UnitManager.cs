@@ -190,13 +190,13 @@ public class UnitManager : MonoBehaviour
             {
                 if (hit.transform.tag == "grid")
                 {
-                    idForBrush = hit.transform.GetComponent<gridsPrefab>().Id;
+                    idForBrush = hit.transform.GetComponent<gridsPrefab>().newID;
                     getPoint(idForBrush); //луч который оперделяет место нахождение 
                     if (photon.IsMine)
-                        PlayerSignal(hit.transform.GetComponent<gridsPrefab>().Id);
+                        PlayerSignal(hit.transform.GetComponent<gridsPrefab>().newID);
                     if (!photon.IsMine)
                     {
-                        enemySignal(hit.transform.GetComponent<gridsPrefab>().Id);//луч который делает красным там где он есть если она сам враг
+                        enemySignal(hit.transform.GetComponent<gridsPrefab>().newID);//луч который делает красным там где он есть если она сам враг
                         if (hit.transform.GetComponent<gridsPrefab>().mat.material.GetColor("_EmissionColor") == Color.red * 1.3f)
                         {
                             figthBTN.gameObject.SetActive(true);

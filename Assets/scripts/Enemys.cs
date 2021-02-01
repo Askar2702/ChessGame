@@ -10,7 +10,5 @@ public class Enemys : MonoBehaviour
         //отправляет сообщение о месте нахождение чтоб атаковали себя при нажатие кнопки      
         attack = GameObject.Find("GameManager").GetComponent<SelectManager>().SelectPlayer.GetComponent<IAttack>();
         attack.Attack(gameObject, false);
-       // GameObject.Find("GameManager").GetComponent<SelectManager>().SelectPlayer.GetComponent<BaseUnits>().attack(gameObject , false);      
-        
     }
 }
