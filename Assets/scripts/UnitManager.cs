@@ -12,7 +12,8 @@ public class UnitManager : MonoBehaviour
     public PlayerState playerState;
     public GameObject menuBar; //меню бар игрока где есть кнопки атаки
     public int[] idForBrush;//
-    public ParticleSystem effectcZnaks;
+    [SerializeField] ParticleSystem effectcZnaks;
+    [SerializeField] ParticleSystem SelectParticle;
     public event Action<bool> _notify;
     [SerializeField] Button EndTurn;
     [SerializeField] Button figthBTN;
@@ -103,6 +104,7 @@ public class UnitManager : MonoBehaviour
     public  void OffPlayer() // отключение знака мага и чтоб поменять слой дабы дорогу сделать не проходимой
     {
         gameObject.layer = 9;
+        SelectParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
     public  void moveBool(bool activ)
     {
@@ -110,6 +112,7 @@ public class UnitManager : MonoBehaviour
         if (photon.IsMine)
         {
             menuBar.SetActive(activ);
+            SelectParticle.Play();
             if (activ)
             {
                 gameObject.layer = 12;
