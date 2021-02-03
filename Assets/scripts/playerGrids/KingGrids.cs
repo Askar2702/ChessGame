@@ -19,13 +19,13 @@ public class KingGrids : BaseUnits, IPLayerGrid
         {
             for (int j = 0; j < MoveCell; j++)
             {
-                if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
                 {
                     continue;
                     // print($"{transform.name}x:{i} z:{j}");
                 }
                 else
-                    GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("GridGreen");
+                    listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").GridGreen();
 
             }
         }
@@ -39,13 +39,13 @@ public class KingGrids : BaseUnits, IPLayerGrid
             {
                 for (int j = 0; j < MoveCell; j++)
                 {
-                    if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                    if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
                     {
                         continue;
                     }
                     else
                     {
-                        GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("haveEnemy");
+                        listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").haveEnemy();
                     }
 
                 }
@@ -67,9 +67,9 @@ public class KingGrids : BaseUnits, IPLayerGrid
             {
                 for (int j = 0; j < MoveCell; j++)
                 {
-                    if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") != null)
+                    if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") != null)
                     { // чтоб закрыть зеление клеки
-                        GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("hideGrids");
+                        listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").hideGrids();
                     }
                 }
             }

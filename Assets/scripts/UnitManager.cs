@@ -77,6 +77,7 @@ public class UnitManager : MonoBehaviour
     {// ход врага
         if (photon.IsMine)
         {
+            OffPlayer();
             GameObject.Find("GameManager").GetComponent<PlayerTurn>().time = 0;
             menuBar.SetActive(false);
             float content = 0f;
@@ -126,9 +127,8 @@ public class UnitManager : MonoBehaviour
         // если он сам враг то отправит сигнал клетке чтоб он стал красным
         if (playerState == PlayerState.Idle)
         {
-            listGrid.GrisItem($"x:{cell[0]} z:{cell[1]}").enemySignal(true);
-          //  GameObject.Find($"x:{cell[0]} z:{cell[1]}").SendMessage("enemySignal", true);
             EntredCell = ($"x:{cell[0]} z:{cell[1]}");
+            listGrid.GrisItem(EntredCell).enemySignal(true);
         }
         else if (playerState == PlayerState.Movement)
         {
@@ -146,11 +146,10 @@ public class UnitManager : MonoBehaviour
     protected void PlayerSignal(int[] cell)
     {
         // союзный фигура отправит сигнал что клетка не свободна 
-        if (gameObject.layer == 9)
+        if (gameObject.layer == 9 && playerState == PlayerState.Idle)
         {
-            listGrid.GrisItem($"x:{cell[0]} z:{cell[1]}").PlayerSignal(true);
-          //  GameObject.Find($"x:{cell[0]} z:{cell[1]}").SendMessage("PlayerSignal", true);
             EntredCell = ($"x:{cell[0]} z:{cell[1]}");
+            listGrid.GrisItem(EntredCell).PlayerSignal(true);
         }
         else if (gameObject.layer == 12 || playerState == PlayerState.Movement)
         {
@@ -193,10 +192,10 @@ public class UnitManager : MonoBehaviour
                     idForBrush = hit.transform.GetComponent<gridsPrefab>().newID;
                     getPoint(idForBrush); //луч который оперделяет место нахождение 
                     if (photon.IsMine)
-                        PlayerSignal(hit.transform.GetComponent<gridsPrefab>().newID);
+                        PlayerSignal(idForBrush);
                     if (!photon.IsMine)
                     {
-                        enemySignal(hit.transform.GetComponent<gridsPrefab>().newID);//луч который делает красным там где он есть если она сам враг
+                        enemySignal(idForBrush);//луч который делает красным там где он есть если она сам враг
                         if (hit.transform.GetComponent<gridsPrefab>().mat.material.GetColor("_EmissionColor") == Color.red * 1.3f)
                         {
                             figthBTN.gameObject.SetActive(true);

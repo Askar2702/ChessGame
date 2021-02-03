@@ -20,77 +20,77 @@ public class AssassinGrids : BaseUnits, IPLayerGrid
         if (!PlayerTurn.CanPlay) return;
         for (int i = 1; i < 2; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
         { // вправо в верх
-            if (GameObject.Find($"x:{move[0] + i} z:{move[1] + 2}") == null)
+            if (listGrid.GrisItem($"x:{move[0] + i} z:{move[1] + 2}") == null)
             {
                 continue;
             }
             else
-                GameObject.Find($"x:{move[0] + i} z:{move[1] + 2}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{move[0] + i} z:{move[1] + 2}").GridGreen();
         }
         for (int i = 1; i < 2; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
         { // вправо в бок вверх
-            if (GameObject.Find($"x:{move[0] + 2} z:{move[1] + i}") == null)
+            if (listGrid.GrisItem($"x:{move[0] + 2} z:{move[1] + i}") == null)
             {
                 continue;
             }
             else
-                GameObject.Find($"x:{move[0] + 2} z:{move[1] + i}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{move[0] + 2} z:{move[1] + i}").GridGreen();
         }
         for (int i = 1; i < 2; i++)
         { // право в низ
-            if (GameObject.Find($"x:{move[0] + i} z:{move[1] - 2}") == null)
+            if (listGrid.GrisItem($"x:{move[0] + i} z:{move[1] - 2}") == null)
             {
                 continue;
             }
             else
-                GameObject.Find($"x:{move[0] + i} z:{move[1] - 2}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{move[0] + i} z:{move[1] - 2}").GridGreen();
         }
         for (int i = 1; i < 2; i++)
         { // право в бок низ
-            if (GameObject.Find($"x:{move[0] + 2} z:{move[1] - i}") == null)
+            if (listGrid.GrisItem($"x:{move[0] + 2} z:{move[1] - i}") == null)
             {
                 continue;
             }
             else
-                GameObject.Find($"x:{move[0] + 2} z:{move[1] - i}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{move[0] + 2} z:{move[1] - i}").GridGreen();
         }
         for (int i = 1; i < 2; i++)
         {// влево вверх
-            if (GameObject.Find($"x:{move[0] - i} z:{move[1] + 2}") == null)
+            if (listGrid.GrisItem($"x:{move[0] - i} z:{move[1] + 2}") == null)
             {
                 continue;
             }
             else
-                GameObject.Find($"x:{move[0] - i} z:{move[1] + 2}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{move[0] - i} z:{move[1] + 2}").GridGreen();
         }
         for (int i = 1; i < 2; i++)
         {// влево вверх бок
-            if (GameObject.Find($"x:{move[0] - 2} z:{move[1] + i}") == null)
+            if (listGrid.GrisItem($"x:{move[0] - 2} z:{move[1] + i}") == null)
             {
                 continue;
             }
             else
-                GameObject.Find($"x:{move[0] - 2} z:{move[1] + i}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{move[0] - 2} z:{move[1] + i}").GridGreen();
         }
         for (int i = 1; i < 2; i++)
         {
             // влево в низ
-            if (GameObject.Find($"x:{move[0] - i} z:{move[1] - 2}") == null)
+            if (listGrid.GrisItem($"x:{move[0] - i} z:{move[1] - 2}") == null)
             {
                 continue;
             }
             else
-                GameObject.Find($"x:{move[0] - i} z:{move[1] - 2}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{move[0] - i} z:{move[1] - 2}").GridGreen();
         }
         for (int i = 1; i < 2; i++)
         {
             // влево в низ бок
-            if (GameObject.Find($"x:{move[0] - 2} z:{move[1] - i}") == null)
+            if (listGrid.GrisItem($"x:{move[0] - 2} z:{move[1] - i}") == null)
             {
                 continue;
             }
             else
-                GameObject.Find($"x:{move[0] - 2} z:{move[1] - i}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{move[0] - 2} z:{move[1] - i}").GridGreen();
         }
     }
 
@@ -102,13 +102,13 @@ public class AssassinGrids : BaseUnits, IPLayerGrid
             {
                 for (int j = 0; j < MoveCell; j++)
                 {
-                    if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                    if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
                     {
                         continue;
                     }
                     else
                     {
-                        GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("haveEnemy");
+                        listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").haveEnemy();
                     }
 
                 }
@@ -128,58 +128,58 @@ public class AssassinGrids : BaseUnits, IPLayerGrid
         {
             for (int i = 1; i < 2; i++)
             {
-                if (GameObject.Find($"x:{move[0] + i} z:{move[1] + 2}") != null)
+                if (listGrid.GrisItem($"x:{move[0] + i} z:{move[1] + 2}") != null)
                 { // чтоб закрыть зеление клеки
-                    GameObject.Find($"x:{move[0] + i} z:{move[1] + 2}").SendMessage("hideGrids");
+                    listGrid.GrisItem($"x:{move[0] + i} z:{move[1] + 2}").hideGrids();
                 }
             }
             for (int i = 1; i < 2; i++)
             {
-                if (GameObject.Find($"x:{move[0] + 2} z:{move[1] + i}") != null)
+                if (listGrid.GrisItem($"x:{move[0] + 2} z:{move[1] + i}") != null)
                 { // чтоб закрыть зеление клеки
-                    GameObject.Find($"x:{move[0] + 2} z:{move[1] + i}").SendMessage("hideGrids");
+                    listGrid.GrisItem($"x:{move[0] + 2} z:{move[1] + i}").hideGrids();
                 }
             }
             for (int i = 1; i < 2; i++)
             {
-                if (GameObject.Find($"x:{move[0] + i} z:{move[1] - 2}") != null)
+                if (listGrid.GrisItem($"x:{move[0] + i} z:{move[1] - 2}") != null)
                 {
-                    GameObject.Find($"x:{move[0] + i} z:{move[1] - 2}").SendMessage("hideGrids");
+                    listGrid.GrisItem($"x:{move[0] + i} z:{move[1] - 2}").hideGrids();
                 }
             }
             for (int i = 1; i < 2; i++)
             {
-                if (GameObject.Find($"x:{move[0] + 2} z:{move[1] - i}") != null)
+                if (listGrid.GrisItem($"x:{move[0] + 2} z:{move[1] - i}") != null)
                 {
-                    GameObject.Find($"x:{move[0] + 2} z:{move[1] - i}").SendMessage("hideGrids");
+                    listGrid.GrisItem($"x:{move[0] + 2} z:{move[1] - i}").hideGrids();
                 }
             }
             for (int i = 1; i < 2; i++)
             {
-                if (GameObject.Find($"x:{move[0] - i} z:{move[1] + 2}") != null)
+                if (listGrid.GrisItem($"x:{move[0] - i} z:{move[1] + 2}") != null)
                 {
-                    GameObject.Find($"x:{move[0] - i} z:{move[1] + 2}").SendMessage("hideGrids");
+                    listGrid.GrisItem($"x:{move[0] - i} z:{move[1] + 2}").hideGrids();
                 }
             }
             for (int i = 1; i < 2; i++)
             {
-                if (GameObject.Find($"x:{move[0] - 2} z:{move[1] + i}") != null)
+                if (listGrid.GrisItem($"x:{move[0] - 2} z:{move[1] + i}") != null)
                 {
-                    GameObject.Find($"x:{move[0] - 2} z:{move[1] + i}").SendMessage("hideGrids");
+                    listGrid.GrisItem($"x:{move[0] - 2} z:{move[1] + i}").hideGrids();
                 }
             }
             for (int i = 1; i < 2; i++)
             {
-                if (GameObject.Find($"x:{move[0] - i} z:{move[1] - 2}") != null)
+                if (listGrid.GrisItem($"x:{move[0] - i} z:{move[1] - 2}") != null)
                 {
-                    GameObject.Find($"x:{move[0] - i} z:{move[1] - 2}").SendMessage("hideGrids");
+                    listGrid.GrisItem($"x:{move[0] - i} z:{move[1] - 2}").hideGrids();
                 }
             }
             for (int i = 1; i < 2; i++)
             {
-                if (GameObject.Find($"x:{move[0] - 2} z:{move[1] - i}") != null)
+                if (listGrid.GrisItem($"x:{move[0] - 2} z:{move[1] - i}") != null)
                 {
-                    GameObject.Find($"x:{move[0] - 2} z:{move[1] - i}").SendMessage("hideGrids");
+                    listGrid.GrisItem($"x:{move[0] - 2} z:{move[1] - i}").hideGrids();
                 }
             }
             if (detect)
@@ -189,12 +189,12 @@ public class AssassinGrids : BaseUnits, IPLayerGrid
                 {
                     for (int j = 0; j < MoveCell; j++)
                     {
-                        if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                        if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
                         {
                             continue;
                         }
                         else
-                            GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("hideGrids");
+                            listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").hideGrids();
                     }
                 }
             }

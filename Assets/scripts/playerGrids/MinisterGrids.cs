@@ -30,15 +30,15 @@ public class MinisterGrids : BaseUnits, IPLayerGrid
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                    if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
                     {
                         continue;
                     }
                     else
                     {
-                        if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").GetComponent<gridsPrefab>().HaveEnemy)
+                        if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").HaveEnemy)
                         {
-                            GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("haveEnemy");
+                            listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").haveEnemy();
                         }
                     }
                     print($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}");
@@ -52,12 +52,12 @@ public class MinisterGrids : BaseUnits, IPLayerGrid
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                    if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
                     {
                         continue;
                     }
                     else
-                        GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("hideGrids");
+                        listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").hideGrids();
                 }
             }
         }
@@ -73,9 +73,9 @@ public class MinisterGrids : BaseUnits, IPLayerGrid
             {
                 for (int j = 0; j < 20; j++)
                 {
-                    if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") != null)
+                    if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") != null)
                     { // чтоб закрыть зеление клеки
-                        GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").SendMessage("hideGrids");
+                        listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").hideGrids();
                     }
                 }
             }
@@ -89,58 +89,58 @@ public class MinisterGrids : BaseUnits, IPLayerGrid
     {
         for (int i = 0; i < MoveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
         { // вправо дорогу ищет 
-            if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1]}") == null)
+            if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1]}") == null)
             {
                 continue;
             }
-            if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1]}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1]}").GetComponent<gridsPrefab>().HaveEnemy)
+            if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1]}").HavePlayer
+                || listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1]}").HaveEnemy)
                 break;
             else
-                GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1]}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1]}").GridGreen();
 
         }
 
         for (int j = 0; j < MoveCell; j++)
         { // вверх ищет дорогу
-            if (GameObject.Find($"x:{idForBrush[0]} z:{idForBrush[1] + j}") == null)
+            if (listGrid.GrisItem($"x:{idForBrush[0]} z:{idForBrush[1] + j}") == null)
             {
                 continue;
 
             }
-            if (GameObject.Find($"x:{idForBrush[0]} z:{idForBrush[1] + j}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{idForBrush[0]} z:{idForBrush[1] + j}").GetComponent<gridsPrefab>().HaveEnemy)
+            if (listGrid.GrisItem($"x:{idForBrush[0]} z:{idForBrush[1] + j}").HavePlayer
+                || listGrid.GrisItem($"x:{idForBrush[0]} z:{idForBrush[1] + j}").HaveEnemy)
                 break;
             else
-                GameObject.Find($"x:{idForBrush[0]} z:{idForBrush[1] + j}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{idForBrush[0]} z:{idForBrush[1] + j}").GridGreen();
         }
 
         for (int i = 0; i < MoveCell; i++)
         { // влево ищет дорогу
-            if (GameObject.Find($"x:{idForBrush[0] - i} z:{idForBrush[1]}") == null)
+            if (listGrid.GrisItem($"x:{idForBrush[0] - i} z:{idForBrush[1]}") == null)
             {
                 continue;
 
             }
-            if (GameObject.Find($"x:{idForBrush[0] - i} z:{idForBrush[1]}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{idForBrush[0] - i} z:{idForBrush[1]}").GetComponent<gridsPrefab>().HaveEnemy)
+            if (listGrid.GrisItem($"x:{idForBrush[0] - i} z:{idForBrush[1]}").HavePlayer
+                || listGrid.GrisItem($"x:{idForBrush[0] - i} z:{idForBrush[1]}").HaveEnemy)
                 break;
             else
-                GameObject.Find($"x:{idForBrush[0] - i} z:{idForBrush[1]}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{idForBrush[0] - i} z:{idForBrush[1]}").GridGreen();
         }
 
         for (int j = 0; j < MoveCell; j++)
         { // вниз ищет дорогу
-            if (GameObject.Find($"x:{idForBrush[0]} z:{idForBrush[1] - j}") == null)
+            if (listGrid.GrisItem($"x:{idForBrush[0]} z:{idForBrush[1] - j}") == null)
             {
                 continue;
 
             }
-            if (GameObject.Find($"x:{idForBrush[0]} z:{idForBrush[1] - j}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{idForBrush[0]} z:{idForBrush[1] - j}").GetComponent<gridsPrefab>().HaveEnemy)
+            if (listGrid.GrisItem($"x:{idForBrush[0]} z:{idForBrush[1] - j}").HavePlayer
+                || listGrid.GrisItem($"x:{idForBrush[0]} z:{idForBrush[1] - j}").HaveEnemy)
                 break;
             else
-                GameObject.Find($"x:{idForBrush[0]} z:{idForBrush[1] - j}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{idForBrush[0]} z:{idForBrush[1] - j}").GridGreen();
 
         }
     }
@@ -149,58 +149,58 @@ public class MinisterGrids : BaseUnits, IPLayerGrid
     {
         for (int i = 0; i < MoveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
         { // вправо дорогу ищет 
-            if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + i}") == null)
+            if(listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + i}") == null)
             {
                 continue;
             }
-            if (GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + i}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + i}").GetComponent<gridsPrefab>().HaveEnemy)
+            if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + i}").HavePlayer
+                || listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + i}").HaveEnemy)
                 break;
             else
-                GameObject.Find($"x:{idForBrush[0] + i} z:{idForBrush[1] + i}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + i}").GridGreen();
 
         }
 
         for (int j = 0; j < MoveCell; j++)
         { // вверх влево ищет дорогу
-            if (GameObject.Find($"x:{idForBrush[0] - j} z:{idForBrush[1] + j}") == null)
+            if (listGrid.GrisItem($"x:{idForBrush[0] - j} z:{idForBrush[1] + j}") == null)
             {
                 continue;
 
             }
-            if (GameObject.Find($"x:{idForBrush[0] - j} z:{idForBrush[1] + j}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{idForBrush[0] - j} z:{idForBrush[1] + j}").GetComponent<gridsPrefab>().HaveEnemy)
+            if (listGrid.GrisItem($"x:{idForBrush[0] - j} z:{idForBrush[1] + j}").HavePlayer
+                || listGrid.GrisItem($"x:{idForBrush[0] - j} z:{idForBrush[1] + j}").HaveEnemy)
                 break;
             else
-                GameObject.Find($"x:{idForBrush[0] - j} z:{idForBrush[1] + j}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{idForBrush[0] - j} z:{idForBrush[1] + j}").GridGreen();
         }
 
         for (int i = 0; i < MoveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
         { //право вниз ищет дорогу
-            if (GameObject.Find($"x:{idForBrush[0] - i} z:{idForBrush[1] - i}") == null)
+            if (listGrid.GrisItem($"x:{idForBrush[0] - i} z:{idForBrush[1] - i}") == null)
             {
                 continue;
 
             }
-            if (GameObject.Find($"x:{idForBrush[0] - i} z:{idForBrush[1] - i}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{idForBrush[0] - i} z:{idForBrush[1] - i}").GetComponent<gridsPrefab>().HaveEnemy)
+            if (listGrid.GrisItem($"x:{idForBrush[0] - i} z:{idForBrush[1] - i}").HavePlayer
+                || listGrid.GrisItem($"x:{idForBrush[0] - i} z:{idForBrush[1] - i}").HaveEnemy)
                 break;
             else
-                GameObject.Find($"x:{idForBrush[0] - i} z:{idForBrush[1] - i}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{idForBrush[0] - i} z:{idForBrush[1] - i}").GridGreen();
         }
 
         for (int j = 0; j < MoveCell; j++)
         { // влево низ ищет дорогу
-            if (GameObject.Find($"x:{idForBrush[0] + j} z:{idForBrush[1] - j}") == null)
+            if (listGrid.GrisItem($"x:{idForBrush[0] + j} z:{idForBrush[1] - j}") == null)
             {
                 continue;
 
             }
-            if (GameObject.Find($"x:{idForBrush[0] + j} z:{idForBrush[1] - j}").GetComponent<gridsPrefab>().HavePlayer
-                || GameObject.Find($"x:{idForBrush[0] + j} z:{idForBrush[1] - j}").GetComponent<gridsPrefab>().HaveEnemy)
+            if (listGrid.GrisItem($"x:{idForBrush[0] + j} z:{idForBrush[1] - j}").HavePlayer
+                || listGrid.GrisItem($"x:{idForBrush[0] + j} z:{idForBrush[1] - j}").HaveEnemy)
                 break;
             else
-                GameObject.Find($"x:{idForBrush[0] + j} z:{idForBrush[1] - j}").SendMessage("GridGreen");
+                listGrid.GrisItem($"x:{idForBrush[0] + j} z:{idForBrush[1] - j}").GridGreen();
 
         }
     }

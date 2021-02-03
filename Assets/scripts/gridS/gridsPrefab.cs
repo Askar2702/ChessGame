@@ -10,6 +10,9 @@ public class gridsPrefab : MonoBehaviour
     public int[] newID { get; private set; }
     public bool HaveEnemy { get; private set; }
     public bool HavePlayer { get; private set; } // чтоб на союзные терретории не заходить 
+
+    [SerializeField] bool _HaveEnemy;
+    [SerializeField] bool _HavePlayer;
     private void Awake()
     {
         Id = new int[2];
@@ -22,7 +25,12 @@ public class gridsPrefab : MonoBehaviour
         HavePlayer = false;
     }
 
-   
+    private void Update()
+    {
+        _HaveEnemy = HaveEnemy;
+        _HavePlayer = HavePlayer;
+    }
+
     public void GridGreen()
     {
         if (!HaveEnemy && !HavePlayer) { 
@@ -61,5 +69,4 @@ public class gridsPrefab : MonoBehaviour
     {
         HavePlayer = haveplayer;        
     }
-
 }

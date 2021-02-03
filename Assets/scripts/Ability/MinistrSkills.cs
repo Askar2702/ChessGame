@@ -19,7 +19,7 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     public Transform player;
     [SerializeField] private List<gridsPrefab> grids;
     private Transform pointGrid;
-    private bool teleports;
+    private bool IsTeleport;
     private PhotonView photonView;
     private Transform closestGrids; // для ближайшей клетки
 
@@ -37,7 +37,7 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
         Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation, layerMask);
         foreach (var Currentenemy in hitColliders)
         {
-            if (Currentenemy.transform.tag == "Player" && teleports)
+            if (Currentenemy.transform.tag == "Player" && IsTeleport)
             {
                 if (!telepotsfinish.isPlaying) 
                 { 
@@ -80,21 +80,21 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
         Collider[] hitCollider = Physics.OverlapBox(posCollider3.position, new Vector3(4, 1, 1), posCollider3.rotation, layerMask);
         foreach (var Currentenemy in hitCollider)
         {
-            if (Currentenemy.transform.tag != transform.tag && teleports)
+            if (Currentenemy.transform.tag != transform.tag)
             {
                 if (!Currentenemy.GetComponent<MovementManager>()) return;
                 Currentenemy.GetComponent<MovementManager>().BackMove();
-                CellsToIndent(pointGrid.GetComponent<gridsPrefab>() , Currentenemy.transform);
-                Debug.Log("gggga");
+                CellsToIndent(pointGrid.GetComponent<gridsPrefab>() , Currentenemy.GetComponent<MovementManager>());
             }
         }
     }
 
-    private void CellsToIndent(gridsPrefab _gridsPrefab , Transform enemy)
+    private void CellsToIndent(gridsPrefab _gridsPrefab , MovementManager enemy)
     {
-        if (enemy.position.x == _gridsPrefab.transform.GetChild(0).transform.position.x)
+        if (!pointGrid) return;
+        if (enemy.transform.position.x == _gridsPrefab.transform.GetChild(0).transform.position.x && IsTeleport)
         {
-            enemy.GetComponent<MovementManager>().target = _gridsPrefab.transform.GetChild(0).transform.position;
+            enemy.target = _gridsPrefab.transform.GetChild(0).transform.position;
         }
         else
         {
@@ -106,30 +106,28 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
             {
                 if (_id.SequenceEqual(_grid.newID))
                 {
-                    if (enemy.position.x == _grid.transform.GetChild(0).transform.position.x)
+                    if (enemy.transform.position.x == _grid.transform.GetChild(0).transform.position.x)
                     {
-                        enemy.GetComponent<MovementManager>().target = _grid.transform.GetChild(0).transform.position;
-                        return;
-                    }
-                    else
-                    {
-                        _id[0] += 2;
-                        foreach (var _grid1 in grids)
+                        if (!_grid.HaveEnemy && !_grid.HavePlayer)
                         {
-                            if (_id.SequenceEqual(_grid1.newID))
+                            enemy.target = _grid.transform.GetChild(0).transform.position;
+                        }
+                    }
+                    else _id[0] += 2;
+                    foreach (var _grid1 in grids)
+                    {
+                        if (_id.SequenceEqual(_grid1.newID))
+                        {
+                            if (enemy.transform.position.x == _grid1.transform.GetChild(0).transform.position.x && !_grid1.HaveEnemy && !_grid1.HavePlayer)
                             {
-                                if (enemy.position.x == _grid1.transform.GetChild(0).transform.position.x)
-                                {
-                                    enemy.GetComponent<MovementManager>().target = _grid1.transform.GetChild(0).transform.position;
-                                    return;
-                                }
+                                enemy.target = _grid1.transform.GetChild(0).transform.position;
+                                break;
                             }
                         }
+                        else break;
                     }
                 }
             }
-
-            
         }
     }
     private void Computation()
@@ -145,14 +143,18 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
             else
                 player = null;
         }
-        if (!pointGrid) return;
+        if (!pointGrid)
+        {
+            pointGrid = null;
+            return;
+        }
         if (!player)
         {
-            teleports = true;
+            IsTeleport = true;
         }
         else if (player)
         {
-            teleports = false;
+            IsTeleport = false;
         }
         
 
