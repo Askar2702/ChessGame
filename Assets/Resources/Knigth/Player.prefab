@@ -1873,6 +1873,7 @@ MonoBehaviour:
   MoveButton: {fileID: 7742031328154736656}
   pos: {x: 0, y: 5, z: 0}
   startRay: {fileID: 768397133034124090}
+  id: 0
   Alive: 0
 --- !u!195 &3739725998758547895
 NavMeshAgent:
@@ -1917,6 +1918,7 @@ MonoBehaviour:
   - {fileID: 8145197269427047943}
   - {fileID: 3083271520227292887}
   - {fileID: 1530104734686788492}
+  - {fileID: 2188052398292012040}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

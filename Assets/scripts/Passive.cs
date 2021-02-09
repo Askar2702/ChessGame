@@ -28,12 +28,13 @@ public class Passive : healthBar , IPunObservable
     }
 
     public override void TakeDamage(int amount, Type DamageType, Transform enemy)
-    {
+    { 
         if (DamageType == typeof(MagicAbility))
         {
             ellectroEffect.Play();
         }
-        else
+        if (!photon.IsMine) return;
+        if (DamageType == typeof(IAttack))
         {
             StartCoroutine(delay(enemy));
         }
@@ -47,6 +48,7 @@ public class Passive : healthBar , IPunObservable
         
     }
 
+
     void Update()
     {
         text.text = $" XP : 100 \r\n Damage : {baseUnits.damage} \r\n Counterattack: {chance}% \n Miss: {miss}% ";
@@ -56,9 +58,6 @@ public class Passive : healthBar , IPunObservable
                 Instantiate(misses, transform.position, Quaternion.identity);
             else
                 Instantiate(misses, transform.position, Quaternion.Euler(20f,180f,0f));
-
-
-            // 
         }
     }
 

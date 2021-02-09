@@ -9,7 +9,7 @@ using UnityEngine;
 public class DataExchange : MonoBehaviour , IOnEventCallback
 {
     public List<UnitManager> PlayersList, EnemyList = new List<UnitManager>();
-    private Vector3[] CopyPlayerAndEnemy;
+    private int[] CopyPlayerAndEnemy;
     Transform Players;
     Transform Enemys;
     public static DataExchange _DataExchange;
@@ -30,7 +30,7 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
     {
         if (photonEvent.Code == 1)
         {
-            CopyPlayerAndEnemy = (Vector3[])photonEvent.CustomData;
+            CopyPlayerAndEnemy = (int[])photonEvent.CustomData;
             receiving(CopyPlayerAndEnemy[0], CopyPlayerAndEnemy[1]);// первым идет сам атакующии а потом во втором индексе жертва
 
         }
@@ -52,11 +52,11 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
     /// </summary>
     /// <param name="player"></param>
     /// <param name="enemy"></param>
-    void receiving(Vector3 player, Vector3 enemy)
+    void receiving(int player, int enemy)
     {
-        var _player = EnemyList.SingleOrDefault(name => name.transform.position == player);
+        var _player = EnemyList.SingleOrDefault(name => name._id == player);
         Players = _player.transform;
-        var _enemy = PlayersList.SingleOrDefault(name => name.transform.position == enemy);
+        var _enemy = PlayersList.SingleOrDefault(name => name._id == enemy);
         Enemys = _enemy.transform;
 
         Players.GetComponent<IAttack>().Attack(Enemys.gameObject, false);
@@ -81,7 +81,10 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
     public void AddUnits(UnitManager unit)
     {
         if (unit.tag == "Player")
+        {
             PlayersList.Add(unit);
+            unit.IDAssignment(PlayersList.Count-1);
+        }
         else
             EnemyList.Add(unit);
     }

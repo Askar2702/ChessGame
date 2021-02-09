@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UnitManager : MonoBehaviour
+public class UnitManager : MonoBehaviour , IPunObservable
 {
     public PlayerState playerState;
     public GameObject menuBar; //меню бар игрока где есть кнопки атаки
@@ -20,7 +20,9 @@ public class UnitManager : MonoBehaviour
     [SerializeField] Button MoveButton;
     [SerializeField] Vector3 pos;
     [SerializeField] Transform startRay;
-    
+    [SerializeField] private int id;
+    public int _id => id;
+
     private Animator animator;
     private PhotonView photon;//
     private string EntredCell = null; // нужны чтоб когда уходил за собой выключал красный свет в клетках
@@ -219,6 +221,29 @@ public class UnitManager : MonoBehaviour
             else
                 figthBTN.transform.rotation = Quaternion.Euler(0, 180f, 0);
             yield return new WaitForSeconds(1);
+        }
+    }
+
+
+    /// <summary>
+    /// присвоение id к каждому игроку с помощью которого будет обмен данными 
+    /// </summary>
+    /// <param name="_idPlayer"></param>
+    public void IDAssignment(int _idPlayer)
+    {
+        id = _idPlayer;
+    }
+
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting) { 
+        
+            stream.SendNext(id);
+        }
+        else
+        {
+            id = (int)stream.ReceiveNext();
         }
     }
 }

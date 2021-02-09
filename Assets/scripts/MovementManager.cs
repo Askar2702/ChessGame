@@ -87,9 +87,10 @@ public class MovementManager : MonoBehaviour , IPunObservable
         if (photon.IsMine)
             PlayerTurn.CanPlay = false;
     }
-   
-   
-   
+
+
+    
+
     void PositionCentralization()
     {
         unitManager.playerState = PlayerState.Idle;

@@ -15,21 +15,18 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     [SerializeField] private UnitManager parent;
     [SerializeField] private ParticleSystem telepotsStart;
     [SerializeField] private ParticleSystem telepotsfinish;
+    [SerializeField] private Transform _shield;
 
-    public Transform player;
+    private Transform player;
     [SerializeField] private List<gridsPrefab> grids;
     private Transform pointGrid;
     private bool IsTeleport;
-    private PhotonView photonView;
-    private Transform closestGrids; // для ближайшей клетки
+    private Vector3 _forward = Vector3.zero;
 
     void Start()
     {
         grids = GameObject.Find("GameManager").GetComponent<ListGrid>().grids;
-        photonView = GetComponent<PhotonView>();
     }
-
-    
 
     public void Ability_1()
     {
@@ -78,14 +75,13 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     {
         Computation();
         Collider[] hitCollider = Physics.OverlapBox(posCollider3.position, new Vector3(4, 1, 1), posCollider3.rotation, layerMask);
+        StartCoroutine(ShieldEffectStart());
         foreach (var Currentenemy in hitCollider)
         {
-            if (Currentenemy.transform.tag != transform.tag)
-            {
-                if (!Currentenemy.GetComponent<MovementManager>()) return;
-                Currentenemy.GetComponent<MovementManager>().BackMove();
-                CellsToIndent(pointGrid.GetComponent<gridsPrefab>() , Currentenemy.GetComponent<MovementManager>());
-            }
+            if (!Currentenemy.GetComponent<MovementManager>()) return;
+            Currentenemy.GetComponent<MovementManager>().BackMove();
+            CellsToIndent(pointGrid.GetComponent<gridsPrefab>(), Currentenemy.GetComponent<MovementManager>());
+            Currentenemy.GetComponent<healthBar>().TakeDamage(50, this.GetType(), transform);
         }
     }
 
@@ -130,6 +126,10 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
             }
         }
     }
+
+    /// <summary>
+    ///  использует коллайдеры чтоб знать не занята ли клетка или существует ли она 
+    /// </summary>
     private void Computation()
     {
         // эта часть нужна чтоб оперделить можно ли толкать врага и не выйдет ли он за придел карты 
@@ -160,7 +160,31 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
 
     }
 
+
+
+    /// <summary>
+    /// двигает щит вперед 
+    /// </summary>
     
+    IEnumerator ShieldEffectStart()
+    {
+        _shield.position = new Vector3(_shield.position.x, _shield.position.y, transform.position.z);
+        _forward = new Vector3(_shield.position.x, _shield.position.y, posCollider3.position.z);
+
+        while (Vector3.Distance( _shield.position, _forward) >= 0.3f)
+        {
+            ShieldEffect();
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    private void ShieldEffect()
+    {
+        _shield.gameObject.SetActive(true);
+        _shield.position = Vector3.Lerp(_shield.position, _forward, 2 * Time.deltaTime);
+    }
+
+
     public void Ability_3()
     {
         //didn't come up with a skill

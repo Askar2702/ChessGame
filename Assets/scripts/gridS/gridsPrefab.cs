@@ -6,16 +6,17 @@ public class gridsPrefab : MonoBehaviour
 {
     
     public Renderer mat { get; private set; }
-    [SerializeField] private int[] Id; 
     public int[] newID { get; private set; }
     public bool HaveEnemy { get; private set; }
     public bool HavePlayer { get; private set; } // чтоб на союзные терретории не заходить 
+    public bool _HaveEnemy;
+    public bool _HavePlayer;
 
-    [SerializeField] bool _HaveEnemy;
-    [SerializeField] bool _HavePlayer;
+
+
     private void Awake()
     {
-        Id = new int[2];
+     //   Id = new int[2];
     }
     void Start()
     {
@@ -25,12 +26,12 @@ public class gridsPrefab : MonoBehaviour
         HavePlayer = false;
     }
 
-    private void Update()
+  /*  private void Update()
     {
         _HaveEnemy = HaveEnemy;
         _HavePlayer = HavePlayer;
     }
-
+  */
     public void GridGreen()
     {
         if (!HaveEnemy && !HavePlayer) { 
@@ -55,7 +56,7 @@ public class gridsPrefab : MonoBehaviour
 
     public void id(int[] ids) // эта функция вызвается при спавне  чтоб дать ему айди
     {
-        Id = ids;
+      //  Id = ids;
         newID = ids;       
     }
     public void haveEnemy()

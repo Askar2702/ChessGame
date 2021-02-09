@@ -29,7 +29,7 @@ public class AttackMelleUP : MonoBehaviour, IAttack
         {
             RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
             SendOptions sendOptions = new SendOptions { Reliability = true };
-            Vector3[] content = new Vector3[] { transform.position, enemyTarget.transform.position };
+            int[] content = new int[] { transform.GetComponent<UnitManager>()._id, enemyTarget.GetComponent<UnitManager>()._id };
             PhotonNetwork.RaiseEvent((byte)1, content, options, sendOptions);
             unitManager.DetectEnemy();
             unitManager.EnemyMove();

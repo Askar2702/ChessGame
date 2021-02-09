@@ -3081,6 +3081,7 @@ MonoBehaviour:
   - {fileID: 3904314678735766071}
   - {fileID: 8550199237461829813}
   - {fileID: 4862575331318079779}
+  - {fileID: 7844788038701139789}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -3156,6 +3157,7 @@ MonoBehaviour:
   MoveButton: {fileID: 5366735864796216622}
   pos: {x: 0, y: 5, z: 0}
   startRay: {fileID: 5743746901422461431}
+  id: 0
   Alive: 0
 --- !u!114 &3904314678735766071
 MonoBehaviour:

@@ -2361,6 +2361,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 362528557950610825}
   - {fileID: 3704308768689225703}
+  - {fileID: 5221371759496061051}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2447,6 +2448,7 @@ MonoBehaviour:
   MoveButton: {fileID: 8273282214598791456}
   pos: {x: 0, y: 5, z: 0}
   startRay: {fileID: 1371424364020464138}
+  id: 0
   Alive: 0
 --- !u!114 &362528557950610825
 MonoBehaviour:

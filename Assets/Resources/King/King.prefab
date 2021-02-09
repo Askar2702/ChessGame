@@ -6651,6 +6651,7 @@ MonoBehaviour:
   MoveButton: {fileID: 7742031328154736656}
   pos: {x: 0, y: 5, z: 0}
   startRay: {fileID: 768397133034124090}
+  id: 0
   Alive: 0
 --- !u!114 &3765381417756315799
 MonoBehaviour:
@@ -6672,6 +6673,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 7091900667689197274}
   - {fileID: 3083271520227292887}
+  - {fileID: -4331028928564854368}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

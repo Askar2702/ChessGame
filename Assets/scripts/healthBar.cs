@@ -29,6 +29,7 @@ public class healthBar : MonoBehaviour
         else
             fill.color = Color.red;
         cam = Camera.main;
+        StartCoroutine(UpdateHealth());
     }
 
    
@@ -41,27 +42,34 @@ public class healthBar : MonoBehaviour
     }
     public virtual void TakeDamage(int amount , Type DamageType , Transform enemy)
     {
-        if (DamageType == typeof(IAttack))
-            print("good");
-        else if (DamageType == typeof(MagicAbility))
+        if (DamageType == typeof(MagicAbility))
         {
             ellectroEffect.Play();
         }
         StartCoroutine(DelayChangeHealth(amount));
     }
     
-    protected IEnumerator DelayChangeHealth(int amounts)
+    protected  IEnumerator DelayChangeHealth(int amounts)
     {
         yield return new WaitForSeconds(1f);
         health -= amounts; 
-        slider.value = health;
-        if (health <= 0)
-        {
-            animator.SetInteger("State", 3);
-            transform.GetComponent<UnitManager>().Alive = false;
-        }
     }
 
+    protected IEnumerator UpdateHealth()
+    {
+        while (true)
+        {
+            slider.value = health;
+
+            if (health <= 0 && animator.GetInteger("State")!=3)
+            {
+                animator.SetInteger("State", 3);
+                transform.GetComponent<UnitManager>().Alive = false;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
     public void healthPlayer()
     {
         health += 100;
