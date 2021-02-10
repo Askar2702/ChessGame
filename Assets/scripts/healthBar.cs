@@ -16,6 +16,7 @@ public class healthBar : MonoBehaviour
     [SerializeField] protected ParticleSystem ellectroEffect;
     [SerializeField] protected ParticleSystem HealthEffect;
     [SerializeField] protected Animator animator;
+    protected ShaderTest shaderTest;
     private Camera cam;
 
     public int _health { get { return health; } set { health = value; } }
@@ -28,6 +29,7 @@ public class healthBar : MonoBehaviour
             fill.color = Color.green;
         else
             fill.color = Color.red;
+        shaderTest = GetComponent<ShaderTest>();
         cam = Camera.main;
         StartCoroutine(UpdateHealth());
     }
@@ -52,7 +54,7 @@ public class healthBar : MonoBehaviour
     protected  IEnumerator DelayChangeHealth(int amounts)
     {
         yield return new WaitForSeconds(1f);
-        health -= amounts; 
+        health -= amounts;
     }
 
     protected IEnumerator UpdateHealth()
@@ -64,6 +66,7 @@ public class healthBar : MonoBehaviour
             if (health <= 0 && animator.GetInteger("State")!=3)
             {
                 animator.SetInteger("State", 3);
+                StartCoroutine(shaderTest.PlayEffectDissolve());
                 transform.GetComponent<UnitManager>().Alive = false;
             }
 

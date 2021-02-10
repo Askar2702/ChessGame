@@ -68,13 +68,12 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     {
         Gizmos.DrawWireCube(posCollider.position, scale);
         Gizmos.DrawWireCube(posCollider2.position, scale);
-        Gizmos.DrawWireCube(posCollider3.position, new Vector3(4, 1, 1));
+        Gizmos.DrawWireCube(posCollider3.position, new Vector3(2.5f, 1, 1));
     }
-
     public void Ability_2()
     {
         Computation();
-        Collider[] hitCollider = Physics.OverlapBox(posCollider3.position, new Vector3(4, 1, 1), posCollider3.rotation, layerMask);
+        Collider[] hitCollider = Physics.OverlapBox(posCollider3.position, new Vector3(2.5f, 1, 1), posCollider3.rotation, layerMask);
         StartCoroutine(ShieldEffectStart());
         foreach (var Currentenemy in hitCollider)
         {

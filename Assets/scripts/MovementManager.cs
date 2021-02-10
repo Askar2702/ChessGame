@@ -7,6 +7,7 @@ using UnityEngine.AI;
 
 public class MovementManager : MonoBehaviour , IPunObservable
 {
+    [SerializeField] ParticleSystem particleFire;
     private NavMeshAgent agent;
     private UnitManager unitManager;
     private Animator animator;
@@ -111,6 +112,7 @@ public class MovementManager : MonoBehaviour , IPunObservable
     public void BackMove()
     {
         animator.SetTrigger("Back");
+        particleFire.Play();
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
