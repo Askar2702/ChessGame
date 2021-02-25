@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShaderTest : MonoBehaviour
+public class ShaderPlayers : MonoBehaviour
 {
     [SerializeField] private Renderer [] material;
     [SerializeField]

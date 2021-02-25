@@ -107,6 +107,7 @@
     <Compile Include="Assets\scripts\Minister.cs" />
     <Compile Include="Assets\scripts\MovementManager.cs" />
     <Compile Include="Assets\scripts\Passive.cs" />
+    <Compile Include="Assets\scripts\ShaderPlayers.cs" />
     <Compile Include="Assets\scripts\ShieldEffects.cs" />
     <Compile Include="Assets\scripts\Smook.cs" />
     <Compile Include="Assets\scripts\UnitManager.cs" />

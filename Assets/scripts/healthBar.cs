@@ -16,7 +16,7 @@ public class healthBar : MonoBehaviour
     [SerializeField] protected ParticleSystem ellectroEffect;
     [SerializeField] protected ParticleSystem HealthEffect;
     [SerializeField] protected Animator animator;
-    protected ShaderTest shaderTest;
+    protected ShaderPlayers shaderTest;
     private Camera cam;
 
     public int _health { get { return health; } set { health = value; } }
@@ -29,7 +29,7 @@ public class healthBar : MonoBehaviour
             fill.color = Color.green;
         else
             fill.color = Color.red;
-        shaderTest = GetComponent<ShaderTest>();
+        shaderTest = GetComponent<ShaderPlayers>();
         cam = Camera.main;
         StartCoroutine(UpdateHealth());
     }

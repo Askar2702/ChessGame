@@ -12,7 +12,6 @@ public class gridSpawn : MonoBehaviour
     private int[] CellId;
     void Start()
     {
-       
         // инстанс сетки
         for (int i = 0; i < width; i++)
         {
@@ -27,7 +26,6 @@ public class gridSpawn : MonoBehaviour
                 CellId = new int[2] { i, j };
                 GridClone.SendMessage("id", CellId);
                 GridClone.transform.parent = InstanseGrid;
-                
             }
         }
     }
