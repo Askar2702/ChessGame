@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ShaderPlayers : MonoBehaviour
 {
@@ -20,13 +21,19 @@ public class ShaderPlayers : MonoBehaviour
         if (!isStart) return;
         time += Time.deltaTime;
         foreach (var mat in material)
+        {
             mat.material.SetFloat("_time", time);
+            if (material.LastOrDefault().material.GetFloat("_time") >= 1)
+            {
+                isStart = false;
+                time = 0;
+            }
+        }
     }
-
 
     public IEnumerator PlayEffectDissolve()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2f); 
         isStart = true;
     } 
 }
