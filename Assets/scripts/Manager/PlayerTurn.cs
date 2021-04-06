@@ -6,16 +6,18 @@ using UnityEngine.UI;
 
 public class PlayerTurn : MonoBehaviour
 {
-    public float time;
-    public Text timer;
-    public static bool CanPlay;
-    public Text text;
+    [SerializeField] private float _time;
+    [SerializeField] private Text _timer;
+    [SerializeField] private Text _text;
+
+    public static bool isCanPlay;
+    public float TimeTurn => _time;
     void Start()
     {
         if (PhotonNetwork.IsMasterClient)
-            CanPlay = true;
+            isCanPlay = true;
         else
-            CanPlay = false;
+            isCanPlay = false;
     }
 
     /// <summary>
@@ -25,22 +27,22 @@ public class PlayerTurn : MonoBehaviour
     {
         if (GameObject.FindGameObjectWithTag("Enemy") != null)
         {
-            if (time > 0)
+            if (TimeTurn > 0)
             {
-                time -= Time.deltaTime;
-                timer.text = time.ToString("f0");
+                _time -= Time.deltaTime;
+                _timer.text = TimeTurn.ToString("f0");
 
             }
-            else if (time <= 0)
+            else if (TimeTurn <= 0)
             {
-                if (onlineManager.CanMove)
-                    onlineManager.CanMove = false;
+                if (onlineManager.onlineManagers.isCanMove)
+                    onlineManager.onlineManagers.SettingIsCanMoveBool(false);
                 else
-                    onlineManager.CanMove = true;
+                    onlineManager.onlineManagers.SettingIsCanMoveBool(true);
                 foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
                 {
-                    player.GetComponent<UnitManager>().hideGrids();
-                    player.GetComponent<UnitManager>().menuBar.SetActive(false);
+                    player.GetComponent<UnitManager>().moveBool(false);
+                  //  player.GetComponent<UnitManager>()._canvasMenuBar.SetActive(false);
                 }
                 PlayTurn();
             }
@@ -49,7 +51,7 @@ public class PlayerTurn : MonoBehaviour
         }
         else
             return;
-        text.text = onlineManager.CanMove.ToString();
+        _text.text = onlineManager.onlineManagers.isCanMove.ToString();
     }
 
     /// <summary>
@@ -60,23 +62,28 @@ public class PlayerTurn : MonoBehaviour
 
         if (PhotonNetwork.IsMasterClient)
         {
-            if (onlineManager.CanMove)
-                CanPlay = true;
+            if (onlineManager.onlineManagers.isCanMove)
+                isCanPlay = true;
             else
-                CanPlay = false;
+                isCanPlay = false;
         }
         else
         {
-            if (!onlineManager.CanMove)
+            if (!onlineManager.onlineManagers.isCanMove)
             {
-                CanPlay = true;
+                isCanPlay = true;
             }
             else
             {
-                CanPlay = false;
+                isCanPlay = false;
             }
 
         }
-        time = 90;
+        _time = 90;
+    }
+
+    public void SettingTime(float time)
+    {
+        _time = time;
     }
 }

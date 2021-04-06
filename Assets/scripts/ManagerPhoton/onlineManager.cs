@@ -6,10 +6,10 @@ using System.Collections;
 using UnityEngine;
 
 public class onlineManager : MonoBehaviourPunCallbacks
-{ 
-    public bool Win;
-    public static bool CanMove;
+{
     public static onlineManager onlineManagers;
+    public bool isWin { get; private set; }
+    public bool isCanMove { get; private set; }
 
     private void Awake()
     {
@@ -24,8 +24,8 @@ public class onlineManager : MonoBehaviourPunCallbacks
     {
         // своя сериализация чтоб передавать данные в фотоне
         PhotonPeer.RegisterType(typeof(Vector3), 27, seriliazeVector3, deseriliazeVector3);
-        Win = false;
-        CanMove = true;
+        isWin = false;
+        isCanMove = true;
         DontDestroyOnLoad(gameObject);       
     }
     
@@ -35,7 +35,7 @@ public class onlineManager : MonoBehaviourPunCallbacks
     /// <param name="win"></param>
     public void finished(bool win)
     {
-        Win = win;
+        isWin = win;
         StartCoroutine(GoFinish());
     }
 
@@ -56,7 +56,10 @@ public class onlineManager : MonoBehaviourPunCallbacks
     }
 
 
-   
+    public void SettingIsCanMoveBool(bool can)
+    {
+        isCanMove = can;
+    }
   
 
 
@@ -81,7 +84,7 @@ public class onlineManager : MonoBehaviourPunCallbacks
     #endregion
 
 
-    #region для сериализвций Vector3
+    #region для сериализаций Vector3
     public static object deseriliazeVector3(byte[]data)
     {
         Vector3 result = new Vector3();

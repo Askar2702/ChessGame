@@ -9,68 +9,72 @@ using UnityEngine.UI;
 
 public class UnitManager : MonoBehaviour , IPunObservable
 {
-    public PlayerState playerState;
-    public GameObject menuBar; //меню бар игрока где есть кнопки атаки
-    public int[] idForBrush;//
-    [SerializeField] ParticleSystem effectcZnaks;
-    [SerializeField] ParticleSystem SelectParticle;
-    public event Action<bool> _notify;
-    [SerializeField] Button EndTurn;
-    [SerializeField] Button figthBTN;
-    [SerializeField] Button MoveButton;
-    [SerializeField] Vector3 pos;
-    [SerializeField] Transform startRay;
-    [SerializeField] private int id;
-    public int _id => id;
+    [SerializeField] private ParticleSystem _effectcZnaks;
+    [SerializeField] private ParticleSystem _SelectParticle;
+    [SerializeField] private Button _endTurn;
+    [SerializeField] private Button _figthBTN;
+    [SerializeField] private Button _moveButton;
+    [SerializeField] private Transform _startRay;
+    [SerializeField] private int _id; // отображает в редакторе сетевой  id игрока
+    [SerializeField] private GameObject _canvasMenuBar; //меню бар игрока где есть кнопки атаки
+    public PlayerState _playerState { get; private set; }
+    public int[] idForBrush { get; private set; }
+    public int Id => _id;
 
-    private Animator animator;
-    private PhotonView photon;//
-    private string EntredCell = null; // нужны чтоб когда уходил за собой выключал красный свет в клетках
-    public bool Alive;//
-    private IPLayerGrid pLayerGrid;
-    private ListGrid listGrid;
+    public event Action<bool> _notify;
+    public bool isAlive { get; private set; }
+    private Vector3 _posistionfigthBTN = new Vector3(0f, 5f, 0f);
+
+    private Animator _animator;
+    private PhotonView _photon;
+    private string _entredCell = null; // нужны чтоб когда уходил за собой выключал красный свет в клетках
+    private IPLayerGrid _pLayerGrid;
+    private ListGrid _listGrid;
 
     void Start()
     {
-        playerState = PlayerState.Idle;
-        listGrid = GameObject.Find("GameManager").GetComponent<ListGrid>();
-        photon = GetComponent<PhotonView>();
-        menuBar.SetActive(false);
-        figthBTN.gameObject.SetActive(false);
-        animator = GetComponent<Animator>();
-        MoveButton.onClick.AddListener(() => grids());
-        EndTurn.onClick.AddListener(() => EnemyMove());
+        ChangetStatusPlayer(PlayerState.Idle);
+        _listGrid = GameObject.Find("GameManager").GetComponent<ListGrid>();
+        _photon = GetComponent<PhotonView>();
+        _canvasMenuBar.SetActive(false);
+        _figthBTN.gameObject.SetActive(false);
+        _animator = GetComponent<Animator>();
+        _moveButton.onClick.AddListener(() => grids());
+        _endTurn.onClick.AddListener(() => EnemyMove());
         gameObject.layer = 9;
-        Alive = true;
-        if (!photon.IsMine)
+        isAlive = true;
+        if (!_photon.IsMine)
         {
             transform.tag = "Enemy";
         }
-        DataExchange._DataExchange.AddUnits(this);
+        DataExchange.DataExchangeCenter.AddUnits(this);
         StartCoroutine("UpdateProccess");
     }
 
     protected void Awake()
     {
         idForBrush = new int[2];
-        pLayerGrid = GetComponent<IPLayerGrid>();
-        Alive = true;
+        _pLayerGrid = GetComponent<IPLayerGrid>();
+        isAlive = true;
     }
 
 
-   
+    public void ChangetStatusPlayer(PlayerState playerState)
+    {
+        _playerState = playerState;
+    }
 
     private  void getPoint(int[] idCell) //для высчитавание левого нижнего края откуда пойдет счет границ
     {
-        pLayerGrid.GetPoint(idCell);
+        _pLayerGrid.GetPoint(idCell);
     }
     private  void grids()
     {
-        pLayerGrid.Grids();
+        _pLayerGrid.Grids();
     }
     public  void hideGrids()
     {
-        pLayerGrid.HideGrids();
+        _pLayerGrid.HideGrids();
     }
 
     /// <summary>
@@ -78,11 +82,11 @@ public class UnitManager : MonoBehaviour , IPunObservable
     /// </summary>
     public  void EnemyMove()
     {// ход врага
-        if (photon.IsMine)
+        if (_photon.IsMine)
         {
             OffPlayer();
-            GameObject.Find("GameManager").GetComponent<PlayerTurn>().time = 0;
-            menuBar.SetActive(false);
+            GameObject.Find("GameManager").GetComponent<PlayerTurn>().SettingTime(0);
+            _canvasMenuBar.SetActive(false);
             float content = 0f;
             RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
             SendOptions sendOptions = new SendOptions { Reliability = true };
@@ -91,14 +95,18 @@ public class UnitManager : MonoBehaviour , IPunObservable
         }
     }
     
+    public void ChangetAlivePlayer(bool activ)
+    {
+        isAlive = activ;
+    }
 
     public void DetectEnemy() //проверяет где рядом враг во время анимации покоя
     {
         if (transform.tag == "Player")
         {
-            if (animator.GetInteger("State") == 1)
+            if (_animator.GetInteger("State") == 1)
             {
-                pLayerGrid.GridsHaveEnemy();
+                _pLayerGrid.GridsHaveEnemy();
             }
         }
     }
@@ -106,22 +114,23 @@ public class UnitManager : MonoBehaviour , IPunObservable
     public  void OffPlayer() // отключение знака мага и чтоб поменять слой дабы дорогу сделать не проходимой
     {
         gameObject.layer = 9;
-        SelectParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        _SelectParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
     public  void moveBool(bool activ)
     {
-        if (!Alive) return;
-        if (photon.IsMine)
+        if (!isAlive) return;
+        if (_photon.IsMine)
         {
-            menuBar.SetActive(activ);
-            SelectParticle.Play();
+            _canvasMenuBar.SetActive(activ);
             if (activ)
             {
+                _SelectParticle.Play();
                 gameObject.layer = 12;
             }
             else
             {
                 hideGrids();
+                OffPlayer();
             }
         }
         _notify?.Invoke(activ);
@@ -130,43 +139,43 @@ public class UnitManager : MonoBehaviour , IPunObservable
     protected void enemySignal(int[] cell)
     {
         // если он сам враг то отправит сигнал клетке чтоб он стал красным
-        if (playerState == PlayerState.Idle)
+        if (_playerState == PlayerState.Idle)
         {
-            EntredCell = ($"x:{cell[0]} z:{cell[1]}");
-            listGrid.GrisItem(EntredCell).enemySignal(true);
+            _entredCell = ($"x:{cell[0]} z:{cell[1]}");
+            _listGrid.GrisItem(_entredCell).enemySignal(true);
         }
-        else if (playerState == PlayerState.Movement)
+        else if (_playerState == PlayerState.Movement)
         {
-            if (EntredCell == null) return;
-            listGrid.GrisItem(EntredCell).enemySignal( false); // здесь сначала отправляю фальш чтоб потом закрыть , иначе если так закрыть то каждый сможет его закрывать поэтому нужна проверка
+            if (_entredCell == null) return;
+            _listGrid.GrisItem(_entredCell).enemySignal( false); // здесь сначала отправляю фальш чтоб потом закрыть , иначе если так закрыть то каждый сможет его закрывать поэтому нужна проверка
         }
-        if (!Alive)
+        if (!isAlive)
         {
-            DataExchange._DataExchange.RemoveUnits(this);
-            if (EntredCell == null) return;
-            listGrid.GrisItem(EntredCell).enemySignal(false);
+            DataExchange.DataExchangeCenter.RemoveUnits(this);
+            if (_entredCell == null) return;
+            _listGrid.GrisItem(_entredCell).enemySignal(false);
             Destroy(this.gameObject, 5f);
         }
     }
     protected void PlayerSignal(int[] cell)
     {
         // союзный фигура отправит сигнал что клетка не свободна 
-        if (gameObject.layer == 9 && playerState == PlayerState.Idle)
+        if (gameObject.layer == 9 && _playerState == PlayerState.Idle)
         {
-            EntredCell = ($"x:{cell[0]} z:{cell[1]}");
-            listGrid.GrisItem(EntredCell).PlayerSignal(true);
+            _entredCell = ($"x:{cell[0]} z:{cell[1]}");
+            _listGrid.GrisItem(_entredCell).PlayerSignal(true);
         }
-        else if (gameObject.layer == 12 || playerState == PlayerState.Movement)
+        else if (gameObject.layer == 12 || _playerState == PlayerState.Movement)
         {
-            if (EntredCell == null) return;
-            listGrid.GrisItem(EntredCell).PlayerSignal( false); // здесь сначала отправляю фальш чтоб потом закрыть , иначе если так закрыть то каждый сможет его закрывать поэтому нужна проверка
+            if (_entredCell == null) return;
+            _listGrid.GrisItem(_entredCell).PlayerSignal( false); // здесь сначала отправляю фальш чтоб потом закрыть , иначе если так закрыть то каждый сможет его закрывать поэтому нужна проверка
         }
         
-        if (!Alive)
+        if (!isAlive)
         {
-            DataExchange._DataExchange.RemoveUnits(this);
-            if (EntredCell == null) return;
-            listGrid.GrisItem(EntredCell).PlayerSignal(false); // здесь он дохнет
+            DataExchange.DataExchangeCenter.RemoveUnits(this);
+            if (_entredCell == null) return;
+            _listGrid.GrisItem(_entredCell).PlayerSignal(false); // здесь он дохнет
             Destroy(this.gameObject, 5f);
 
         }
@@ -175,51 +184,51 @@ public class UnitManager : MonoBehaviour , IPunObservable
 
     public void effectOn()
     {
-        effectcZnaks.Play();
+        _effectcZnaks.Play();
     }
     public void effectOff()
     {
-        effectcZnaks.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        _effectcZnaks.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     private IEnumerator UpdateProccess()
     {
         while (true)
         {
-            Ray ray = new Ray(startRay.position, -transform.up);
+            Ray ray = new Ray(_startRay.position, -transform.up);
             RaycastHit hit;
-            figthBTN.transform.position = transform.position + pos;//для кнопки иначе она не пашет нормально
+            _figthBTN.transform.position = transform.position + _posistionfigthBTN;//для кнопки иначе она не пашет нормально
 
             if (Physics.Raycast(ray, out hit, 1f))
             {
                 if (hit.transform.tag == "grid")
                 {
-                    idForBrush = hit.transform.GetComponent<gridsPrefab>().newID;
+                    idForBrush = hit.transform.GetComponent<gridsPrefab>().NewID;
                     getPoint(idForBrush); //луч который оперделяет место нахождение 
-                    if (photon.IsMine)
+                    if (_photon.IsMine)
                         PlayerSignal(idForBrush);
-                    if (!photon.IsMine)
+                    if (!_photon.IsMine)
                     {
                         enemySignal(idForBrush);//луч который делает красным там где он есть если она сам враг
-                        if (hit.transform.GetComponent<gridsPrefab>().mat.material.GetColor("_EmissionColor") == Color.red * 1.3f)
+                        if (hit.transform.GetComponent<gridsPrefab>().Material.material.GetColor("_EmissionColor") == Color.red * 1.3f)
                         {
-                            figthBTN.gameObject.SetActive(true);
+                            _figthBTN.gameObject.SetActive(true);
                         }
                         else
-                            figthBTN.gameObject.SetActive(false);
+                            _figthBTN.gameObject.SetActive(false);
                     }
 
 
                 }
 
 
-                Debug.DrawRay(startRay.position, -transform.up, Color.red, 20);
+                Debug.DrawRay(_startRay.position, -transform.up, Color.red, 20);
                 // Debug.Log("1");
             }
             if (PhotonNetwork.IsMasterClient)
-                figthBTN.transform.rotation = Quaternion.Euler(0, 0, 0);
+                _figthBTN.transform.rotation = Quaternion.Euler(0, 0, 0);
             else
-                figthBTN.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                _figthBTN.transform.rotation = Quaternion.Euler(0, 180f, 0);
             yield return new WaitForSeconds(1);
         }
     }
@@ -228,10 +237,10 @@ public class UnitManager : MonoBehaviour , IPunObservable
     /// <summary>
     /// присвоение id к каждому игроку с помощью которого будет обмен данными 
     /// </summary>
-    /// <param name="_idPlayer"></param>
-    public void IDAssignment(int _idPlayer)
+    /// <param name="idPlayer"></param>
+    public void IDAssignment(int idPlayer)
     {
-        id = _idPlayer;
+        _id = idPlayer;
     }
 
 
@@ -239,11 +248,11 @@ public class UnitManager : MonoBehaviour , IPunObservable
     {
         if (stream.IsWriting) { 
         
-            stream.SendNext(id);
+            stream.SendNext(_id);
         }
         else
         {
-            id = (int)stream.ReceiveNext();
+            _id = (int)stream.ReceiveNext();
         }
     }
 }

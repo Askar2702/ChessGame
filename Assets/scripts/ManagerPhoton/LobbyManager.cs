@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
-    public Text Log;
+    [SerializeField] private Text _log;
     void Start()
     {
         // здесь начинается фотон
@@ -43,7 +43,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     }
     private void Logs(string message)
     {
-        Log.text += "\n";
-        Log.text += message;
+        _log.text += "\n";
+        _log.text += message;
     }
 }

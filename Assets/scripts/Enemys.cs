@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Enemys : MonoBehaviour
 {
-    IAttack attack;
+    private IAttack _attack;
     public void attackMe()
     {
         //отправляет сообщение о месте нахождение чтоб атаковали себя при нажатие кнопки      
-        attack = GameObject.Find("GameManager").GetComponent<SelectManager>().SelectPlayer.GetComponent<IAttack>();
-        attack.Attack(gameObject, false);
+        _attack = GameObject.Find("GameManager").GetComponent<SelectManager>().SelectPlayer.GetComponent<IAttack>();
+        _attack.Attack(gameObject, false);
     }
 }

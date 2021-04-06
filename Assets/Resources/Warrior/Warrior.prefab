@@ -3136,14 +3136,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefceeccf16bf3042a53d0242462c280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 2833508609872604361}
-  pos: {x: 0, y: 3, z: 0}
-  fill: {fileID: 2547047938470779196}
-  health: 100
-  photon: {fileID: 0}
-  ellectroEffect: {fileID: 6877240207824450466}
-  HealthEffect: {fileID: 4662864309325789204}
-  animator: {fileID: 3133956572683891342}
+  _slider: {fileID: 2833508609872604361}
+  _fill: {fileID: 2547047938470779196}
+  _healthPlayer: 100
+  _ellectroEffect: {fileID: 6877240207824450466}
+  _HealthEffect: {fileID: 4662864309325789204}
 --- !u!114 &8513425361766767657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3168,17 +3165,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50255e5a5384be4f8a88375457e6c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerState: 0
-  menuBar: {fileID: 3096252171667879691}
+  _effectcZnaks: {fileID: 4328330280417217845}
+  _SelectParticle: {fileID: 1030798323986918591}
+  _endTurn: {fileID: 2130701089552744243}
+  _figthBTN: {fileID: 6449515598484090082}
+  _moveButton: {fileID: 6348298024904238051}
+  _startRay: {fileID: 4161732932921034953}
+  _id: 0
+  _canvasMenuBar: {fileID: 3096252171667879691}
   idForBrush: 
-  effectcZnaks: {fileID: 4328330280417217845}
-  SelectParticle: {fileID: 1030798323986918591}
-  EndTurn: {fileID: 2130701089552744243}
-  figthBTN: {fileID: 6449515598484090082}
-  MoveButton: {fileID: 6348298024904238051}
-  pos: {x: 0, y: 5, z: 0}
-  startRay: {fileID: 4161732932921034953}
-  id: 0
   Alive: 0
 --- !u!114 &3571563489589283097
 MonoBehaviour:
@@ -3192,7 +3187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb50f942f18f9e149a8b2b198c789142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleFire: {fileID: 5431466050250084256}
+  _particleFire: {fileID: 5431466050250084256}
 --- !u!114 &4881715475256274251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3205,9 +3200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f317515bf355d944d8291ecca94e614e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Radius: 1
-  MoveCell: 3
-  radiusMove: 10
+  _radius: 1
+  _moveCell: 3
+  _radiusMove: 10
 --- !u!114 &3016638886291295628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3220,8 +3215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695112a52abcde4428b1a00ecda3c55e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
-  unitManager: {fileID: 8995817578060485510}
+  _damage: 100
+  _unitManager: {fileID: 8995817578060485510}
 --- !u!114 &334301015191613475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3258,9 +3253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585d96bcbd5fada4e9661a8f3047b89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material:
+  _material:
   - {fileID: 7607274075085016716}
-  time: 0
 --- !u!1 &8337431359139375330
 GameObject:
   m_ObjectHideFlags: 0

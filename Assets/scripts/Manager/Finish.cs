@@ -6,17 +6,17 @@ using UnityEngine.UI;
 
 public class Finish : MonoBehaviour
 {
-    public Text ResultGame;
+    [SerializeField] private Text _resultGame;
 
     private void Start()
     {
-        if (GameObject.Find("OnlineManager") == null) return;
-        if (GameObject.Find("OnlineManager").GetComponent<onlineManager>().Win)
+        if (!onlineManager.onlineManagers) return;
+        if (onlineManager.onlineManagers.isWin)
         {
-            ResultGame.text = "You Win!!!";
+            _resultGame.text = "You Win!!!";
         }
         else
-            ResultGame.text = "You Lose!!!";
+            _resultGame.text = "You Lose!!!";
     }
     public void Leave()
     {

@@ -8,29 +8,30 @@ using UnityEngine.UI;
 public class healthBar : MonoBehaviour
 {
    
-    [SerializeField] protected Slider slider;
-    [SerializeField] protected Vector3 pos;
-    [SerializeField] protected Image fill;
-    [SerializeField] protected int health;
-    [SerializeField] protected PhotonView photon;
-    [SerializeField] protected ParticleSystem ellectroEffect;
-    [SerializeField] protected ParticleSystem HealthEffect;
-    [SerializeField] protected Animator animator;
-    protected ShaderPlayers shaderTest;
-    private Camera cam;
+    [SerializeField] protected Slider _slider;
+    [SerializeField] protected Image _fill;
+    [SerializeField] protected int _healthPlayer;
+    [SerializeField] protected ParticleSystem _ellectroEffect;
+    [SerializeField] protected ParticleSystem _HealthEffect;
+    protected ShaderPlayers _shaderTest;
+    protected Vector3 _pos = new Vector3(0, 3, 0);
+    protected PhotonView _photon;
+    protected Animator _animator;
+    private Camera _cam;
 
-    public int _health { get { return health; } set { health = value; } }
+    public int _health { get { return _healthPlayer; } set { _healthPlayer = value; } }
     protected virtual void Start()
     {
-        photon = GetComponent<PhotonView>();
-        slider.maxValue = health;
-        slider.value = health;
-        if (photon.IsMine)
-            fill.color = Color.green;
+        _photon = GetComponent<PhotonView>();
+        _animator = GetComponent<Animator>();
+        _slider.maxValue = _healthPlayer;
+        _slider.value = _healthPlayer;
+        if (_photon.IsMine)
+            _fill.color = Color.green;
         else
-            fill.color = Color.red;
-        shaderTest = GetComponent<ShaderPlayers>();
-        cam = Camera.main;
+            _fill.color = Color.red;
+        _shaderTest = GetComponent<ShaderPlayers>();
+        _cam = Camera.main;
         StartCoroutine(UpdateHealth());
     }
 
@@ -39,14 +40,14 @@ public class healthBar : MonoBehaviour
 
     protected void LateUpdate()
     {
-        slider.transform.position = transform.position + pos;
-        slider.transform.LookAt(slider.transform.position + cam.transform.forward);
+        _slider.transform.position = transform.position + _pos;
+        _slider.transform.LookAt(_slider.transform.position + _cam.transform.forward);
     }
     public virtual void TakeDamage(int amount , Type DamageType , Transform enemy)
     {
         if (DamageType == typeof(MagicAbility))
         {
-            ellectroEffect.Play();
+            _ellectroEffect.Play();
         }
         StartCoroutine(DelayChangeHealth(amount));
     }
@@ -54,20 +55,20 @@ public class healthBar : MonoBehaviour
     protected  IEnumerator DelayChangeHealth(int amounts)
     {
         yield return new WaitForSeconds(1f);
-        health -= amounts;
+        _healthPlayer -= amounts;
     }
 
     protected IEnumerator UpdateHealth()
     {
         while (true)
         {
-            slider.value = health;
+            _slider.value = _healthPlayer;
 
-            if (health <= 0 && animator.GetInteger("State")!=3)
+            if (_healthPlayer <= 0 && _animator.GetInteger("State")!=3)
             {
-                animator.SetInteger("State", 3);
-                StartCoroutine(shaderTest.PlayEffectDissolve());
-                transform.GetComponent<UnitManager>().Alive = false;
+                _animator.SetInteger("State", 3);
+                StartCoroutine(_shaderTest.PlayEffectDissolve());
+                transform.GetComponent<UnitManager>().ChangetAlivePlayer(false);
             }
 
             yield return new WaitForSeconds(0.5f);
@@ -75,10 +76,10 @@ public class healthBar : MonoBehaviour
     }
     public void healthPlayer()
     {
-        health += 100;
-        if (health > 100)
-            health = 100;
-        HealthEffect.Play();
+        _healthPlayer += 100;
+        if (_healthPlayer > 100)
+            _healthPlayer = 100;
+        _HealthEffect.Play();
     }
     
 }

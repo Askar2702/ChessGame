@@ -4,151 +4,151 @@ using UnityEngine;
 
 public class BerserkGrids : BaseUnits, IPLayerGrid
 {
-    public int radiusMove;    // это радиус ходьбы вместо родительского который был и для драки и для ходьбы
-    private int[] move; // для его ходьбы  сохраняет его позицию для ходьбы вместо родительского который для боя нужен    
+    [SerializeField] private int _radiusMove;    // это радиус ходьбы вместо родительского который был и для драки и для ходьбы
+    private int[] _move; // для его ходьбы  сохраняет его позицию для ходьбы вместо родительского который для боя нужен    
     public void GetPoint(int[] idCell)
     {
-        move = idCell;
-        idForBrush[0] = idCell[0];
-        idForBrush[1] = idCell[1];
-        idForBrush[0] -= Radius;
-        idForBrush[1] -= Radius;
+        _move = idCell;
+        IdForBrush[0] = idCell[0];
+        IdForBrush[1] = idCell[1];
+        IdForBrush[0] -= _radius;
+        IdForBrush[1] -= _radius;
     }
 
     public void Grids()
     {
-        if (!PlayerTurn.CanPlay) return;
-        for (int i = 0; i < radiusMove; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
+        if (!PlayerTurn.isCanPlay) return;
+        for (int i = 0; i < _radiusMove; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
         { // вправо дорогу ищет 
-            if (listGrid.GrisItem($"x:{move[0] + i} z:{move[1]}") == null)
+            if (_listGrid.GrisItem($"x:{_move[0] + i} z:{_move[1]}") == null)
             {
                 continue;
             }
-            if (listGrid.GrisItem($"x:{move[0] + i} z:{move[1]}").HavePlayer
-                || listGrid.GrisItem($"x:{move[0] + i} z:{move[1]}").HaveEnemy)
+            if (_listGrid.GrisItem($"x:{_move[0] + i} z:{_move[1]}").HavePlayer
+                || _listGrid.GrisItem($"x:{_move[0] + i} z:{_move[1]}").HaveEnemy)
                 break;
             else
-                listGrid.GrisItem($"x:{move[0] + i} z:{move[1]}").GridGreen();
+                _listGrid.GrisItem($"x:{_move[0] + i} z:{_move[1]}").GridGreen();
 
         }
 
-        for (int j = 0; j < radiusMove; j++)
+        for (int j = 0; j < _radiusMove; j++)
         { // вверх ищет дорогу
-            if (listGrid.GrisItem($"x:{move[0]} z:{move[1] + j}") == null)
+            if (_listGrid.GrisItem($"x:{_move[0]} z:{_move[1] + j}") == null)
             {
                 continue;
 
             }
-            if (listGrid.GrisItem($"x:{move[0]} z:{move[1] + j}").HavePlayer
-                || listGrid.GrisItem($"x:{move[0]} z:{move[1] + j}").HaveEnemy)
+            if (_listGrid.GrisItem($"x:{_move[0]} z:{_move[1] + j}").HavePlayer
+                || _listGrid.GrisItem($"x:{_move[0]} z:{_move[1] + j}").HaveEnemy)
                 break;
             else
-                listGrid.GrisItem($"x:{move[0]} z:{move[1] + j}").GridGreen();
+                _listGrid.GrisItem($"x:{_move[0]} z:{_move[1] + j}").GridGreen();
         }
 
-        for (int i = 0; i < radiusMove; i++)
+        for (int i = 0; i < _radiusMove; i++)
         { // влево ищет дорогу
-            if (listGrid.GrisItem($"x:{move[0] - i} z:{move[1]}") == null)
+            if (_listGrid.GrisItem($"x:{_move[0] - i} z:{_move[1]}") == null)
             {
                 continue;
 
             }
-            if (listGrid.GrisItem($"x:{move[0] - i} z:{move[1]}").HavePlayer
-                || listGrid.GrisItem($"x:{move[0] - i} z:{move[1]}").HaveEnemy)
+            if (_listGrid.GrisItem($"x:{_move[0] - i} z:{_move[1]}").HavePlayer
+                || _listGrid.GrisItem($"x:{_move[0] - i} z:{_move[1]}").HaveEnemy)
                 break;
             else
-                listGrid.GrisItem($"x:{move[0] - i} z:{move[1]}").GridGreen();
+                _listGrid.GrisItem($"x:{_move[0] - i} z:{_move[1]}").GridGreen();
         }
 
-        for (int j = 0; j < radiusMove; j++)
+        for (int j = 0; j < _radiusMove; j++)
         { // вниз ищет дорогу
-            if (listGrid.GrisItem($"x:{move[0]} z:{move[1] - j}") == null)
+            if (_listGrid.GrisItem($"x:{_move[0]} z:{_move[1] - j}") == null)
             {
                 continue;
 
             }
-            if (listGrid.GrisItem($"x:{move[0]} z:{move[1] - j}").HavePlayer
-                || listGrid.GrisItem($"x:{move[0]} z:{move[1] - j}").HaveEnemy)
+            if (_listGrid.GrisItem($"x:{_move[0]} z:{_move[1] - j}").HavePlayer
+                || _listGrid.GrisItem($"x:{_move[0]} z:{_move[1] - j}").HaveEnemy)
                 break;
             else
-                listGrid.GrisItem($"x:{move[0]} z:{move[1] - j}").GridGreen();
+                _listGrid.GrisItem($"x:{_move[0]} z:{_move[1] - j}").GridGreen();
 
         }
     }
 
     public void GridsHaveEnemy()
     {
-        if (!detect)
+        if (!isdetect)
         {
-            for (int i = 0; i < MoveCell; i++) //ищет у клеток есть ли рядом враги
+            for (int i = 0; i < _moveCell; i++) //ищет у клеток есть ли рядом враги
             {
-                for (int j = 0; j < MoveCell; j++)
+                for (int j = 0; j < _moveCell; j++)
                 {
-                    if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                    if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}") == null)
                     {
                         continue;
                     }
                     else
                     {
-                        listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").haveEnemy();
+                        _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}").haveEnemy();
                     }
 
                 }
             }
-            detect = true;
+            isdetect = true;
         }
         else
         {
             HideGrids();
-            detect = false;
+            isdetect = false;
         }
     }
 
     public void HideGrids()
     {
-        if (photon.IsMine)
+        if (_photon.IsMine)
         {
-            for (int i = 0; i < radiusMove; i++)
+            for (int i = 0; i < _radiusMove; i++)
             {
-                if (listGrid.GrisItem($"x:{move[0] + i} z:{move[1]}") != null)
+                if (_listGrid.GrisItem($"x:{_move[0] + i} z:{_move[1]}") != null)
                 { // чтоб закрыть зеление клеки
-                    listGrid.GrisItem($"x:{move[0] + i} z:{move[1] }").hideGrids();
+                    _listGrid.GrisItem($"x:{_move[0] + i} z:{_move[1] }").hideGrids();
                 }
             }
-            for (int j = 0; j < radiusMove; j++)
+            for (int j = 0; j < _radiusMove; j++)
             {
-                if (listGrid.GrisItem($"x:{move[0]} z:{move[1] + j}") != null)
+                if (_listGrid.GrisItem($"x:{_move[0]} z:{_move[1] + j}") != null)
                 { // чтоб закрыть зеление клеки
-                    listGrid.GrisItem($"x:{move[0]} z:{move[1] + j}").hideGrids();
+                    _listGrid.GrisItem($"x:{_move[0]} z:{_move[1] + j}").hideGrids();
                 }
             }
-            for (int i = 0; i < radiusMove; i++)
+            for (int i = 0; i < _radiusMove; i++)
             {
-                if (listGrid.GrisItem($"x:{move[0] - i} z:{move[1]}") != null)
+                if (_listGrid.GrisItem($"x:{_move[0] - i} z:{_move[1]}") != null)
                 { // чтоб закрыть зеление клеки
-                    listGrid.GrisItem($"x:{move[0] - i} z:{move[1] }").hideGrids();
+                    _listGrid.GrisItem($"x:{_move[0] - i} z:{_move[1] }").hideGrids();
                 }
             }
-            for (int j = 0; j < radiusMove; j++)
+            for (int j = 0; j < _radiusMove; j++)
             {
-                if (listGrid.GrisItem($"x:{move[0]} z:{move[1] - j}") != null)
+                if (_listGrid.GrisItem($"x:{_move[0]} z:{_move[1] - j}") != null)
                 { // чтоб закрыть зеление клеки
-                    listGrid.GrisItem($"x:{move[0]} z:{move[1] - j}").hideGrids();
+                    _listGrid.GrisItem($"x:{_move[0]} z:{_move[1] - j}").hideGrids();
                 }
             }
-            if (detect)
+            if (isdetect)
             {
-                detect = false;
-                for (int i = 0; i < MoveCell; i++) //закрывает клетки с врагами
+                isdetect = false;
+                for (int i = 0; i < _moveCell; i++) //закрывает клетки с врагами
                 {
-                    for (int j = 0; j < MoveCell; j++)
+                    for (int j = 0; j < _moveCell; j++)
                     {
-                        if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                        if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}") == null)
                         {
                             continue;
                         }
                         else
-                            listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").hideGrids();
+                            _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}").hideGrids();
                     }
                 }
             }

@@ -1865,17 +1865,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50255e5a5384be4f8a88375457e6c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerState: 0
-  menuBar: {fileID: 1842130441565064440}
+  _effectcZnaks: {fileID: 1115140529759532742}
+  _SelectParticle: {fileID: 2520347575823928418}
+  _endTurn: {fileID: 3384827066040239296}
+  _figthBTN: {fileID: 7703934199679211281}
+  _moveButton: {fileID: 7742031328154736656}
+  _startRay: {fileID: 768397133034124090}
+  _id: 0
+  _canvasMenuBar: {fileID: 1842130441565064440}
   idForBrush: 
-  effectcZnaks: {fileID: 1115140529759532742}
-  SelectParticle: {fileID: 2520347575823928418}
-  EndTurn: {fileID: 3384827066040239296}
-  figthBTN: {fileID: 7703934199679211281}
-  MoveButton: {fileID: 7742031328154736656}
-  pos: {x: 0, y: 5, z: 0}
-  startRay: {fileID: 768397133034124090}
-  id: 0
   Alive: 0
 --- !u!195 &3739725998758547895
 NavMeshAgent:
@@ -1965,18 +1963,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1c98cbbbcb9bd4c9eac23693e477b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1457532417930123066}
-  pos: {x: 0, y: 3, z: 0}
-  fill: {fileID: 1166565930697876175}
-  health: 100
-  photon: {fileID: 0}
-  ellectroEffect: {fileID: 7789057582068926545}
-  HealthEffect: {fileID: 8348905631638684647}
-  animator: {fileID: 1735746180491643261}
-  Aura: {fileID: 4793552734811306863}
-  text: {fileID: 585093082476153970}
-  miss: 10
-  misses: {fileID: 9192665154966699762, guid: bdfadbd386873c44ea8549518b524f01, type: 3}
+  _slider: {fileID: 1457532417930123066}
+  _fill: {fileID: 1166565930697876175}
+  _healthPlayer: 100
+  _ellectroEffect: {fileID: 7789057582068926545}
+  _HealthEffect: {fileID: 8348905631638684647}
+  _aura: {fileID: 4793552734811306863}
+  _misses: {fileID: 9192665154966699762, guid: bdfadbd386873c44ea8549518b524f01, type: 3}
+  _text: {fileID: 585093082476153970}
 --- !u!114 &4993740267648985050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2001,7 +1995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb50f942f18f9e149a8b2b198c789142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleFire: {fileID: 8561334996051949525}
+  _particleFire: {fileID: 8561334996051949525}
 --- !u!114 &6991253712564184882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2014,10 +2008,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac763553d9ef534ca49dfe295eee0a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Radius: 1
-  MoveCell: 3
-  idGrisAttack: 
-  hod: 0
+  _radius: 1
+  _moveCell: 3
+  _idGrisAttack: 
+  isTurn: 0
 --- !u!114 &5075369315388601258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2030,9 +2024,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3ad973a77a2a7e4eba3407a729b6088, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  unitManager: {fileID: 2188052398292012040}
-  pawnGrids: {fileID: 6991253712564184882}
+  _unitManager: {fileID: 2188052398292012040}
+  _pawnGrids: {fileID: 6991253712564184882}
+  _damage: 50
 --- !u!114 &8183612528059261080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2045,9 +2039,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585d96bcbd5fada4e9661a8f3047b89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material:
+  _material:
   - {fileID: 6555798932899493247}
-  time: 0
 --- !u!1 &4673635491366867729
 GameObject:
   m_ObjectHideFlags: 0

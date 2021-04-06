@@ -7,32 +7,32 @@ using UnityEngine;
 
 public class AttackMelleUP : MonoBehaviour, IAttack
 {
-    [SerializeField] private int damage;
-    [SerializeField] private UnitManager unitManager;
-    private PhotonView photon;
-    private MovementManager Movement;
-    private Animator animator;
+    [SerializeField] private int _damage;
+    [SerializeField] private UnitManager _unitManager;
+    private PhotonView _photon;
+    private MovementManager _movement;
+    private Animator _animator;
     private void Awake()
     {
-        photon = GetComponent<PhotonView>();
-        animator = GetComponent<Animator>();
-        Movement = GetComponent<MovementManager>();
+        _photon = GetComponent<PhotonView>();
+        _animator = GetComponent<Animator>();
+        _movement = GetComponent<MovementManager>();
     }
 
     public void Attack(GameObject enemyTarget, bool contrAttack)
     {
-        Movement.enemy = enemyTarget.transform; // для ближнего боя нужен это
+        _movement.enemy = enemyTarget.transform; // для ближнего боя нужен это
         if (!enemyTarget.GetComponent<healthBar>()) return;
-        enemyTarget.GetComponent<healthBar>().TakeDamage(damage, this.GetType(), transform);
-        animator.SetTrigger("Attack");
-        if (photon.IsMine)
+        enemyTarget.GetComponent<healthBar>().TakeDamage(_damage, this.GetType(), transform);
+        _animator.SetTrigger("Attack");
+        if (_photon.IsMine)
         {
             RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
             SendOptions sendOptions = new SendOptions { Reliability = true };
-            int[] content = new int[] { transform.GetComponent<UnitManager>()._id, enemyTarget.GetComponent<UnitManager>()._id };
+            int[] content = new int[] { transform.GetComponent<UnitManager>().Id, enemyTarget.GetComponent<UnitManager>().Id };
             PhotonNetwork.RaiseEvent((byte)1, content, options, sendOptions);
-            unitManager.DetectEnemy();
-            unitManager.EnemyMove();
+            _unitManager.DetectEnemy();
+            _unitManager.EnemyMove();
         }
     }
 }

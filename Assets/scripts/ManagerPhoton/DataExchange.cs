@@ -8,16 +8,18 @@ using UnityEngine;
 
 public class DataExchange : MonoBehaviour , IOnEventCallback
 {
-    public List<UnitManager> PlayersList, EnemyList = new List<UnitManager>();
-    private int[] CopyPlayerAndEnemy;
-    Transform Players;
-    Transform Enemys;
-    public static DataExchange _DataExchange;
+    public static DataExchange DataExchangeCenter;
+
+    [SerializeField] private List<UnitManager> _playersList = new List<UnitManager>();
+    [SerializeField] private List<UnitManager> _enemyList = new List<UnitManager>();
+    private int[] _copyPlayerAndEnemy;
+    private Transform _players;
+    private Transform _enemys;
 
     private void Awake()
     {
-        if (_DataExchange == null)
-            _DataExchange = this;
+        if (DataExchangeCenter == null)
+            DataExchangeCenter = this;
         else
             Destroy(this.gameObject);
     }
@@ -30,8 +32,8 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
     {
         if (photonEvent.Code == 1)
         {
-            CopyPlayerAndEnemy = (int[])photonEvent.CustomData;
-            receiving(CopyPlayerAndEnemy[0], CopyPlayerAndEnemy[1]);// первым идет сам атакующии а потом во втором индексе жертва
+            _copyPlayerAndEnemy = (int[])photonEvent.CustomData;
+            receiving(_copyPlayerAndEnemy[0], _copyPlayerAndEnemy[1]);// первым идет сам атакующии а потом во втором индексе жертва
 
         }
         else if (photonEvent.Code == 2)
@@ -43,7 +45,7 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
         else if (photonEvent.Code == 3)
         {
             float data = (float)photonEvent.CustomData;
-            GameObject.Find("GameManager").GetComponent<PlayerTurn>().time = data;
+            GameObject.Find("GameManager").GetComponent<PlayerTurn>().SettingTime(data);
         }
     }
 
@@ -54,12 +56,12 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
     /// <param name="enemy"></param>
     void receiving(int player, int enemy)
     {
-        var _player = EnemyList.SingleOrDefault(name => name._id == player);
-        Players = _player.transform;
-        var _enemy = PlayersList.SingleOrDefault(name => name._id == enemy);
-        Enemys = _enemy.transform;
+        var _player = _enemyList.SingleOrDefault(name => name.Id == player);
+        _players = _player.transform;
+        var _enemy = _playersList.SingleOrDefault(name => name.Id == enemy);
+        _enemys = _enemy.transform;
 
-        Players.GetComponent<IAttack>().Attack(Enemys.gameObject, false);
+        _players.GetComponent<IAttack>().Attack(_enemys.gameObject, false);
     }
 
     /// <summary>
@@ -70,9 +72,9 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
     void magic(object data, string Method)
     { // находить мага по месту         
         Vector3 player = (Vector3)data;
-        var players = EnemyList.SingleOrDefault(name => name.transform.position == player);
-        Players = players.transform;
-        Players.SendMessage(Method);
+        var players = _enemyList.SingleOrDefault(name => name.transform.position == player);
+        _players = players.transform;
+        _players.SendMessage(Method);
     }
 
 
@@ -82,18 +84,18 @@ public class DataExchange : MonoBehaviour , IOnEventCallback
     {
         if (unit.tag == "Player")
         {
-            PlayersList.Add(unit);
-            unit.IDAssignment(PlayersList.Count-1);
+            _playersList.Add(unit);
+            unit.IDAssignment(_playersList.Count-1);
         }
         else
-            EnemyList.Add(unit);
+            _enemyList.Add(unit);
     }
     public void RemoveUnits(UnitManager unit)
     {
         if (unit.tag == "Player")
-            PlayersList.Remove(unit);
+            _playersList.Remove(unit);
         else
-            EnemyList.Remove(unit);
+            _enemyList.Remove(unit);
     }
 
   

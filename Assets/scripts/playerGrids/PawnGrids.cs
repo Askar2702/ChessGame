@@ -6,9 +6,9 @@ using UnityEngine;
 public class PawnGrids : BaseUnits, IPLayerGrid
 {
 
-    public int[] idGrisAttack;
+    [SerializeField] private int[] _idGrisAttack; // чисто посмотреть что за клетка под ним
     [SerializeField]
-    private bool hod; //первый ход после которого он будет по одной клетке ходить
+    private bool isTurn; //первый ход после которого он будет по одной клетке ходить
     
     private AttackeMelle attackeMelle;
 
@@ -16,8 +16,8 @@ public class PawnGrids : BaseUnits, IPLayerGrid
     {
         base.Awake();
         attackeMelle = GetComponent<AttackeMelle>();
-        idGrisAttack = new int[2];
-        hod = false;
+        _idGrisAttack = new int[2];
+        isTurn = false;
     }
 
 
@@ -27,51 +27,51 @@ public class PawnGrids : BaseUnits, IPLayerGrid
         {
             if (idCell[1] == 1)
             {
-                hod = false;
+                isTurn = false;
             }
             else
-                hod = true;
+                isTurn = true;
         }
         else
         {
             if (idCell[1] == 6)
             {
-                hod = false;
+                isTurn = false;
             }
             else
-                hod = true;
+                isTurn = true;
         }
 
-        idGrisAttack[0] = idCell[0] - 1;
-        idGrisAttack[1] = idCell[1] - 1;
-        idForBrush[0] = idCell[0];
-        idForBrush[1] = idCell[1];
-        idForBrush[0] -= Radius;
-        if (!hod) return;
-        idForBrush[1] -= Radius;
+        _idGrisAttack[0] = idCell[0] - 1;
+        _idGrisAttack[1] = idCell[1] - 1;
+        IdForBrush[0] = idCell[0];
+        IdForBrush[1] = idCell[1];
+        IdForBrush[0] -= _radius;
+        if (!isTurn) return;
+        IdForBrush[1] -= _radius;
     }
 
     public void Grids()
     {
         if (attackeMelle.CountMove <= 0) return;
-        if (!hod)
+        if (!isTurn)
         {
             if (PhotonNetwork.IsMasterClient) // все это нужно для начально старта 
                 grids();
             else
             {
-                if (!PlayerTurn.CanPlay) return;
-                for (int i = 0; i < MoveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
+                if (!PlayerTurn.isCanPlay) return;
+                for (int i = 0; i < _moveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
                 {
-                    for (int j = 0; j < MoveCell; j++)
+                    for (int j = 0; j < _moveCell; j++)
                     {
-                        if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] - j}") == null)
+                        if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] - j}") == null)
                         {
                             continue;
                             // print($"{transform.name}x:{i} z:{j}");
                         }
                         else
-                            listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] - j}").GridGreen();
+                            _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] - j}").GridGreen();
 
                     }
                 }
@@ -84,60 +84,60 @@ public class PawnGrids : BaseUnits, IPLayerGrid
 
     public void GridsHaveEnemy()
     {
-        if (!detect)
+        if (!isdetect)
         {
             for (int i = 0; i < 3; i++) //ищет у клеток есть ли рядом враги
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (GameObject.Find($"x:{idGrisAttack[0] + i} z:{idGrisAttack[1] + j}") == null)
+                    if (GameObject.Find($"x:{_idGrisAttack[0] + i} z:{_idGrisAttack[1] + j}") == null)
                     {
                         continue;
                     }
                     else
                     {
-                        GameObject.Find($"x:{idGrisAttack[0] + i} z:{idGrisAttack[1] + j}").SendMessage("haveEnemy");
+                        GameObject.Find($"x:{_idGrisAttack[0] + i} z:{_idGrisAttack[1] + j}").SendMessage("haveEnemy");
                     }
 
                 }
             }
-            detect = true;
+            isdetect = true;
         }
         else
         {
             HideGrids();
-            detect = false;
+            isdetect = false;
         }
     }
 
     public void HideGrids()
     {
-        if (photon.IsMine)
+        if (_photon.IsMine)
         {
-            if (!hod)
+            if (!isTurn)
             {
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    for (int i = 0; i < MoveCell; i++)
+                    for (int i = 0; i < _moveCell; i++)
                     {
-                        for (int j = 0; j < MoveCell; j++)
+                        for (int j = 0; j < _moveCell; j++)
                         {
-                            if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") != null)
+                            if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}") != null)
                             { // чтоб закрыть зеление клеки
-                                listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").hideGrids();
+                                _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}").hideGrids();
                             }
                         }
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < MoveCell; i++)
+                    for (int i = 0; i < _moveCell; i++)
                     {
-                        for (int j = 0; j < MoveCell; j++)
+                        for (int j = 0; j < _moveCell; j++)
                         {
-                            if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] - j}") != null)
+                            if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] - j}") != null)
                             { // чтоб закрыть зеление клеки
-                                listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] - j}").hideGrids();
+                                _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] - j}").hideGrids();
                             }
                         }
                     }
@@ -146,36 +146,36 @@ public class PawnGrids : BaseUnits, IPLayerGrid
             }
             else
             {
-                for (int i = 0; i < MoveCell; i++)
+                for (int i = 0; i < _moveCell; i++)
                 {
-                    for (int j = 0; j < MoveCell; j++)
+                    for (int j = 0; j < _moveCell; j++)
                     {
-                        if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") != null)
+                        if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}") != null)
                         { // чтоб закрыть зеление клеки
-                            listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").hideGrids();
+                            _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}").hideGrids();
                         }
                     }
                 }
             }
 
-            detect = false;
+            isdetect = false;
         }
     }
 
     private void grids()
     {
-        if (!PlayerTurn.CanPlay) return;
-        for (int i = 0; i < MoveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
+        if (!PlayerTurn.isCanPlay) return;
+        for (int i = 0; i < _moveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
         {
-            for (int j = 0; j < MoveCell; j++)
+            for (int j = 0; j < _moveCell; j++)
             {
-                if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}") == null)
                 {
                     continue;
                     // print($"{transform.name}x:{i} z:{j}");
                 }
                 else
-                    listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").GridGreen();
+                    _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}").GridGreen();
 
             }
         }
@@ -183,7 +183,7 @@ public class PawnGrids : BaseUnits, IPLayerGrid
 
     public void SetRadius(int _radius , int _moveCell)
     {
-        Radius = _radius;
-        MoveCell = _moveCell;
+        base._radius = _radius;
+        base._moveCell = _moveCell;
     }
 }

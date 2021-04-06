@@ -5,22 +5,22 @@ using System.Linq;
 
 public class ListGrid : MonoBehaviour
 {
-    public List<gridsPrefab> grids;
+    public List<gridsPrefab> Grids { get; private set; }
 
     private void Awake()
     {
-        grids = new List<gridsPrefab>();
+        Grids = new List<gridsPrefab>();
     }
     public void AddGrid(gridsPrefab gridsPrefab)
     {
-        if (grids.Contains(gridsPrefab)) return;
-        grids.Add(gridsPrefab);
+        if (Grids.Contains(gridsPrefab)) return;
+        Grids.Add(gridsPrefab);
     }
 
     public gridsPrefab GrisItem(string nameGrid)
     {
         gridsPrefab _item = null;
-        _item = grids.SingleOrDefault(item => item.transform.name == nameGrid);
+        _item = Grids.SingleOrDefault(item => item.transform.name == nameGrid);
         return _item;
     }
 }

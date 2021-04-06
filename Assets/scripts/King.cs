@@ -8,18 +8,18 @@ using UnityEngine.PlayerLoop;
 
 public class King : MonoBehaviour 
 {
-    [SerializeField] private ParticleSystem WhiteKing;
-    [SerializeField] private ParticleSystem DarkKing;
-    private PhotonView photon;
+    [SerializeField] private ParticleSystem _whiteKing;
+    [SerializeField] private ParticleSystem _darkKing;
+    private PhotonView _photon;
     protected  void Start()
     {
-        photon = GetComponent<PhotonView>();
-        if (!photon.IsMine)
+        _photon = GetComponent<PhotonView>();
+        if (!_photon.IsMine)
         {           
-            DarkKing.Play();
+            _darkKing.Play();
         }
         else
-            WhiteKing.Play();
+            _whiteKing.Play();
     }
     
 

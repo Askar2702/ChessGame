@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class gridSpawn : MonoBehaviour
 {
-    public GameObject grid;
-    public int width; //ширина
-    public int length;//длина
-    public Transform InstanseGrid;
-    [SerializeField] private ListGrid listGrid;
-    private int[] CellId;
+    [SerializeField] private GameObject _grid;
+    [SerializeField] private int _width; //ширина
+    [SerializeField] private int _length;//длина
+    [SerializeField] private Transform _instanseGrid;
+    [SerializeField] private ListGrid _listGrid;
+    private int[] _cellId;
     void Start()
     {
         // инстанс сетки
-        for (int i = 0; i < width; i++)
+        for (int i = 0; i < _width; i++)
         {
-            for (int j = 0; j < length; j++)
+            for (int j = 0; j < _length; j++)
             {
-                var Mesh = grid.GetComponent<MeshRenderer>();
+                var Mesh = _grid.GetComponent<MeshRenderer>();
                 var MeshSize = Mesh.bounds.size + new Vector3(0.1f, 0, 0.1f); // это нужно для границы сетки
-                var position = new Vector3(InstanseGrid.position.x + i * MeshSize.x, 0f, InstanseGrid.position.z + j * MeshSize.z);
-                var GridClone = Instantiate(grid, position, Quaternion.identity);
-                listGrid.AddGrid(GridClone.GetComponent<gridsPrefab>());
+                var position = new Vector3(_instanseGrid.position.x + i * MeshSize.x, 0f, _instanseGrid.position.z + j * MeshSize.z);
+                var GridClone = Instantiate(_grid, position, Quaternion.identity);
+                _listGrid.AddGrid(GridClone.GetComponent<gridsPrefab>());
                 GridClone.name = $"x:{i} z:{j}";
-                CellId = new int[2] { i, j };
-                GridClone.SendMessage("id", CellId);
-                GridClone.transform.parent = InstanseGrid;
+                _cellId = new int[2] { i, j };
+                GridClone.SendMessage("id", _cellId);
+                GridClone.transform.parent = _instanseGrid;
             }
         }
     }

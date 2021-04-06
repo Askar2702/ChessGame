@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class PassiveAbility : MonoBehaviour
 {
-    IAbility abilityPassive;
-    private PhotonView photon;
+    private IAbility _abilityPassive;
+    private PhotonView _photon;
    
     private void Start()
     {
-        abilityPassive = GetComponent<IAbility>();
-        photon = GetComponent<PhotonView>();
-        if (photon.IsMine)
+        _abilityPassive = GetComponent<IAbility>();
+        _photon = GetComponent<PhotonView>();
+        if (_photon.IsMine)
         {
             var child = transform.GetChild(0).gameObject.AddComponent<BoxCollider>();
             child.center = new Vector3(0, 1, 0);
@@ -22,11 +22,11 @@ public class PassiveAbility : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        abilityPassive.TriggerEnter(other);
+        _abilityPassive.TriggerEnter(other);
     }
     private void OnTriggerExit(Collider other)
     {
-        abilityPassive.TriggerExit(other);
+        _abilityPassive.TriggerExit(other);
     }
 
 }

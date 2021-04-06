@@ -10,36 +10,34 @@ using UnityEngine.UI;
 public class Passive : healthBar , IPunObservable
 {
 
-    [SerializeField] private ParticleSystem Aura;
-    private AttackeMelle baseUnits;   
-    private int chance = 20; // шанс контр атаки
-    public Text text;
-    public int miss = 10;
+    [SerializeField] private ParticleSystem _aura;
+    [SerializeField] private GameObject _misses;
+    [SerializeField] private Text _text;
+    private AttackeMelle _baseUnits;   
+    private int _chanceContrAttack = 20; // шанс контр атаки
+    private int _missChance = 10;
     private PawnGrids _pawnGrids;
-  //  private MovementManager movementManager;
-    [SerializeField] private GameObject misses;
 
     protected override void Start()
     {
         base.Start();
-        baseUnits = GetComponent<AttackeMelle>();
+        _baseUnits = GetComponent<AttackeMelle>();
         _pawnGrids = GetComponent<PawnGrids>();
-    //    movementManager = GetComponent<MovementManager>();
     }
 
     public override void TakeDamage(int amount, Type DamageType, Transform enemy)
     { 
         if (DamageType == typeof(MagicAbility))
         {
-            ellectroEffect.Play();
+            _ellectroEffect.Play();
         }
-        if (!photon.IsMine) return;
+        if (!_photon.IsMine) return;
         if (DamageType == typeof(IAttack))
         {
             StartCoroutine(delay(enemy));
         }
         int random = UnityEngine.Random.Range(10, 100);
-        if (photon.IsMine && random <= miss) 
+        if (_photon.IsMine && random <= _missChance) 
         {
             MissPlayer();
             return;
@@ -51,23 +49,23 @@ public class Passive : healthBar , IPunObservable
 
     void Update()
     {
-        text.text = $" XP : 100 \r\n Damage : {baseUnits.damage} \r\n Counterattack: {chance}% \n Miss: {miss}% ";
+        _text.text = $" XP : 100 \r\n Damage : {_baseUnits.Damage} \r\n Counterattack: {_chanceContrAttack}% \n Miss: {_missChance}% ";
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (PhotonNetwork.IsMasterClient)
-                Instantiate(misses, transform.position, Quaternion.identity);
+                Instantiate(_misses, transform.position, Quaternion.identity);
             else
-                Instantiate(misses, transform.position, Quaternion.Euler(20f,180f,0f));
+                Instantiate(_misses, transform.position, Quaternion.Euler(20f,180f,0f));
         }
     }
 
     public void MissPlayer()
     {
         if (PhotonNetwork.IsMasterClient)
-            Instantiate(misses, transform.position, Quaternion.identity);
+            Instantiate(_misses, transform.position, Quaternion.identity);
         else
-            Instantiate(misses, transform.position, Quaternion.Euler(20f, 180f, 0f));
-        if (photon.IsMine)
+            Instantiate(_misses, transform.position, Quaternion.Euler(20f, 180f, 0f));
+        if (_photon.IsMine)
         {
             object[] content = new object[2] { (object)transform.position, (object)"MissPlayer" }; //  приходиться массивом отправлять иначе просто vector3 он не принимает отправлять
             RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
@@ -76,38 +74,38 @@ public class Passive : healthBar , IPunObservable
         } //сипользовал канал магов
 
 
-        misses.transform.position = new Vector3(transform.position.x, transform.position.y * Time.deltaTime, transform.position.z);
+        _misses.transform.position = new Vector3(transform.position.x, transform.position.y * Time.deltaTime, transform.position.z);
     }
 
     public void Miss()
     {
-        miss = 40;
+        _missChance = 40;
     }
 
     public void NoMiss()
     {
-        miss = 10;
+        _missChance = 10;
     }
 
     // удваивает шанс контратаки
     public void ChanceContrAttack()
     {        
-        chance = 40;
+        _chanceContrAttack = 40;
     }
     // возращает исходный шанс
     public void ReturnChance()
     {
-        chance = 20;
+        _chanceContrAttack = 20;
     }
 
     IEnumerator delay(Transform enem) //заддержка контр атаки
     {
         yield return new WaitForSeconds(3f);
-        if (photon.IsMine) {
-            if (transform.GetComponent<UnitManager>().Alive)
+        if (_photon.IsMine) {
+            if (transform.GetComponent<UnitManager>().isAlive)
             {
                 int contAtack = UnityEngine.Random.Range(10, 100);
-                if (contAtack < chance)
+                if (contAtack < _chanceContrAttack)
                     transform.GetComponent<IAttack>().Attack(enem.gameObject, true);
             }
         }
@@ -116,13 +114,13 @@ public class Passive : healthBar , IPunObservable
     // удваивает дамаг пешки  воин
     public void DamagPlus()
     {
-        baseUnits.damage = 150;        
+        _baseUnits.SettingDamage(150);       
     }
 
     // приводит в норму дамаг
     public void DamagMinus()
     {
-        baseUnits.damage = 50;
+        _baseUnits.SettingDamage(50);
     }
 
     /// <summary>
@@ -131,9 +129,9 @@ public class Passive : healthBar , IPunObservable
     public void UpKnigth()
     {
         _pawnGrids.SetRadius(_radius: 2, _moveCell: 5);
-        baseUnits.damage = 150;
+        _baseUnits.SettingDamage(150);
         
-        Aura.Play();
+        _aura.Play();
 
         Debug.Log("11122");
     }
@@ -141,11 +139,11 @@ public class Passive : healthBar , IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(health);   
+            stream.SendNext(_healthPlayer);   
         }
         else
         {
-            health = (int)stream.ReceiveNext();
+            _healthPlayer = (int)stream.ReceiveNext();
         }
     }
 }

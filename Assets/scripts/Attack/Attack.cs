@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    private IAttack attack;
+    private IAttack _attack;
 
     public void AttackEnemyMelle(GameObject enemyTarget, bool contrAttack)
     {
-        attack.Attack(enemyTarget, contrAttack);
+        _attack.Attack(enemyTarget, contrAttack);
     }
 }

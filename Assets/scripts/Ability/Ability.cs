@@ -7,15 +7,15 @@ using UnityEngine;
 
 public class Ability : MonoBehaviour
 {
-    private IMagicAbility magicAbility;
-    private PhotonView photon;
-    private UnitManager unitManager;
+    private IMagicAbility _magicAbility;
+    private PhotonView _photon;
+    private UnitManager _unitManager;
 
     private void Start()
     {
-        magicAbility = GetComponent<IMagicAbility>(); 
-        photon = GetComponent<PhotonView>();
-        unitManager = GetComponent<UnitManager>();
+        _magicAbility = GetComponent<IMagicAbility>(); 
+        _photon = GetComponent<PhotonView>();
+        _unitManager = GetComponent<UnitManager>();
     }
 
     /// <summary>
@@ -23,8 +23,8 @@ public class Ability : MonoBehaviour
     /// </summary>
     public void Ability1()
     {
-        magicAbility.Ability_1();
-        if (photon.IsMine) Events(transform.position, "Ability1");
+        _magicAbility.Ability_1();
+        if (_photon.IsMine) Events(transform.position, "Ability1");
     }
 
 
@@ -33,8 +33,8 @@ public class Ability : MonoBehaviour
     /// </summary>
     public void Ability2()
     {
-        magicAbility.Ability_2();
-        if (photon.IsMine) Events(transform.position, "Ability2");
+        _magicAbility.Ability_2();
+        if (_photon.IsMine) Events(transform.position, "Ability2");
     }
 
     /// <summary>
@@ -42,8 +42,8 @@ public class Ability : MonoBehaviour
     /// </summary>
     public void Ability3()
     {
-        magicAbility.Ability_3();
-        if (photon.IsMine) Events(transform.position, "Ability3");
+        _magicAbility.Ability_3();
+        if (_photon.IsMine) Events(transform.position, "Ability3");
     }
 
     /// <summary>
@@ -57,6 +57,6 @@ public class Ability : MonoBehaviour
         RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.Others };
         SendOptions sendOptions = new SendOptions { Reliability = true };
         PhotonNetwork.RaiseEvent((byte)2, content, options, sendOptions);
-        unitManager.EnemyMove();
+        _unitManager.EnemyMove();
     }
 }

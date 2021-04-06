@@ -7,22 +7,22 @@ using UnityEngine.UI;
 
 public class SelectManager : MonoBehaviour 
 {
-
-    public Transform SelectPlayer;
+    [SerializeField] private Transform _selectPlayer;
+    public Transform SelectPlayer => _selectPlayer;
   
-    private Camera cam;
+    private Camera _cam;
     private void Awake()
     {
-        cam = Camera.main;
+        _cam = Camera.main;
     }
    
     void Update()
     {
         // тут идет выбор кто ходит и выбор перса
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        Debug.DrawRay(cam.transform.position, ray.direction);
-        if (PlayerTurn.CanPlay && GameObject.FindGameObjectWithTag("Enemy") != null)
+        Debug.DrawRay(_cam.transform.position, ray.direction);
+        if (PlayerTurn.isCanPlay && GameObject.FindGameObjectWithTag("Enemy") != null)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -31,17 +31,17 @@ public class SelectManager : MonoBehaviour
 
                     if (hit.collider.tag == "Player")
                     {
-                        if(SelectPlayer == null) SelectPlayer = hit.transform;
-                        if (SelectPlayer.name != hit.transform.name)
+                        if(_selectPlayer == null) _selectPlayer = hit.transform;
+                        if (_selectPlayer.name != hit.transform.name)
                         {
-                            if (SelectPlayer.GetComponent<BaseUnits>())
+                            if (_selectPlayer.GetComponent<BaseUnits>())
                             {
-                                SelectPlayer.GetComponent<UnitManager>().moveBool(false);
-                                SelectPlayer.GetComponent<UnitManager>().OffPlayer();
+                                _selectPlayer.GetComponent<UnitManager>().moveBool(false);
+                                _selectPlayer.GetComponent<UnitManager>().OffPlayer();
                             }
                         }
                         hit.transform.GetComponent<UnitManager>().moveBool(true);
-                        SelectPlayer = hit.transform;
+                        _selectPlayer = hit.transform;
 
 
                     }
@@ -49,8 +49,8 @@ public class SelectManager : MonoBehaviour
                     {
                         if (hit.transform.GetComponent<Renderer>().material.GetColor("_EmissionColor") == Color.green * 1)
                         {
-                            SelectPlayer.GetComponent<MovementManager>().MovePoint(hit.transform);
-                            SelectPlayer.GetComponent<UnitManager>().hideGrids();
+                            _selectPlayer.GetComponent<MovementManager>().MovePoint(hit.transform);
+                            _selectPlayer.GetComponent<UnitManager>().hideGrids();
                         }
 
                     }

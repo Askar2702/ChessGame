@@ -7,24 +7,24 @@ using UnityEngine.AI;
 
 public class MovementManager : MonoBehaviour , IPunObservable
 {
-    [SerializeField] ParticleSystem particleFire;
-    private NavMeshAgent agent;
-    private UnitManager unitManager;
-    private Animator animator;
-    private PhotonView photon;
-    private bool direction;
     public event Action OnChangestate;
-    private int state;// для анимации какая будет играть 
-    private int animState
+    [SerializeField] ParticleSystem _particleFire;
+    private NavMeshAgent _agent;
+    private UnitManager _unitManager;
+    private Animator _animator;
+    private PhotonView _photon;
+    private bool isFirstMove;
+    private int _state;// для анимации какая будет играть 
+    private int _animState
     {
         get
         {
-            return state;
+            return _state;
         }
         set
         {
-            state = value;
-            if(state == 2)
+            _state = value;
+            if(_state == 2)
                 OnChangestate?.Invoke();
         }
     }
@@ -33,19 +33,19 @@ public class MovementManager : MonoBehaviour , IPunObservable
     public Vector3 target { get; set; }
     void Start()
     {
-        if (PhotonNetwork.IsMasterClient) direction = true;
-        else direction = false;
-        unitManager = GetComponent<UnitManager>();
-        photon = GetComponent<PhotonView>();
+        if (PhotonNetwork.IsMasterClient) isFirstMove = true;
+        else isFirstMove = false;
+        _unitManager = GetComponent<UnitManager>();
+        _photon = GetComponent<PhotonView>();
         target = transform.position;
         transform.position = target;
-        animator = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
+        _animator = GetComponent<Animator>();
+        _agent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
     {
-        if (unitManager.Alive)
+        if (_unitManager.isAlive)
         {
 
             if (enemy == null) return; // здесь идет поворот к врагу потом при движении враг обнуляется
@@ -62,21 +62,21 @@ public class MovementManager : MonoBehaviour , IPunObservable
     }
     protected void FixedUpdate()
     {
-        if (unitManager.Alive)
+        if (_unitManager.isAlive)
         {
             if (Vector3.Distance(transform.position, target) > 0.2f)
             {
-                agent.SetDestination(target);
-                unitManager.playerState = PlayerState.Movement;
+                _agent.SetDestination(target);
+                _unitManager.ChangetStatusPlayer(PlayerState.Movement);
                 enemy = null; // чтоб не смотрел на врага
             }
             else if (Vector3.Distance(transform.position, target) < 0.2f || transform.position == target)
             {
-                animState = 1;
+                _animState = 1;
                 PositionCentralization(); //выравнивание позиции 
             }
-            if (animator.GetInteger("State") == animState) return;
-            animator.SetInteger("State", animState);
+            if (_animator.GetInteger("State") == _animState) return;
+            _animator.SetInteger("State", _animState);
         }
 
     }
@@ -84,9 +84,9 @@ public class MovementManager : MonoBehaviour , IPunObservable
     public virtual void MovePoint(Transform point)
     {
         target = point.GetChild(0).transform.position;
-        animState = 2;
-        if (photon.IsMine)
-            PlayerTurn.CanPlay = false;
+        _animState = 2;
+        if (_photon.IsMine)
+            PlayerTurn.isCanPlay = false;
     }
 
 
@@ -94,13 +94,13 @@ public class MovementManager : MonoBehaviour , IPunObservable
 
     void PositionCentralization()
     {
-        unitManager.playerState = PlayerState.Idle;
+        _unitManager.ChangetStatusPlayer(PlayerState.Idle);
         if (transform.position == target) return;
         transform.position = target;
-        if (photon.IsMine)
+        if (_photon.IsMine)
         {
             if (enemy != null) return;
-            if (direction)
+            if (isFirstMove)
                 transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             else
                 transform.rotation = Quaternion.Euler(0f, 180f, 0f);
@@ -111,20 +111,20 @@ public class MovementManager : MonoBehaviour , IPunObservable
 
     public void BackMove()
     {
-        animator.SetTrigger("Back");
-        particleFire.Play();
+        _animator.SetTrigger("Back");
+        _particleFire.Play();
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
             stream.SendNext(target);
-            stream.SendNext(state);
+            stream.SendNext(_state);
         }
         else
         {
             target = (Vector3)stream.ReceiveNext();
-            state = (int)stream.ReceiveNext();
+            _state = (int)stream.ReceiveNext();
         }
     }
 }

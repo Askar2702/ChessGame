@@ -6643,17 +6643,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a50255e5a5384be4f8a88375457e6c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerState: 0
-  menuBar: {fileID: 1842130441565064440}
+  _effectcZnaks: {fileID: 1115140529759532742}
+  _SelectParticle: {fileID: 1867971421738583923}
+  _endTurn: {fileID: 3384827066040239296}
+  _figthBTN: {fileID: 7703934199679211281}
+  _moveButton: {fileID: 7742031328154736656}
+  _startRay: {fileID: 768397133034124090}
+  _id: 0
+  _canvasMenuBar: {fileID: 1842130441565064440}
   idForBrush: 
-  effectcZnaks: {fileID: 1867971421738583923}
-  SelectParticle: {fileID: 1867971421738583923}
-  EndTurn: {fileID: 3384827066040239296}
-  figthBTN: {fileID: 7703934199679211281}
-  MoveButton: {fileID: 7742031328154736656}
-  pos: {x: 0, y: 5, z: 0}
-  startRay: {fileID: 768397133034124090}
-  id: 0
   Alive: 0
 --- !u!114 &3765381417756315799
 MonoBehaviour:
@@ -6691,14 +6689,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eefceeccf16bf3042a53d0242462c280, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 1457532417930123066}
-  pos: {x: 0, y: 3, z: 0}
-  fill: {fileID: 1166565930697876175}
-  health: 100
-  photon: {fileID: 0}
-  ellectroEffect: {fileID: 7789057582068926545}
-  HealthEffect: {fileID: 8348905631638684647}
-  animator: {fileID: 1735746180491643261}
+  _slider: {fileID: 1457532417930123066}
+  _fill: {fileID: 1166565930697876175}
+  _healthPlayer: 100
+  _ellectroEffect: {fileID: 7789057582068926545}
+  _HealthEffect: {fileID: 8348905631638684647}
 --- !u!114 &-7990022214107554070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6752,8 +6747,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 592f2d2afe214d947802b9b01a1ed35d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WhiteKing: {fileID: 3237464015270140671}
-  DarkKing: {fileID: 4908251780198631783}
+  _whiteKing: {fileID: 3237464015270140671}
+  _darkKing: {fileID: 4908251780198631783}
 --- !u!114 &7091900667689197274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6766,7 +6761,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb50f942f18f9e149a8b2b198c789142, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleFire: {fileID: 5639516496269565039}
+  _particleFire: {fileID: 5639516496269565039}
 --- !u!114 &4458857102681655821
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6779,8 +6774,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb06f12ee42cd5447bd1c976085db696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Radius: 1
-  MoveCell: 3
+  _radius: 1
+  _moveCell: 3
 --- !u!114 &7123456392979728509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6793,8 +6788,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 695112a52abcde4428b1a00ecda3c55e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 100
-  unitManager: {fileID: -4331028928564854368}
+  _damage: 100
+  _unitManager: {fileID: -4331028928564854368}
 --- !u!114 &1442976921911876089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6807,9 +6802,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 585d96bcbd5fada4e9661a8f3047b89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  material:
+  _material:
   - {fileID: 6555798932899493247}
-  time: 0
 --- !u!1 &4673635491366867729
 GameObject:
   m_ObjectHideFlags: 0
@@ -13454,6 +13448,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5648533229376769578}
   m_PrefabAsset: {fileID: 0}
+--- !u!198 &1115140529759532742 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4691160283057174764, guid: ec1cb5aedfa2b8344aa4a02f1dd27543,
+    type: 3}
+  m_PrefabInstance: {fileID: 5648533229376769578}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6311330990346603988
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13704,15 +13704,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44b918a0cbcfce040af50343abe9c462, type: 3}
---- !u!4 &8965463862813357917 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 945692474536232978, guid: 44b918a0cbcfce040af50343abe9c462,
-    type: 3}
-  m_PrefabInstance: {fileID: 8175299593297821519}
-  m_PrefabAsset: {fileID: 0}
 --- !u!198 &8348905631638684647 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 191749168660511912, guid: 44b918a0cbcfce040af50343abe9c462,
+    type: 3}
+  m_PrefabInstance: {fileID: 8175299593297821519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8965463862813357917 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 945692474536232978, guid: 44b918a0cbcfce040af50343abe9c462,
     type: 3}
   m_PrefabInstance: {fileID: 8175299593297821519}
   m_PrefabAsset: {fileID: 0}

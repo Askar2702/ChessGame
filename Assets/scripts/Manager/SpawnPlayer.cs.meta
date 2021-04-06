@@ -3,7 +3,15 @@ guid: 7da5825889b035a458583d88cb849896
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - _miniknigth: {instanceID: 0}
+  - _darkPlayer: {instanceID: 0}
+  - _berserk: {instanceID: 0}
+  - _magic: {instanceID: 0}
+  - _king: {instanceID: 0}
+  - _assassin: {instanceID: 0}
+  - _warrior: {instanceID: 0}
+  - _minister: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

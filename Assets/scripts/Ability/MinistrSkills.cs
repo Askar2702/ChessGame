@@ -7,42 +7,42 @@ using System.Linq;
 
 public class MinistrSkills : MonoBehaviour,IMagicAbility
 {
-    [SerializeField] private Transform posCollider;
-    [SerializeField] private Transform posCollider2;
-    [SerializeField] private Transform posCollider3;
-    [SerializeField] private LayerMask layerMask;
-    [SerializeField] private Vector3 scale;
-    [SerializeField] private UnitManager parent;
-    [SerializeField] private ParticleSystem telepotsStart;
-    [SerializeField] private ParticleSystem telepotsfinish;
+    [SerializeField] private Transform _posCollider;
+    [SerializeField] private Transform _posCollider2;
+    [SerializeField] private Transform _posCollider3;
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private Vector3 _scale;
+    [SerializeField] private UnitManager _parent;
+    [SerializeField] private ParticleSystem _telepotsStart;
+    [SerializeField] private ParticleSystem _telepotsfinish;
     [SerializeField] private Transform _shield;
 
-    private Transform player;
-    [SerializeField] private List<gridsPrefab> grids;
-    private Transform pointGrid;
-    private bool IsTeleport;
+    private Transform _player;
+    private List<gridsPrefab> _grids;
+    private Transform _pointGrid;
+    private bool _isTeleport;
     private Vector3 _forward = Vector3.zero;
 
     void Start()
     {
-        grids = GameObject.Find("GameManager").GetComponent<ListGrid>().grids;
+        _grids = GameObject.Find("GameManager").GetComponent<ListGrid>().Grids;
     }
 
     public void Ability_1()
     {
         Computation();
-        Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation, layerMask);
+        Collider[] hitColliders = Physics.OverlapBox(_posCollider.position, _scale, _posCollider.rotation, _layerMask);
         foreach (var Currentenemy in hitColliders)
         {
-            if (Currentenemy.transform.tag == "Player" && IsTeleport)
+            if (Currentenemy.transform.tag == "Player" && _isTeleport)
             {
-                if (!telepotsfinish.isPlaying) 
+                if (!_telepotsfinish.isPlaying) 
                 { 
-                telepotsStart.Play();
-                telepotsfinish.Play();
+                _telepotsStart.Play();
+                _telepotsfinish.Play();
                 }
-                StartCoroutine(teleportTarget(Currentenemy.transform, pointGrid.position));
-                pointGrid = null;
+                StartCoroutine(teleportTarget(Currentenemy.transform, _pointGrid.position));
+                _pointGrid = null;
                 Debug.Log(Currentenemy.transform.name);
             }
         }
@@ -56,50 +56,49 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
         var pos = target.position;
         target.position = EndPos;
         target.GetComponent<MovementManager>().target = EndPos;
-        foreach (var gr in grids)
+        foreach (var gr in _grids)
         {
-            if (gr.name == $"x:{parent.idForBrush[0] + 2} z:{parent.idForBrush[1]}")
+            if (gr.name == $"x:{_parent.idForBrush[0] + 2} z:{_parent.idForBrush[1]}")
                 gr.GetComponent<gridsPrefab>().PlayerSignal(false);
-            Debug.Log($"x:{parent.idForBrush[0] + 2} z:{parent.idForBrush[1]}");
         }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireCube(posCollider.position, scale);
-        Gizmos.DrawWireCube(posCollider2.position, scale);
-        Gizmos.DrawWireCube(posCollider3.position, new Vector3(2.5f, 1, 1));
+        Gizmos.DrawWireCube(_posCollider.position, _scale);
+        Gizmos.DrawWireCube(_posCollider2.position, _scale);
+        Gizmos.DrawWireCube(_posCollider3.position, new Vector3(2.5f, 1, 1));
     }
     public void Ability_2()
     {
         Computation();
-        Collider[] hitCollider = Physics.OverlapBox(posCollider3.position, new Vector3(2.5f, 1, 1), posCollider3.rotation, layerMask);
+        Collider[] hitCollider = Physics.OverlapBox(_posCollider3.position, new Vector3(2.5f, 1, 1), _posCollider3.rotation, _layerMask);
         StartCoroutine(ShieldEffectStart());
         foreach (var Currentenemy in hitCollider)
         {
             if (!Currentenemy.GetComponent<MovementManager>()) return;
             Currentenemy.GetComponent<MovementManager>().BackMove();
-            CellsToIndent(pointGrid.GetComponent<gridsPrefab>(), Currentenemy.GetComponent<MovementManager>());
+            CellsToIndent(_pointGrid.GetComponent<gridsPrefab>(), Currentenemy.GetComponent<MovementManager>());
             Currentenemy.GetComponent<healthBar>().TakeDamage(50, this.GetType(), transform);
         }
     }
 
     private void CellsToIndent(gridsPrefab _gridsPrefab , MovementManager enemy)
     {
-        if (!pointGrid) return;
-        if (enemy.transform.position.x == _gridsPrefab.transform.GetChild(0).transform.position.x && IsTeleport)
+        if (!_pointGrid) return;
+        if (enemy.transform.position.x == _gridsPrefab.transform.GetChild(0).transform.position.x && _isTeleport)
         {
             enemy.target = _gridsPrefab.transform.GetChild(0).transform.position;
         }
         else
         {
             int[] _id = new int[2];
-            _id[0] = _gridsPrefab.newID[0];
-            _id[1] = _gridsPrefab.newID[1];
+            _id[0] = _gridsPrefab.NewID[0];
+            _id[1] = _gridsPrefab.NewID[1];
             _id[0] -= 1;
-            foreach (var _grid in grids)
+            foreach (var _grid in _grids)
             {
-                if (_id.SequenceEqual(_grid.newID))
+                if (_id.SequenceEqual(_grid.NewID))
                 {
                     if (enemy.transform.position.x == _grid.transform.GetChild(0).transform.position.x)
                     {
@@ -109,9 +108,9 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
                         }
                     }
                     else _id[0] += 2;
-                    foreach (var _grid1 in grids)
+                    foreach (var _grid1 in _grids)
                     {
-                        if (_id.SequenceEqual(_grid1.newID))
+                        if (_id.SequenceEqual(_grid1.NewID))
                         {
                             if (enemy.transform.position.x == _grid1.transform.GetChild(0).transform.position.x && !_grid1.HaveEnemy && !_grid1.HavePlayer)
                             {
@@ -132,28 +131,28 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     private void Computation()
     {
         // эта часть нужна чтоб оперделить можно ли толкать врага и не выйдет ли он за придел карты 
-        Collider[] hitColliders1 = Physics.OverlapBox(posCollider2.position, scale, posCollider2.rotation, layerMask);
+        Collider[] hitColliders1 = Physics.OverlapBox(_posCollider2.position, _scale, _posCollider2.rotation, _layerMask);
         foreach (var Currentenemy in hitColliders1)
         {
             if (Currentenemy.GetComponent<gridsPrefab>())
-                pointGrid = Currentenemy.transform;
+                _pointGrid = Currentenemy.transform;
             if (Currentenemy.GetComponent<UnitManager>())
-                player = Currentenemy.transform;
+                _player = Currentenemy.transform;
             else
-                player = null;
+                _player = null;
         }
-        if (!pointGrid)
+        if (!_pointGrid)
         {
-            pointGrid = null;
+            _pointGrid = null;
             return;
         }
-        if (!player)
+        if (!_player)
         {
-            IsTeleport = true;
+            _isTeleport = true;
         }
-        else if (player)
+        else if (_player)
         {
-            IsTeleport = false;
+            _isTeleport = false;
         }
         
 
@@ -168,7 +167,7 @@ public class MinistrSkills : MonoBehaviour,IMagicAbility
     IEnumerator ShieldEffectStart()
     {
         _shield.position = new Vector3(_shield.position.x, _shield.position.y, transform.position.z);
-        _forward = new Vector3(_shield.position.x, _shield.position.y, posCollider3.position.z);
+        _forward = new Vector3(_shield.position.x, _shield.position.y, _posCollider3.position.z);
 
         while (Vector3.Distance( _shield.position, _forward) >= 0.3f)
         {

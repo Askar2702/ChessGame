@@ -47,10 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92380a318cab05e47ad11d125af21e81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  color: {r: 0, g: 1, b: 0.8273995, a: 1}
-  _color: {r: 0, g: 1, b: 0.827451, a: 0}
-  mat: {fileID: 2522691143774054968}
-  matParticle:
+  _colorAlphaTrue: {r: 0, g: 1, b: 0.827451, a: 1}
+  _colorAlphaFalse: {r: 0, g: 1, b: 0.827451, a: 0}
+  _mat: {fileID: 2522691143774054968}
+  _matParticle:
   - {fileID: 2432999177709773067}
   - {fileID: 2431316774258199593}
   - {fileID: 2432511378686431891}
@@ -60,7 +60,7 @@ MonoBehaviour:
   - {fileID: 2432999178279031551}
   - {fileID: 2431316773351276509}
   - {fileID: 2432511377645347175}
-  lerpTime: 0.94
+  _lerpTime: 0.94
 --- !u!1 &2522691143774054973
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +73,6 @@ GameObject:
   - component: {fileID: 2522691143774054969}
   - component: {fileID: 2522691143774054968}
   - component: {fileID: 2522691143774054975}
-  - component: {fileID: 2522691143774054974}
   m_Layer: 0
   m_Name: shileld
   m_TagString: Untagged
@@ -155,23 +154,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2522691143774054974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522691143774054973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92380a318cab05e47ad11d125af21e81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 1, g: 0.18753722, b: 0, a: 1}
-  _color: {r: 0, g: 0, b: 0, a: 0}
-  mat: {fileID: 0}
-  matParticle: []
-  lerpTime: 0.84
 --- !u!1001 &2522691143070905178
 PrefabInstance:
   m_ObjectHideFlags: 0

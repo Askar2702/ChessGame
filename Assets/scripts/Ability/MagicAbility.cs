@@ -5,35 +5,35 @@ using UnityEngine;
 
 public class MagicAbility : MonoBehaviour, IMagicAbility
 {
-    [SerializeField] private Transform posCollider;
-    [SerializeField] private LayerMask layerMask;
-    [SerializeField] private Vector3 scale;
-    [SerializeField] private int damage;
-    private UnitManager unitManager;
-    private GameObject Targets;
-    private PhotonView photon;
-    private healthBar health;
-    bool IsMagicCast;
-    private Animator animator;
+    [SerializeField] private Transform _posCollider;
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private Vector3 _scale;
+    [SerializeField] private int _damage;
+    private UnitManager _unitManager;
+    private GameObject _targets;
+    private PhotonView _photon;
+    private healthBar _health;
+    bool isMagicCast;
+    private Animator _animator;
     private void Awake()
     {
-        unitManager = GetComponent<UnitManager>();
-        animator = GetComponent<Animator>();
-        photon = GetComponent<PhotonView>();
-        health = GetComponent<healthBar>();
+        _unitManager = GetComponent<UnitManager>();
+        _animator = GetComponent<Animator>();
+        _photon = GetComponent<PhotonView>();
+        _health = GetComponent<healthBar>();
     }
     private void Start()
     {
-        unitManager._notify += CanMagic;
+        _unitManager._notify += CanMagic;
     }
     private void Update()
     {
-        Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation, layerMask);
+        Collider[] hitColliders = Physics.OverlapBox(_posCollider.position, _scale, _posCollider.rotation, _layerMask);
 
         foreach (var Currentenemy in hitColliders)
         {
 
-            if (IsMagicCast && animator.GetInteger("State") == 1)
+            if (isMagicCast && _animator.GetInteger("State") == 1)
             {
                 Currentenemy.GetComponent<UnitManager>().effectOn();
             }
@@ -42,63 +42,63 @@ public class MagicAbility : MonoBehaviour, IMagicAbility
                 Currentenemy.GetComponent<UnitManager>().effectOff();
             }
             if (Currentenemy.GetComponent<BaseUnits>())
-                Targets = Currentenemy.gameObject;
+                _targets = Currentenemy.gameObject;
         }
-        if (animator.GetInteger("State") == 2)
-            IsMagicCast = false;
+        if (_animator.GetInteger("State") == 2)
+            isMagicCast = false;
     }
     public void Ability_1()
     {
         Debug.Log("Health");
-        if (photon.IsMine)
+        if (_photon.IsMine)
         {
-            IsMagicCast = false;
-            if (!Targets) return;
+            isMagicCast = false;
+            if (!_targets) return;
         }
-        Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation, layerMask);
+        Collider[] hitColliders = Physics.OverlapBox(_posCollider.position, _scale, _posCollider.rotation, _layerMask);
         foreach (var Currentenemy in hitColliders)
         {
             Currentenemy.GetComponent<healthBar>().healthPlayer();
-            animator.SetTrigger("Health");
+            _animator.SetTrigger("Health");
         }
     }
 
     public void Ability_2()
     {
-        if (photon.IsMine)
+        if (_photon.IsMine)
         {
-            IsMagicCast = false;
-            if (!Targets) return;
+            isMagicCast = false;
+            if (!_targets) return;
         }
-        Collider[] hitColliders = Physics.OverlapBox(posCollider.position, scale, posCollider.rotation, layerMask);
+        Collider[] hitColliders = Physics.OverlapBox(_posCollider.position, _scale, _posCollider.rotation, _layerMask);
         foreach (var Currentenemy in hitColliders)
         {
-            Currentenemy.GetComponent<healthBar>().TakeDamage(damage, this.GetType(), transform);
-            animator.SetTrigger("fire");
+            Currentenemy.GetComponent<healthBar>().TakeDamage(_damage, this.GetType(), transform);
+            _animator.SetTrigger("fire");
         }
     }
 
     public void Ability_3()
     {
-        Collider[] hitColliders = Physics.OverlapBox(posCollider.position, new Vector3(0.5f, 0.5f, 0.5f), posCollider.rotation, layerMask);
+        Collider[] hitColliders = Physics.OverlapBox(_posCollider.position, new Vector3(0.5f, 0.5f, 0.5f), _posCollider.rotation, _layerMask);
         foreach (var Currentenemy in hitColliders)
         {
             if (!Currentenemy.GetComponent<Passive>()) return;
             Currentenemy.GetComponent<Passive>().UpKnigth();
-            animator.SetTrigger("Health"); // та ж анимация что и при лечении             
-            if (photon.IsMine) IsMagicCast = false;
-            health._health -= 150;
+            _animator.SetTrigger("Health"); // та ж анимация что и при лечении             
+            if (_photon.IsMine) isMagicCast = false;
+            _health._health -= 150;
             break;
         }
     }
     
     private void CanMagic(bool activ)
     {
-        IsMagicCast = activ;
+        isMagicCast = activ;
     }
 
     private void OnDestroy()
     {
-        unitManager._notify -= CanMagic;
+        _unitManager._notify -= CanMagic;
     }
 }

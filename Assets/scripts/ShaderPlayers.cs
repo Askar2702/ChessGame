@@ -5,28 +5,23 @@ using System.Linq;
 
 public class ShaderPlayers : MonoBehaviour
 {
-    [SerializeField] private Renderer [] material;
-    [SerializeField]
-    [Range(0.0f , 1.0f)]
-    private float time;
-    private UnitManager unitManager;
+    [SerializeField] private Renderer[] _material;
+
+    private float _time = 0;
     bool isStart = false;
-    void Start()
-    {
-        unitManager = GetComponent<UnitManager>();
-    }
+   
 
     private void Update()
     {
         if (!isStart) return;
-        time += Time.deltaTime;
-        foreach (var mat in material)
+        _time += Time.deltaTime;
+        foreach (var mat in _material)
         {
-            mat.material.SetFloat("_time", time);
-            if (material.LastOrDefault().material.GetFloat("_time") >= 1)
+            mat.material.SetFloat("_time", _time);
+            if (_material.LastOrDefault().material.GetFloat("_time") >= 1)
             {
                 isStart = false;
-                time = 0;
+                _time = 0;
             }
         }
     }

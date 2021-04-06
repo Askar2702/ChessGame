@@ -6,26 +6,26 @@ public class KingGrids : BaseUnits, IPLayerGrid
 {
     public void GetPoint(int[] idCell)
     {
-        idForBrush[0] = idCell[0];
-        idForBrush[1] = idCell[1];
-        idForBrush[0] -= Radius;
-        idForBrush[1] -= Radius;
+        IdForBrush[0] = idCell[0];
+        IdForBrush[1] = idCell[1];
+        IdForBrush[0] -= _radius;
+        IdForBrush[1] -= _radius;
     }
 
     public void Grids()
     {
-        if (!PlayerTurn.CanPlay) return;
-        for (int i = 0; i < MoveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
+        if (!PlayerTurn.isCanPlay) return;
+        for (int i = 0; i < _moveCell; i++) //здесь он делает округу зеленым чтоб видеть куда можно ходить
         {
-            for (int j = 0; j < MoveCell; j++)
+            for (int j = 0; j < _moveCell; j++)
             {
-                if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}") == null)
                 {
                     continue;
                     // print($"{transform.name}x:{i} z:{j}");
                 }
                 else
-                    listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").GridGreen();
+                    _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}").GridGreen();
 
             }
         }
@@ -33,48 +33,48 @@ public class KingGrids : BaseUnits, IPLayerGrid
 
     public void GridsHaveEnemy()
     {
-        if (!detect)
+        if (!isdetect)
         {
-            for (int i = 0; i < MoveCell; i++) //ищет у клеток есть ли рядом враги
+            for (int i = 0; i < _moveCell; i++) //ищет у клеток есть ли рядом враги
             {
-                for (int j = 0; j < MoveCell; j++)
+                for (int j = 0; j < _moveCell; j++)
                 {
-                    if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") == null)
+                    if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}") == null)
                     {
                         continue;
                     }
                     else
                     {
-                        listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").haveEnemy();
+                        _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}").haveEnemy();
                     }
 
                 }
             }
-            detect = true;
+            isdetect = true;
         }
         else
         {
             HideGrids();
-            detect = false;
+            isdetect = false;
         }
     }
 
     public void HideGrids()
     {
-        if (photon.IsMine)
+        if (_photon.IsMine)
         {
-            for (int i = 0; i < MoveCell; i++)
+            for (int i = 0; i < _moveCell; i++)
             {
-                for (int j = 0; j < MoveCell; j++)
+                for (int j = 0; j < _moveCell; j++)
                 {
-                    if (listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}") != null)
+                    if (_listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}") != null)
                     { // чтоб закрыть зеление клеки
-                        listGrid.GrisItem($"x:{idForBrush[0] + i} z:{idForBrush[1] + j}").hideGrids();
+                        _listGrid.GrisItem($"x:{IdForBrush[0] + i} z:{IdForBrush[1] + j}").hideGrids();
                     }
                 }
             }
             //  menuBar.SetActive(false);
-            detect = false;
+            isdetect = false;
 
         }
     }

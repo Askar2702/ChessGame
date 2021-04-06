@@ -1016,7 +1016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078c7821634cc4b42a958490de3e1ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Log: {fileID: 1282200148}
+  _log: {fileID: 1282200148}
 --- !u!4 &1423158645
 Transform:
   m_ObjectHideFlags: 0
@@ -1043,7 +1043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10b82a0b7c21cca4eb63d8cb90decd27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ResultGame: {fileID: 1282200148}
+  _resultGame: {fileID: 1282200148}
 --- !u!1 &1792335747
 GameObject:
   m_ObjectHideFlags: 0
